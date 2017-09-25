@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--第一部分-->
+        <LinearLayout
+            android:id="@+id/circle_pushcard_ll_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffff"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_below="@+id/circle_rl_pushcard_title"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:src="@mipmap/bitmap_walk"
+                    />
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+
+                android:text="Exercise every day"
+                android:textSize="18sp"
+                android:textColor="#212121"
+                />
+        </LinearLayout>
+        <!--第一条分割线-->
+        <View
+            android:id="@+id/circle_pushcard_line_first"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/circle_pushcard_ll_first"
+
+            android:background="#f1f0f0"
+            />
+        <!--第二部分-->
+        <RelativeLayout
+            android:id="@+id/circle_pushcard_rl_second"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/circle_pushcard_line_first"
+
+            android:background="#ffff"
+            >
+            <TextView
+                android:id="@+id/circle_pushcard_tv_acds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+
+                android:text="activity description：We need to have enough exercise every day to maintain our healthy life,I hope we can drink every day we work together, punch together"
+                android:textSize="16sp"
+                android:textColor="#5e5e5e"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@+id/circle_pushcard_tv_acds"
+                android:layout_marginRight="15dp"
+
+                android:text="2017-09-09"
+                android:textSize="16sp"
+                android:lineSpacingExtra="3dp"
+                android:textColor="#5e5e5e"
+                />
+        </RelativeLayout>
+        <!--第二条分割线-->
+        <View
+            android:id="@+id/circle_pushcard_line_second"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/circle_pushcard_rl_second"
+
+            android:background="#f1f0f0"
+            />
+        <!--第三部分-->
+        <LinearLayout
+            android:id="@+id/circle_pushcard_ll_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/circle_pushcard_line_second"
+
+            android:orientation="vertical"
+            >
+            <!--Group of people-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="18dp"
+
+                    android:text="Group of people"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    />
+            </LinearLayout>
+            <!--展示组员的用户头像-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffff"
+                >
+                <ImageView
+                    android:id="@+id/circle_pushcard_iv_userimage_first"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="18dp"
+
+                    android:src="@mipmap/mpumelelo_macu_283883"
+                    />
+                <ImageView
+                    android:id="@+id/circle_pushcard_iv_userimage_second"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_toRightOf="@+id/circle_pushcard_iv_userimage_first"
+
+                    android:src="@mipmap/mpumelelo_macu_283883"
+                    />
+                />
+                <ImageView
+                    android:id="@+id/circle_pushcard_iv_userimage_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_toRightOf="@+id/circle_pushcard_iv_userimage_second"
+
+                    android:src="@mipmap/mpumelelo_macu_283883"
+                    />
+                <ImageView
+                    android:id="@+id/circle_pushcard_iv_userimage_four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_toRightOf="@+id/circle_pushcard_iv_userimage_three"
+
+                    android:src="@mipmap/mpumelelo_macu_283883"
+                    />
+                <ImageView
+                    android:id="@+id/circle_pushcard_iv_userimage_five"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_toRightOf="@+id/circle_pushcard_iv_userimage_four"
+
+                    android:src="@mipmap/mpumelelo_macu_283883"
+                    />
+                <ImageView
+                    android:id="@+id/circle_pushcard_iv_userimage_six"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_toRightOf="@+id/circle_pushcard_iv_userimage_five"
+
+                    android:src="@mipmap/mpumelelo_macu_283883"
+                    />
+
+                <!--右箭头-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginRight="15dp"
+
+                    android:src="@mipmap/ic_youjiantou"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+        <!--第三条分割线-->
+        <View
+            android:id="@+id/circle_pushcard_line_three"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_below="@+id/circle_pushcard_ll_three"
+
+            android:background="#f1f0f0"/>
+        <!--第四部分-->
+        <LinearLayout
+            android:id="@+id/circle_pushcard_ll_four"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/circle_pushcard_line_three"
+
+            android:background="#ffff"
+            android:orientation="vertical"
+            >
+            <!--第一栏-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="18dp"
+
+                    android:text="I joined the event"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    />
+                <TextView
+                    android:id="@+id/one_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:text="180 days"
+                    android:textSize="18dp"
+                    android:textColor="#a9a9a9"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/one_line"
+
+                    android:background="#f1f0f0"/>
+            </RelativeLayout>
+            <!--第二栏-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="18dp"
+
+                    android:text="I have been punching"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    />
+                <TextView
+                    android:id="@+id/two_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:text="60 days"
+                    android:textSize="18dp"
+                    android:textColor="#a9a9a9"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/two_line"
+
+                    android:background="#f1f0f0"/>
+            </RelativeLayout>
+            <!--第三栏-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="My completion rate"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                  />
+                <TextView
+                    android:id="@+id/three_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:text="38%"
+                    android:textSize="18dp"
+                    android:textColor="#a9a9a9"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/three_line"
+
+                    android:background="#f1f0f0"/>
+            </RelativeLayout>
+            <!--第四栏-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="18dp"
+
+                    android:text="I joined the event"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    />
+                <TextView
+                    android:id="@+id/four_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:text="180 days"
+                    android:textSize="18dp"
+                    android:textColor="#a9a9a9"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/four_line"
+
+                    android:background="#f1f0f0"/>
+            </RelativeLayout>
+            <!--第五栏-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/circle_pushcard_tv_licheng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginBottom="15dp"
+
+                    android:drawableTop="@mipmap/ic_pinjuzi2"
+                    android:drawablePadding="10dp"
+                    android:text="29km／h"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/circle_pushcard_tv_licheng"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:text="Average speed"
+                    android:textSize="14sp"
+                    android:textColor="#212121"
+                    />
+                <TextView
+                    android:id="@+id/circle_pushcard_tv_shijian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_toRightOf="@+id/circle_pushcard_tv_licheng"
+
+                    android:drawableTop="@mipmap/ic_pinjuzi2"
+                    android:drawablePadding="10dp"
+                    android:text="00:04:54"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_below="@+id/circle_pushcard_tv_shijian"
+                    android:layout_alignLeft="@+id/circle_pushcard_tv_shijian"
+
+                    android:text="time cost"
+                    android:textSize="14sp"
+                    android:textColor="#212112"
+                    />
+                <TextView
+                    android:id="@+id/circle_pushcard_tv_kaluli"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_toRightOf="@+id/circle_pushcard_tv_shijian"
+
+                    android:drawableTop="@mipmap/ic_kaluli"
+                    android:drawablePadding="10dp"
+                    android:text="100.45"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_below="@+id/circle_pushcard_tv_kaluli"
+                    android:layout_alignLeft="@+id/circle_pushcard_tv_kaluli"
+
+                    android:text="Kcal"
+                    android:textSize="14sp"
+                    android:textColor="#212121"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!--第四部分-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/circle_pushcard_ll_four"
+            >
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+
+                android:textAllCaps="false"
+                android:background="@drawable/circle_pushcard_btn_shape"
+                android:text="Punch card"
+                android:textSize="18dp"
+                android:textColor="#ffff"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

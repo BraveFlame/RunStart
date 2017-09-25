@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/v_line" />
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#9e9e9e"
+        android:layout_above="@+id/rg_radioGroup" />
+
+    <RadioGroup
+        android:id="@+id/rg_radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="3dp">
+        <RadioButton
+            android:id="@+id/rb_headPage"
+            style="@style/RadioButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/fragment_btn_sports"
+            android:checked="true"
+            android:text="@string/head_page"
+            android:fontFamily="Roboto-Medium"
+            android:textColor="@color/color_radiobutton"
+            android:textSize="@dimen/bottom_font_size"
+            />
+
+        <RadioButton
+            android:id="@+id/rb_friends"
+            style="@style/RadioButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/fragment_btn_friends"
+            android:text="@string/friends"
+            android:fontFamily="Roboto-Medium"
+            android:textColor="@color/color_radiobutton"
+            android:textSize="@dimen/bottom_font_size"
+            />
+
+        <RadioButton
+            android:id="@+id/rb_circle"
+            style="@style/RadioButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/fragment_btn_circle"
+            android:text="@string/circle"
+            android:fontFamily="Roboto-Medium"
+            android:textColor="@color/color_radiobutton"
+            android:textSize="@dimen/bottom_font_size"
+            />
+
+        <RadioButton
+            android:id="@+id/rb_mine"
+            style="@style/RadioButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/fragment_btn_mine"
+            android:text="@string/mine"
+            android:fontFamily="Roboto-Medium"
+            android:textColor="@color/color_radiobutton"
+            android:textSize="@dimen/bottom_font_size"
+            />
+    </RadioGroup>
+</RelativeLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="text_Primary">#727272</color>
+<!--#f2f1f1,#eae5e5-->
+    <color name="colorBackground">#eae5e5</color>
+    <color name="transparent">#00000000</color>
+    <color name="main_top_color">#fdfdfd</color>
+    <color name="main_top_tab_color">#b4b4b4</color>
+    <color name="main_top_tab_color_2">#21187f</color>
+    <color name="matrix_color">#21187f</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#FFFF1826</color>
+    <color name="black_top_character">#030303</color>
+
+    <!--activity_bottom.xml-->
+    <color name="bottom_text_color">#acacac</color>
+    <color name="pace_show">#c562ff</color>
+    <color name="top_color_purple">#a66ec2</color>
+
+    <!-- Screens background color-->
+    <color name="bg_screen1">#20d2bb</color>
+    <color name="bg_screen2">#3395ff</color>
+    <color name="bg_screen3">#c873f4</color>
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#14a895</color>
+    <color name="dot_dark_screen2">#2278d4</color>
+    <color name="dot_dark_screen3">#f57f17</color>
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#f98da5</color>
+
+    <color name="dot_light_screen2">#93c6fd</color>
+    <color name="dot_light_screen3">#fbc02d</color>
+
+    <color name="calor_total_circle">#c4c4c4</color>
+    <color name="calor_now_circle">#ac76f7</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen2</item>
+        <item>@color/dot_light_screen3</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen2</item>
+        <item>@color/dot_dark_screen3</item>
+
+    </array>
+</resources>
