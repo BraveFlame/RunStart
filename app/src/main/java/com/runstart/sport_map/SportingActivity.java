@@ -18,7 +18,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,8 +26,6 @@ import com.amap.api.maps.LocationSource;
 import com.runstart.MainActivity;
 import com.runstart.R;
 import com.runstart.help.GetLocationData;
-
-import java.util.List;
 
 /**
  * Created by user on 17-9-21.
@@ -60,6 +57,8 @@ public class SportingActivity extends Activity implements View.OnClickListener {
     Intent intent;
     int miss;
     float distances = 0;
+    int imageDialog;
+    String textDialog;
 
     ServiceLocation locationService;
 
@@ -262,8 +261,8 @@ public class SportingActivity extends Activity implements View.OnClickListener {
             finish();
         } else {
             AlertDialog.Builder alter = new AlertDialog.Builder(this);
-            alter.setIcon(R.mipmap.ic_paobu)
-                    .setTitle("Running")
+            alter.setIcon(imageDialog)
+                    .setTitle(textDialog)
                     .setMessage("是否结束本次运动？")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override

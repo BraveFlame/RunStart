@@ -68,7 +68,7 @@ public class GetSHA1 {
         } catch (CertificateEncodingException e) {
             e.printStackTrace();
         }
-        Log.e("AmapLocation",hexString);
+        Log.e("SHA",hexString);
         return hexString;
     }
     //这里是将获取到得编码进行16进制转换

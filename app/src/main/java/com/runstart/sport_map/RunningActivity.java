@@ -1,7 +1,5 @@
 package com.runstart.sport_map;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.runstart.R;
+import com.runstart.history.MyApplication;
 
 import static com.runstart.R.id.sport_end_btn;
 
@@ -40,6 +39,11 @@ public class RunningActivity extends SportingActivity {
             editor.putString("last_run_speed", v);
             editor.putString("all_run_distance", a);
         editor.commit();
+        float mno = 55.0f * miss * 30 / (400 * miss / distances / 60) / 3600;
+        //"userID","month","week","day","distance","time","cal","type"
+        MyApplication myApplication=
+                (MyApplication)getApplication();
+        myApplication.nowDB.insert(new String[]{},new double[]{12306,9,38,21,Float.valueOf(a),miss,mno,2});
     }
 
     @Override
@@ -54,6 +58,13 @@ public class RunningActivity extends SportingActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        textDialog="Running";
+        imageDialog=R.mipmap.ic_paobu;
+        super.onBackPressed();
+
+    }
     @Override
     protected void onPause() {
         super.onPause();

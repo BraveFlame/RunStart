@@ -1,13 +1,17 @@
 package com.runstart;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
@@ -16,6 +20,7 @@ import com.runstart.bottom.CircleFragment;
 import com.runstart.bottom.FriendsFragment;
 import com.runstart.bottom.HeadPageFragment;
 import com.runstart.bottom.MineFragment;
+import com.runstart.help.GetSHA1;
 
 
 /**
@@ -35,6 +40,12 @@ public class MainActivity extends FragmentActivity {
     int mIndex;
     public static String activityKeep;
 
+    //声明需要使用的运行时权限
+    private static final String[] LOCATION_PERMISSION = {
+
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +55,28 @@ public class MainActivity extends FragmentActivity {
         initFragment();
         //底部状态栏切换fragment
         setRadioGroup();
+        getPermission(LOCATION_PERMISSION);
 
 
     }
 
+    public void getPermission(String[] permissions) {
+        boolean isPermist = false;
+        //判断权限是否获取
+
+        for (String permission : permissions) {
+            if (checkSelfPermission(permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                Log.d("Path", " permission =" + permission);
+            } else isPermist = true;
+
+
+        }
+        if (!isPermist) {
+            //如果没有获取权限就主动申请
+            ActivityCompat.requestPermissions(this, permissions, 990);
+        }
+    }
 
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
@@ -65,6 +94,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         super.onResume();
+        GetSHA1.getCertificateSHA1Fingerprint(this);
     }
 
     /**
