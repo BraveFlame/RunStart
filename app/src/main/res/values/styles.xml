@@ -7,6 +7,7 @@
         <item name="android:colorPrimary">@color/main_top_color</item>
         <item name="android:statusBarColor">@color/calor_now_circle</item>
         <item name="android:colorPrimaryDark">@color/main_top_color</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
     <!--radioButton的样式-->
     <style name="RadioButtonStyle">
@@ -32,4 +33,14 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
+    <!--<style name="LockScreenBase" parent="AppTheme">-->
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+        <!--<item name="android:colorBackgroundCacheHint">@null</item>-->
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--<item name="android:backgroundDimEnabled">false</item>-->
+        <!--<item name="android:windowAnimationStyle">@null</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+    <!--</style>-->
 </resources>

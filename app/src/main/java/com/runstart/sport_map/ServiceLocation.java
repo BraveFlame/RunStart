@@ -4,7 +4,10 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.CountDownTimer;
 import android.os.IBinder;
@@ -26,9 +29,12 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
 import com.runstart.R;
 import com.runstart.help.GetLocationData;
+import com.runstart.help.LockScreenActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by user on 17-9-19.
@@ -46,6 +52,7 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
 
     private NotificationManager mNotificationManager;
     private Notification notification;
+    private BroadcastReceiver   screenLockReceiver;
 
     float distance = 0.0f;
 
@@ -53,8 +60,8 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
     private View view;
     private TimeCount timer;
     int miss = 0;
-    public static boolean isActivityLive=true;
-
+   // public boolean isActivityLive=true;
+    Intent lockscreenIntent;
 
 
     /**
@@ -75,9 +82,10 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
         view = LayoutInflater.from(this).inflate(R.layout.follow, null);
         mapView = (MapView) view.findViewById(R.id.map);
         mapView.onCreate(null);// 此方法必须重写
-        isActivityLive=true;
+        //isActivityLive=true;
         RidingActivity.isEnd=false;
         init();
+      initBroadcastReceiver();
         initNotification();
         startTimeCount();
     }
@@ -178,7 +186,7 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
         mNotificationManager.notify(101,notification);
         if (getLocationData != null) {
             getLocationData.updateTime(miss, distance);
-            getLocationData.updateLL(aMapLocation,mListener);
+           // getLocationData.updateLL(aMapLocation,mListener);
         }
     }
 
@@ -293,6 +301,43 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
     }
 
 
+    /**
+     * 注册广播
+     */
+    void initBroadcastReceiver() {
+        final IntentFilter filter = new IntentFilter();
+        // 屏幕灭屏广播
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+
+//        //关机广播
+//        filter.addAction(Intent.ACTION_SHUTDOWN);
+//        // 屏幕亮屏广播
+//        filter.addAction(Intent.ACTION_SCREEN_ON);
+//        // 屏幕解锁广播
+////        filter.addAction(Intent.ACTION_USER_PRESENT);
+//        // 当长按电源键弹出“关机”对话或者锁屏时系统会发出这个广播
+//        // example：有时候会用到系统对话框，权限可能很高，会覆盖在锁屏界面或者“关机”对话框之上，
+//        // 所以监听这个广播，当收到时就隐藏自己的对话，如点击pad右下角部分弹出的对话框
+//        filter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+//        //监听日期变化
+//        filter.addAction(Intent.ACTION_DATE_CHANGED);
+//        filter.addAction(Intent.ACTION_TIME_CHANGED);
+//        filter.addAction(Intent.ACTION_TIME_TICK);
+
+       screenLockReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(final Context context, final Intent intent) {
+
+                String action = intent.getAction();
+                if (action.equals(Intent.ACTION_SCREEN_OFF)) {
+
+                    startActivity(lockscreenIntent);
+                }
+            }
+        };
+        registerReceiver(screenLockReceiver, filter);
+    }
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -313,6 +358,7 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
         if (null != mlocationClient) {
             mlocationClient.onDestroy();
         }
+     unregisterReceiver(screenLockReceiver);
     }
 
     @Nullable

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_circle_createactivity_ll_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f1f0f0"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffff"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:text="The amount of completion"
+            android:textColor="#212121"
+            android:textSize="18dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+        <RadioGroup
+            android:id="@+id/dialog_circle_createactivity_radiogroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal"
+            >
+            <RadioButton
+                android:id="@+id/dialog_circle_createactivity_rb_all"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/circle_createactivity_radio"
+
+                android:button="@null"
+                android:gravity="center"
+                android:text="All"
+                android:textColor="#878787"
+                android:textSize="18dp" />
+
+            <RadioButton
+                android:id="@+id/dialog_circle_createactivity_rb_walk"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/circle_createactivity_radio"
+
+                android:button="@null"
+                android:gravity="center"
+                android:text="Walk"
+                android:textColor="#878787"
+                android:textSize="18dp" />
+            <RadioButton
+                android:id="@+id/dialog_circle_createactivity_rb_run"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/circle_createactivity_radio"
+
+                android:button="@null"
+                android:gravity="center"
+                android:text="Run"
+                android:textColor="#878787"
+                android:textSize="18dp" />
+            <RadioButton
+                android:id="@+id/dialog_circle_createactivity_rb_ride"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/circle_createactivity_radio"
+
+                android:button="@null"
+                android:gravity="center"
+                android:text="Ride"
+                android:textColor="#878787"
+                android:textSize="18dp" />
+        </RadioGroup>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffff"
+        >
+        <EditText
+            android:id="@+id/dialog_circle_createactivity_tv_mileage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@null"
+            style="?android:attr/textViewStyle"
+
+            android:hint="please enter"
+            android:textColorHint="#878787"
+            android:textSize="18sp"
+            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="45dp"
+
+                android:text="Meter"
+                android:textSize="18dp"
+                android:textColor="#212121"
+                android:textStyle="bold"
+                />
+    </RelativeLayout>
+</LinearLayout>

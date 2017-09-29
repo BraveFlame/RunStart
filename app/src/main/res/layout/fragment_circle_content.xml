@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/circle_scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <!--第一个FrameLayout-->
+            <FrameLayout
+                android:id="@+id/circle_first_frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:minHeight="300dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Recommended activities"
+                        android:textSize="18sp" />
+                    <ListView
+                        android:id="@+id/circle_recommendactivity_first_listview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </ListView>
+                </LinearLayout>
+            </FrameLayout>
+            <!--第二个FrameLayout-->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:minHeight="300dp"
+                android:layout_below="@+id/circle_first_frameLayout"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Friends released"
+                        android:textSize="18sp" />
+                    <ListView
+                        android:id="@+id/circle_recommendactivity_second_listview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </ListView>
+                </LinearLayout>
+            </FrameLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/circle_btnFloatingAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="11dp"
+        android:backgroundTint="#ffff"
+        apps:fabSize="normal"
+        apps:borderWidth="0dp"
+
+        android:elevation="10dp"
+        apps:pressedTranslationZ="5dp"
+        android:src="@mipmap/ic_floatbutton"
+
+         />
+</FrameLayout>

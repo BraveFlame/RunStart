@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.runstart.middle.CustScrollView
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -10,11 +12,6 @@
         android:orientation="vertical"
         >
         <!--第一个Fragment-->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="6">
-
 
             <!--显示天气和里程-->
             <RelativeLayout
@@ -54,24 +51,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="210dp"
                     android:layout_marginTop="40dp" />
-                <!--<include-->
-                <!--layout="@layout/yibiaoshu"/>-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/last_pace_unit"-->
-                <!--android:text="1*m"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="95dp" />-->
-
-                <!--<TextView-->
-                <!--android:text="25653"-->
-                <!--android:id="@+id/last_pace_count"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="138dp" />-->
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/bitmap_view"
+                    android:background="@mipmap/taiyan"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:layout_marginTop="40dp"/>
 
                 <TextView
                     android:text="36.235km/h"
@@ -102,17 +88,14 @@
             </RelativeLayout>
 
 
-        </FrameLayout>
         <!--第二个Fragment-->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/frgament_background">
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_marginTop="10dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/frgament_background">
 
                 <TextView
                     android:id="@+id/tv_accumulated_mileage"
@@ -120,7 +103,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="5dp"
-
                     android:text="Accumulated this week"
                     android:textSize="14sp" />
 
@@ -185,7 +167,6 @@
                     android:layout_below="@+id/iv_macu"
                     android:layout_alignLeft="@+id/iv_macu"
                     android:layout_marginTop="5dp"
-
                     android:text="78"
                     android:textSize="14sp"
                     />
@@ -195,20 +176,13 @@
                     android:layout_below="@+id/febry"
                     android:layout_alignLeft="@+id/febry"
                     android:layout_marginTop="5dp"
-
                     android:src="@mipmap/group_3copy2"
                     />
             </RelativeLayout>
 
-        </FrameLayout>
-        <!--第三个Fragment-->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="164dp"
-            android:layout_weight="3"
-            >
+
             <include layout="@layout/fragment_yes_myactivity" />
-        </FrameLayout>
+
     </LinearLayout>
 
-</com.runstart.middle.CustScrollView>
+</ScrollView>

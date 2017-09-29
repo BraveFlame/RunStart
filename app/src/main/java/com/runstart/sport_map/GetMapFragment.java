@@ -117,10 +117,18 @@ public class GetMapFragment extends PreferenceFragment{
      */
     public void setUpMap(LatLng oldData, LatLng newData) {
 
-        // 绘制一个大地曲线
-        aMap.addPolyline((new PolylineOptions())
-                .add(oldData, newData)
-                .geodesic(true).color(R.color.pace_show));
+        if(SportingActivity.isSporting){
+            // 绘制一个大地曲线
+            aMap.addPolyline((new PolylineOptions())
+                    .add(oldData, newData)
+                    .geodesic(true).color(R.color.pace_show));
+        }else {
+            // 绘制一个大地曲线
+            aMap.addPolyline((new PolylineOptions())
+                    .add(oldData, newData)
+                    .geodesic(true).color(R.color.bg_screen1));
+        }
+
 
     }
 

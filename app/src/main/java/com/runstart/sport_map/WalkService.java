@@ -11,8 +11,9 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.runstart.calculate_pace.accelerometer.StepCount;
-import com.runstart.calculate_pace.accelerometer.StepValuePassListener;
+import com.runstart.help.LockScreenActivity;
+import com.runstart.sport_map.acceleromete.StepCount;
+import com.runstart.sport_map.acceleromete.StepValuePassListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -209,13 +210,15 @@ public class WalkService extends ServiceLocation implements SensorEventListener 
                 hasStepCount = tempStep;
             } else {
                 //获取APP打开到现在的总步数=本次系统回调的总步数-APP打开之前已有的步数
-                int thisStepCount = tempStep - hasStepCount;
-                //本次有效步数=（APP打开后所记录的总步数-上一次APP打开后所记录的总步数）
-                int thisStep = thisStepCount - previousStepCount;
-                //总步数=现有的步数+本次有效步数
-                CURRENT_STEP += (thisStep);
-                //记录最后一次APP打开到现在的总步数
-                previousStepCount = thisStepCount;
+//                int thisStepCount = tempStep - hasStepCount;
+//                //本次有效步数=（APP打开后所记录的总步数-上一次APP打开后所记录的总步数）
+//                int thisStep = thisStepCount - previousStepCount;
+//                //总步数=现有的步数+本次有效步数
+//                CURRENT_STEP += (thisStep);
+//                //记录最后一次APP打开到现在的总步数
+//                previousStepCount = thisStepCount;
+
+                CURRENT_STEP=tempStep-hasStepCount;
             }
 //            Logger.d("tempStep" + tempStep);
         } else if (stepSensorType == Sensor.TYPE_STEP_DETECTOR) {
@@ -263,6 +266,7 @@ public class WalkService extends ServiceLocation implements SensorEventListener 
     public void updateNotify() {
         Intent hangIntent = new Intent(this, PacingActivity.class);
         PendingIntent hangPendingIntent = PendingIntent.getActivity(this, 0, hangIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
         mBuilder.setContentTitle("已步行" + CURRENT_STEP + "步")
                 .setContentText("Walking  " + distance + " m" + "  " + format(miss))
                 .setContentIntent(hangPendingIntent)
@@ -270,7 +274,12 @@ public class WalkService extends ServiceLocation implements SensorEventListener 
                 .build();
         super.updateNotify();
     }
-
+    @Override
+    void initBroadcastReceiver() {
+        lockscreenIntent=new Intent(this,PacingActivity.class);
+        lockscreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        super.initBroadcastReceiver();
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

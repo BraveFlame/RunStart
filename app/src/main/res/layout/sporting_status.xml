@@ -91,14 +91,14 @@
             android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="97dp"
-            android:background="@mipmap/ic_daojishi" />
+            android:background="@mipmap/ic_dapjishi" />
 
 
         <ImageView
             android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="95dp"
-            android:background="@mipmap/ic_kaluli" />
+            android:background="@mipmap/ic_kalvli" />
 
     </LinearLayout>
 
@@ -188,6 +188,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:background="@mipmap/caise"
+            android:textColor="@color/main_top_color"
             android:text="Time out" />
 
         <Button

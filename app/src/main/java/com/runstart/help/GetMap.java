@@ -164,6 +164,7 @@ public class GetMap implements LocationSource, AMapLocationListener, WeatherSear
     public void onWeatherLiveSearched(LocalWeatherLiveResult localWeatherLiveResult, int i) {
         LocalWeatherLive weatherLive = null;
 
+        dialog.dismiss();
         if (i == 1000) {
             weatherLive = localWeatherLiveResult.getLiveResult();
             if (localWeatherLiveResult != null && weatherLive != null) {
@@ -176,13 +177,11 @@ public class GetMap implements LocationSource, AMapLocationListener, WeatherSear
                 deactivate();
                 mapView.onDestroy();
                 context = null;
-                dialog.dismiss();
             }
         } else {
             search=null;
             aMap=null;
             onLocationChangedListener=null;
-            dialog.dismiss();
             mapView.onPause();
             deactivate();
             mapView.onDestroy();

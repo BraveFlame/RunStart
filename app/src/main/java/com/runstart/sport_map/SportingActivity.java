@@ -12,6 +12,7 @@ import android.icu.text.DecimalFormat;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -42,12 +43,14 @@ public class SportingActivity extends Activity implements View.OnClickListener {
 
     private ImageView screenMap, halfMap;
     private ViewGroup.LayoutParams titleParams, mapParams;
-    private RelativeLayout titleRL,mapRL;
+    private RelativeLayout titleRL, mapRL;
 
 
     public static boolean isStop;
     public static boolean isEnd;
     public static boolean isSporting = false;
+    private boolean isReCreate;
+    private boolean isReMap;
 
     DecimalFormat decimalFormat = new DecimalFormat(".000");
     private boolean isBind = false, isScreen = false;
@@ -63,23 +66,25 @@ public class SportingActivity extends Activity implements View.OnClickListener {
     ServiceLocation locationService;
 
 
+    //  PowerManager.WakeLock wakeLock;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sporting_status);
         getWindow().addFlags(
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                        | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-                        | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                        | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        PowerManager manager=(PowerManager)getSystemService(Context.POWER_SERVICE);
+//        wakeLock=manager.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP|PowerManager.SCREEN_BRIGHT_WAKE_LOCK,"bright");
+//        wakeLock.acquire();
         editor = preferences.edit();
 
         isStop = false;
         isEnd = false;
         isSporting = true;
+        isReCreate = true;
+        isReMap = false;
         initView();
         setupService();
     }
@@ -121,9 +126,23 @@ public class SportingActivity extends Activity implements View.OnClickListener {
 
                 @Override
                 public void updateLL(AMapLocation location, LocationSource.OnLocationChangedListener mListener) {
-                    getMapFragment.getLocation(location, mListener);
-                    if (!locationService.isActivityLive) {
-                        getMapFragment.RestartSetMap(locationService.latLngList);
+//                    if (!isReCreate) {
+//                        getMapFragment.RestartSetMap(locationService.latLngList);
+//                        Log.e("Map","重绘地图！！！！！"+locationService.latLngList.size());
+//                    }else {
+//                        getMapFragment.getLocation(location, mListener);
+//                        Log.e("Map","保持绘制地图！！！！！");
+//                    }
+//
+                    if (isReCreate) {
+                        if (!isReMap) {
+                            getMapFragment.RestartSetMap(locationService.latLngList);
+                            Log.e("Map", "重绘地图！！！！！" + locationService.latLngList.size());
+                            isReMap = true;
+                        } else {
+                            getMapFragment.getLocation(location, mListener);
+                            Log.e("Map", "保持绘制地图！！！！！");
+                        }
                     }
                 }
             });
@@ -290,10 +309,12 @@ public class SportingActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e("Map", "活动销毁！！");
         if (isBind)
             unbindService(conn);
-        locationService.isActivityLive = false;
-
+        isReCreate = false;
+        isReMap = false;
+        //wakeLock.release();
     }
 
 

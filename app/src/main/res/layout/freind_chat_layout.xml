@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d8e0e8"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/circle_rl_pushcard_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/circle_ib_zuojiantou"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@mipmap/ic_zuojiantou" />
+
+        <TextView
+            android:id="@+id/friend_chat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="独孤求败"
+            android:textColor="#212121"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/circle_pushcard_popupmenu"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-7dp"
+            android:gravity="center"
+            android:text="..."
+            android:textSize="21dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="49dp"
+            android:background="@color/main_top_tab_color" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/msg_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#0000">
+
+    </ListView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/main_top_tab_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <EditText
+            android:id="@+id/friend_chat_input"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_bt"
+            android:maxLines="2" />
+
+        <Button
+            android:id="@+id/friend_chat_send"
+            android:layout_width="75dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="-1dp"
+            android:background="@drawable/chat_send_btn"
+            android:text="Send"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp">
+
+        <ImageView
+            android:id="@+id/friend_chat_photo"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/friend_chat_picture"
+            android:background="@mipmap/ic_zhaoxiangji" />
+
+        <ImageView
+            android:id="@+id/friend_chat_picture"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/friend_chat_face"
+            android:background="@mipmap/ic_tupisn" />
+
+        <ImageView
+            android:id="@+id/friend_chat_face"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:background="@mipmap/ic_biaoqing" />
+    </RelativeLayout>
+</LinearLayout>

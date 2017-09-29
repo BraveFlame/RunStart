@@ -38,6 +38,7 @@
 
     <color name="calor_total_circle">#c4c4c4</color>
     <color name="calor_now_circle">#ac76f7</color>
+    <color name="chat_send">#3dae39</color>
 
     <array name="array_dot_active">
         <item>@color/dot_light_screen1</item>

@@ -55,8 +55,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.mine_rl_pushcard:
-                Intent pushcardIntent=new Intent(getActivity(),CirclePushCardActivity.class);
-                startActivity(pushcardIntent);
+                CirclePushCardActivity.jump("jmKi777W","033b152e41",getActivity());
                 break;
             case R.id.mine_rl_goodfriend:
                 Intent goodfriendIntent = new Intent(getActivity(),CircleCreateActivity.class);

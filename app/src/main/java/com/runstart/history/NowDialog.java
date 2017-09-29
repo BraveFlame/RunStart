@@ -13,7 +13,12 @@ import android.widget.Toast;
 import com.runstart.R;
 import com.runstart.help.CountDown;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by user on 17-8-24.
@@ -68,10 +73,16 @@ public class NowDialog {
     }
 
     public void single_dialog(){
+        List<HashMap<String,Integer>>list=new ArrayList<>();
+        HashMap<String,Integer>map=new HashMap<>();
+        map.put("runnig",R.mipmap.bitmap_run);
+        map.put("riding",R.mipmap.bitmap_ride);
+        map.put("pacing",R.mipmap.bitmap_walk);
+        list.add(map);
         // 创建对话框构建器
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         // 设置参数
-        builder.setIcon(R.mipmap.ic_launcher).setTitle("Please choose the sport")
+        builder.setIcon(R.mipmap.sport).setTitle("Please choose the sport")
                 .setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

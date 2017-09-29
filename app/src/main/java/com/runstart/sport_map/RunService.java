@@ -15,4 +15,10 @@ public class RunService extends ServiceLocation {
                 .build();
         super.updateNotify();
     }
+    @Override
+    void initBroadcastReceiver() {
+        lockscreenIntent=new Intent(this,RunningActivity.class);
+        lockscreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        super.initBroadcastReceiver();
+    }
 }

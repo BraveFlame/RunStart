@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.runstart.middle.CustScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f1f0f0"
@@ -20,7 +20,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:layout_alignParentTop="true"
-
                 android:src="@mipmap/wode_beijing" />
 
             <com.runstart.mine.MyHeaderImageView
@@ -441,4 +440,4 @@
         </LinearLayout>
     </RelativeLayout>
 
-</com.runstart.middle.CustScrollView>
+</ScrollView>

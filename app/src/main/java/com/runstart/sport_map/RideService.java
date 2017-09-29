@@ -2,6 +2,9 @@ package com.runstart.sport_map;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.util.Log;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * Created by user on 17-9-22.
@@ -17,5 +20,12 @@ public class RideService extends ServiceLocation {
                 .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示
                 .build();
         super.updateNotify();
+    }
+
+    @Override
+    void initBroadcastReceiver() {
+        lockscreenIntent=new Intent(this,RidingActivity.class);
+        lockscreenIntent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+        super.initBroadcastReceiver();
     }
 }

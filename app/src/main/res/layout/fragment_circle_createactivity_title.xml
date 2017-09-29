@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         >
         <ImageView
-            android:id="@+id/circle_ib_zuojiantou"
+            android:id="@+id/circle_createactivity_iv_zuojiantou"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -23,10 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/circle_ib_zuojiantou"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="40dp"
-
 
             android:text="Create a new activity"
             android:textSize="20sp"

@@ -2,11 +2,13 @@ package com.runstart.sport_fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.runstart.R;
+import com.runstart.help.GetSHA1;
 
 
 public class WalkFragment extends Fragment {
@@ -25,6 +27,7 @@ public class WalkFragment extends Fragment {
                              Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.fragment_walk, container, false);
         initView();
+        Log.e("SHA",GetSHA1.getCertificateSHA1Fingerprint(getContext()));
         return view;
     }
     /**

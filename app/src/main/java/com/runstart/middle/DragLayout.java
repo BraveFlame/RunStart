@@ -10,6 +10,12 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
+
+import com.runstart.R;
 
 /**
  * 这是一个viewGroup容器，实现上下两个frameLayout拖动切换
@@ -117,6 +123,10 @@ public class DragLayout extends ViewGroup {
 					// 不让第一个view往下拖，因为顶部会白板
 					finalTop = 0;
 				}
+
+				//Animation animation= AnimationUtils.loadAnimation(getContext(), R.anim.myanim);
+//				frameView1.startAnimation(animation);
+				//frameView1.startAnimation(animation);
 			} else if (child == frameView2) {
 				// 拖动的时第二个view
 				if (top < 0) {
@@ -143,10 +153,12 @@ public class DragLayout extends ViewGroup {
 			int offsetTopBottom = viewHeight + frameView1.getTop()
 					- frameView2.getTop();
 			frameView2.offsetTopAndBottom(offsetTopBottom);
+
 		} else if (viewIndex == 2) {
 			int offsetTopBottom = frameView2.getTop() - viewHeight
 					- frameView1.getTop();
 			frameView1.offsetTopAndBottom(offsetTopBottom);
+
 		}
 
 		// 有的时候会默认白板，这个很恶心。后面有时间再优化
