@@ -5,7 +5,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StrictMode;
 
-import com.runstart.friend.FriendMsgHandler;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,7 +13,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.bmob.newim.BmobIM;
+
 import cn.bmob.v3.Bmob;
 
 /**
@@ -38,9 +38,7 @@ public class MyApplication extends Application {
 
 
         if (getApplicationInfo().packageName.equals(getMyProcessName())) {
-            Bmob.initialize(this, applicationID);
-           // BmobIM.registerDefaultMessageHandler(new FriendMsgHandler());
-        }
+            Bmob.initialize(this, applicationID);        }
 
         File imageCacheFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage");
         if (! imageCacheFile.exists()){

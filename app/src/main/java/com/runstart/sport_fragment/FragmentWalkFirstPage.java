@@ -90,12 +90,13 @@ public class FragmentWalkFirstPage extends Fragment implements View.OnClickListe
 
     private void initData() {
 
-        //获取用户设置的计划锻炼步数，没有设置过的话默认7000
-        String lastPace = sp.getString("last_pace_count", "181");
+        //获取用户设置的计划锻炼步数，没有设置过的话默认172
+        //String lastPace = sp.getString("last_pace_count", "172");
+        int lastPace = sp.getInt("walk_day_step", 172);
         linearCircles.isNeedDraw=true;
-        linearCircles.show(Integer.valueOf(lastPace), "pace");
-        lastDistance.setText(sp.getString("last_pace_distance", "0") + "km");
-        lastSpeed.setText(sp.getString("last_pace_speed", "0") + "km/h");
+        linearCircles.show(lastPace, "pace");
+        lastDistance.setText(sp.getString("last_walk_distance", "0") + "km");
+        lastSpeed.setText(sp.getString("last_walk_speed", "0") + "km/h");
 
 
     }

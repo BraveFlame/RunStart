@@ -206,21 +206,21 @@
 
         <!-- ***************************************************************** -->
         <!-- ****Bmob即时通讯需要注册的广播**** -->
-        <receiver android:name="cn.bmob.newim.core.ConnectChangeReceiver">
-            <intent-filter>
-                <action android:name="cn.bmob.action.RECONNECT"/>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.USER_PRESENT"/>
-            </intent-filter>
-        </receiver>
-        <!-- ****Bmob即时通讯需要注册的服务**** -->
-        <service android:name="cn.bmob.newim.core.service.BmobIMService"
-            android:process=":bmobcore"/>
-        <service android:name="cn.bmob.newim.core.service.NotifyService"
-            android:process=":bmobcore"/>
-        <service android:name="cn.bmob.newim.core.service.ReConnectService"/>
-        <service android:name="cn.bmob.newim.core.service.HeartBeatService"/>
+        <!--<receiver android:name="cn.bmob.newim.core.ConnectChangeReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="cn.bmob.action.RECONNECT"/>-->
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
+                <!--<action android:name="android.intent.action.USER_PRESENT"/>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+        <!--&lt;!&ndash; ****Bmob即时通讯需要注册的服务**** &ndash;&gt;-->
+        <!--<service android:name="cn.bmob.newim.core.service.BmobIMService"-->
+            <!--android:process=":bmobcore"/>-->
+        <!--<service android:name="cn.bmob.newim.core.service.NotifyService"-->
+            <!--android:process=":bmobcore"/>-->
+        <!--<service android:name="cn.bmob.newim.core.service.ReConnectService"/>-->
+        <!--<service android:name="cn.bmob.newim.core.service.HeartBeatService"/>-->
         <!-- ***************************************************************** -->
 
 

@@ -2,15 +2,17 @@ package com.runstart.sport_map;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.icu.text.DecimalFormat;
 import android.os.Binder;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -29,18 +31,16 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
 import com.runstart.R;
 import com.runstart.help.GetLocationData;
-import com.runstart.help.LockScreenActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by user on 17-9-19.
  */
 
-public class ServiceLocation extends Service implements LocationSource, AMapLocationListener {
+public abstract class ServiceLocation extends Service implements LocationSource, AMapLocationListener {
 
     private AMap aMap;
     private MapView mapView;
@@ -59,9 +59,18 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
 
     private View view;
     private TimeCount timer;
-    int miss = 0;
+
    // public boolean isActivityLive=true;
     Intent lockscreenIntent;
+
+
+     String allDisS;
+    int miss = 0,nowTimeMiss,nowStep;
+    float nowKCal_F,nowDis_F;
+     Calendar c;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+    DecimalFormat decimalFormat = new DecimalFormat(".000");
 
 
     /**
@@ -82,6 +91,10 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
         view = LayoutInflater.from(this).inflate(R.layout.follow, null);
         mapView = (MapView) view.findViewById(R.id.map);
         mapView.onCreate(null);// 此方法必须重写
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = preferences.edit();
+
+
         //isActivityLive=true;
         RidingActivity.isEnd=false;
         init();
@@ -345,6 +358,7 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
         return super.onStartCommand(intent, flags, startId);
     }
 
+    public abstract void saveDate();
 
     /**
      * 方法必须重写
@@ -352,6 +366,7 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
     @Override
     public void onDestroy() {
         super.onDestroy();
+        saveDate();
         mapView.onPause();
         deactivate();
         mapView.onDestroy();
