@@ -16,11 +16,17 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
+import com.runstart.BmobBean.User;
 import com.runstart.bottom.CircleFragment;
 import com.runstart.bottom.FriendsFragment;
 import com.runstart.bottom.HeadPageFragment;
 import com.runstart.bottom.MineFragment;
 import com.runstart.help.GetSHA1;
+import com.runstart.help.ToastShow;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.QueryListener;
 
 
 /**
@@ -39,11 +45,16 @@ public class MainActivity extends FragmentActivity {
     //定义选项index
     int mIndex;
     public static String activityKeep;
+    public User user;
+
 
     //声明需要使用的运行时权限
-    private static final String[] LOCATION_PERMISSION = {
-
-            Manifest.permission.ACCESS_COARSE_LOCATION
+    private static final String[] PERMISSION = {
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO
     };
 
 
@@ -55,22 +66,22 @@ public class MainActivity extends FragmentActivity {
         initFragment();
         //底部状态栏切换fragment
         setRadioGroup();
-        getPermission(LOCATION_PERMISSION);
+        getPermission(PERMISSION);
+        getUser();
 
 
     }
 
     public void getPermission(String[] permissions) {
-        boolean isPermist = false;
+        boolean isPermist = true;
         //判断权限是否获取
 
         for (String permission : permissions) {
             if (checkSelfPermission(permission)
                     != PackageManager.PERMISSION_GRANTED) {
+                isPermist=false;
                 Log.d("Path", " permission =" + permission);
-            } else isPermist = true;
-
-
+            }
         }
         if (!isPermist) {
             //如果没有获取权限就主动申请
@@ -107,7 +118,6 @@ public class MainActivity extends FragmentActivity {
         FriendsFragment friendsFragment = new FriendsFragment();
         CircleFragment circleFragment=new CircleFragment();
         MineFragment mineFragment=new MineFragment();
-
         //初始化mFragments数组
         mFragments = new Fragment[]{headPageFragment, friendsFragment, circleFragment, mineFragment};
         //定义事务
@@ -171,5 +181,18 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
+    public void getUser(){
+        BmobQuery<User> userBmobQuery = new BmobQuery<>();
+        userBmobQuery.getObject("3bdaf08b1e", new QueryListener<User>() {
+            @Override
+            public void done(User user_, BmobException e) {
+                if(e==null){
+                    user=user_;
+                }else {
+                    ToastShow.showToast(MainActivity.this,"用户获取不成功！");
+                }
+            }
+        });
+    }
 
 }

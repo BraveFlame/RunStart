@@ -120,7 +120,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void launchHomeScreen(){
 
-        startActivity(new Intent(this,MainActivity.class));
+        startActivity(new Intent(this,SelectLogin.class));
         finish();
     }
 

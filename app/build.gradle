@@ -50,12 +50,25 @@ dependencies {
     //compile 'com.android.support:appcompat-v7:26.+'
     testCompile 'junit:junit:4.12'
     compile 'cn.bmob.android:bmob-sdk:3.5.7'
+    //compile 'cn.bmob.android:bmob-im:2.0.9@aar'
     compile files('libs/lite-orm-1.7.0.jar')
     compile files('libs/MPAndroidChart-v3.0.0-beta1.jar')
     //compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.daimajia.easing:library:2.0@aar'
     compile 'com.daimajia.androidanimations:library:2.2@aar'
+    //
+    compile 'com.orhanobut:logger:1.4'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.github.promeg:tinypinyin:1.0.0'
+    //
+
+
     compile files('libs/library-2.2-sources.jar')
     compile files('libs/picasso-2.3.2-sources.jar')
+    compile files('libs/classes.jar')
+    compile files('libs/androidasync-2.1.6.jar')
+    compile files('libs/BmobNewIM_2.0.9_20170731.jar')
 }

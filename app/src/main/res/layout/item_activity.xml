@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <ImageView
+            android:id="@+id/activityImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/group_5"
+            android:scaleType="centerCrop"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="6dp">
+            <TextView
+                android:id="@+id/activityName"
+                android:layout_width="250dp"
+                android:layout_height="30dp"
+                android:gravity="start"
+                android:text="Run 3 km a day"
+                android:textSize="18sp"
+                android:textColor="#ffffff"/>
+            <TextView
+                android:id="@+id/activityPeopleNumber"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="80dp"
+                android:text="500 people"
+                android:textSize="14sp"
+                android:textColor="#ffffff"/>
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="250dp">
+                <com.example.user.lovesport.view.MyHeaderImageView
+                    android:id="@+id/creatorImage"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@mipmap/ian_dooley_298769"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:id="@+id/creatoName"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="creator name"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp"
+                    android:gravity="center_horizontal"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </FrameLayout>
+</LinearLayout>

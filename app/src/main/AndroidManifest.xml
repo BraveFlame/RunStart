@@ -8,10 +8,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 允许程序获取网络状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <!-- 允许程序访问WiFi网络信息 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 允许程序读写手机状态和身份 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -20,15 +22,13 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-    <!-- 计歩需要的权限 -->
+    <!-- 计步需要的权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
     <uses-feature android:name="android.hardware.sensor.accelerometer" />
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-feature
         android:name="android.hardware.sensor.stepcounter"
         android:required="true" />
@@ -36,6 +36,15 @@
         android:name="android.hardware.sensor.stepdetector"
         android:required="true" />
 
+    <!-- 摄像头，录音，通知震动 -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+
+
+
+    <!-- ***************************************************************** -->
     <application
         android:name=".history.MyApplication"
         android:allowBackup="true"
@@ -48,6 +57,8 @@
             android:name="com.amap.api.v2.apikey"
             android:value="97fd5065f0b5de76489826c5a93c7c14" />
 
+        <!-- ***************************************************************** -->
+        <!-- 首次安装的引导页 -->
         <activity
             android:name=".slidingpage.WelcomeActivity"
             android:screenOrientation="portrait"
@@ -57,18 +68,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 主页Activity，包括底部导航栏的4个fragment -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize">
         </activity>
+        <!-- ***************************************************************** -->
+
+
+
+
+
+
+        <!-- ***************************************************************** -->
+        <!-- Sporting Activity-->
+        <!-- 开始运动之前的倒计时，以及开始运动的3个activity继承于SportingActivity -->
         <activity
             android:name=".help.CountDown"
             android:screenOrientation="portrait" />
+        <activity android:name=".sport_map.SportingActivity"
+            android:exported="true"/>
         <activity
             android:name=".sport_map.PacingActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".sport_map.RunningActivity"
@@ -78,51 +104,153 @@
             android:name=".sport_map.RidingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".calculate_pace.SetPlanActivity"
+
+        <activity android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:name=".help.LockScreenActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".calculate_pace.HistoryActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:noHistory="true"
+            android:taskAffinity="com.package.name.lockscreen"
+            > <!--android:theme="@style/LockScreenBase"-->
+        </activity>
+
+        <!-- 历史记录chart-->
         <activity android:name=".history.HistoryChartActivity"
             android:launchMode="singleTask"/>
+        <!-- ***************************************************************** -->
 
 
-        <!--“我的”的MinePushCardActivity-->
-        <activity android:name=".circle.CirclePushCardActivity"></activity>
+
+
+
+
+
+
+
+        <!-- ***************************************************************** -->
+        <!-- Friend Activity  -->
+        <activity android:name=".friend.ChatActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".slidingpage.SelectLogin"/>
+        <activity android:name=".slidingpage.LoginPageActivity" />
+        <activity android:name=".slidingpage.ForgetPasswordActivity" />
+        <activity android:name=".slidingpage.RegisterActivity" />
+        <activity android:name=".friend.friendactivity.FriendsDetailsActivity" />
+        <activity android:name=".friend.friendactivity.MoreRecommendedGroupActivity" />
+        <activity android:name=".friend.friendactivity.CreateGroupActivity" />
+        <activity android:name=".friend.friendactivity.ShowMyFriendsActivity" />
+        <activity android:name=".friend.friendactivity.GroupDetailActivity" />
+        <activity android:name=".friend.friendactivity.PeopleOfGroupActivity"></activity>
+
+
+
+        <!-- ***************************************************************** -->
+
+
+
+
+
+
+
+
+
+        <!-- ***************************************************************** -->
+        <!-- 圈子Activity -->
+        <!-- “circle”的CircleCreateActivity -->
+        <activity android:name=".circle.CircleCreateActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            />
+        <!--"circle"的CircleJoinActivity-->
+        <activity android:name=".circle.CircleJoinActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            />
+        <!--"circle"的CirclePushCardActivity-->
+        <activity android:name=".circle.CirclePushCardActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <!-- ***************************************************************** -->
+
+
+
+
+
+
+
+
+        <!-- ***************************************************************** -->
         <!--“我的”的MineGoodFriendActivity-->
-        <activity android:name=".mine.MineGoodFriendActivity"></activity>
+        <activity android:name=".mine.MineGoodFriendActivity">
+        </activity>
         <!--“我的”的MineGroupActivity-->
-        <activity android:name=".mine.MineGroupActivity"></activity>
+        <activity android:name=".mine.MineGroupActivity">
+        </activity>
         <!--“我的”的MineMessageRecordActivity-->
-        <activity android:name=".mine.MineMessageRecordActivity"></activity>
+        <activity android:name=".mine.MineMessageRecordActivity">
+        </activity>
         <!--“我的”的MineSetUpActivity-->
-        <activity android:name=".mine.MineSetUpActivity"></activity>
-        <!--“circle”的CircleCreateActivity-->
-        <activity android:name=".circle.CircleCreateActivity"></activity>
+        <activity android:name=".mine.MineSetUpActivity">
+        </activity>
+        <!-- ***************************************************************** -->
+
+
+
+
+
+
+
+
+        <!-- ***************************************************************** -->
+        <!-- ****Bmob即时通讯需要注册的广播**** -->
+        <receiver android:name="cn.bmob.newim.core.ConnectChangeReceiver">
+            <intent-filter>
+                <action android:name="cn.bmob.action.RECONNECT"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+            </intent-filter>
+        </receiver>
+        <!-- ****Bmob即时通讯需要注册的服务**** -->
+        <service android:name="cn.bmob.newim.core.service.BmobIMService"
+            android:process=":bmobcore"/>
+        <service android:name="cn.bmob.newim.core.service.NotifyService"
+            android:process=":bmobcore"/>
+        <service android:name="cn.bmob.newim.core.service.ReConnectService"/>
+        <service android:name="cn.bmob.newim.core.service.HeartBeatService"/>
+        <!-- ***************************************************************** -->
+
+
+
+
+
+
+
+
+        <!-- ***************************************************************** -->
+        <!-- ****高徳地图的后台服务**** -->
         <service android:name="com.amap.api.location.APSService" />
-        <service android:name=".sport_map.ServiceLocation" />
+        <service android:name=".sport_map.ServiceLocation">
+        <intent-filter>
+            <!-- 系统启动完成后会调用 -->
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+            <action android:name="android.intent.action.MEDIA_MOUNTED" />
+            <action android:name="android.intent.action.USER_PRESENT" />
+            <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+            <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+        </intent-filter>
+        </service>
         <service android:name=".sport_map.RunService" />
         <service android:name=".sport_map.RideService" />
         <service android:name=".sport_map.WalkService"/>
+        <!-- ***************************************************************** -->
 
-        <service
-            android:name=".calculate_pace.service.StepService"
-            android:priority="1000">
-            <intent-filter>
-
-                <!-- 系统启动完成后会调用 -->
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.DATE_CHANGED" />
-                <action android:name="android.intent.action.MEDIA_MOUNTED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.intent.action.ACTION_TIME_TICK" />
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-            </intent-filter>
-        </service>
+        <meta-data
+            android:name="Bmob_APP_KEY"
+            android:value="6bbf7fb6372e29f54eead6a98a204621" />
 
     </application>
 
