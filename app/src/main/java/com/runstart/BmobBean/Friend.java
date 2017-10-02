@@ -10,6 +10,17 @@ public class Friend extends BmobObject {
     private String friendObjectId;
     private int isFriend;//0表示是非好友,1表示好友
     private String likeDate;
+    private String chatObjectId;
+
+
+    public String getChatObjectId() {
+        return chatObjectId;
+    }
+
+    public void setChatObjectId(String chatObjectId) {
+        this.chatObjectId = chatObjectId;
+    }
+
     //private int likeState;
 
 

@@ -127,6 +127,7 @@ public class RunService extends ServiceLocation {
                 }
             }
         });
+        super.saveDate();
 
     }
 }

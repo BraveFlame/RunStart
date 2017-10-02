@@ -2,15 +2,14 @@ package com.runstart.friend.friendactivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 
 import com.runstart.BmobBean.Friend;
 import com.runstart.BmobBean.User;
@@ -19,11 +18,8 @@ import com.runstart.friend.ChatActivity;
 import com.runstart.friend.adapter.MyUtils;
 import com.runstart.history.MyApplication;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import butterknife.OnClick;
 
 public class FriendsDetailsActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -156,6 +152,7 @@ public class FriendsDetailsActivity extends AppCompatActivity implements View.On
                 data.putString("friend", user.getObjectId());
                 data.putString("user", MyApplication.applicationMap.get("userObjectId"));
                 data.putString("fName",user.getNickName());
+                data.putString("chatObjectId",friend.getChatObjectId());
                 chatIntent.putExtras(data);
                 startActivity(chatIntent);
                 break;

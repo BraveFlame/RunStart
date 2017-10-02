@@ -126,6 +126,7 @@ public class RideService extends ServiceLocation {
                 }
             }
         });
+        super.saveDate();
 
     }
 

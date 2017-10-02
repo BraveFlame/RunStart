@@ -42,16 +42,16 @@ public class MsgAdapter extends ArrayAdapter<MsgChat> {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        if (msg.getType() == MsgChat.TYPE_RECEIVED) {
+        if (msg.getType() == 0) {
 // 如果是收到的消息,则显示左边的消息布局,将右边的消息布局隐藏
             viewHolder.leftLayout.setVisibility(View.VISIBLE);
             viewHolder.rightLayout.setVisibility(View.GONE);
-            viewHolder.leftMsg.setText(msg.getContent());
-        } else if(msg.getType() == MsgChat.TYPE_SENT) {
+            viewHolder.leftMsg.setText(msg.getRecContent());
+        } else if(msg.getType() == 1) {
 // 如果是发出的消息,则显示右边的消息布局,将左边的消息布局隐藏
             viewHolder.rightLayout.setVisibility(View.VISIBLE);
             viewHolder.leftLayout.setVisibility(View.GONE);
-            viewHolder.rightMsg.setText(msg.getContent());
+            viewHolder.rightMsg.setText(msg.getSendContent());
         }
         return view;
     }

@@ -40,7 +40,7 @@ import java.util.List;
  * Created by user on 17-9-19.
  */
 
-public abstract class ServiceLocation extends Service implements LocationSource, AMapLocationListener {
+public class ServiceLocation extends Service implements LocationSource, AMapLocationListener {
 
     private AMap aMap;
     private MapView mapView;
@@ -358,7 +358,9 @@ public abstract class ServiceLocation extends Service implements LocationSource,
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public abstract void saveDate();
+    public  void saveDate(){
+
+    }
 
     /**
      * 方法必须重写

@@ -384,6 +384,7 @@ public class WalkService extends ServiceLocation implements SensorEventListener 
                 }
             }
         });
+        super.saveDate();
 
     }
 
