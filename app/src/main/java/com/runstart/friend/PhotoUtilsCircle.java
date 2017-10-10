@@ -88,7 +88,7 @@ public class PhotoUtilsCircle {
                     activity.getFilesDir(), imageName)));
         }*/
         ContentValues values = new ContentValues(1);
-        values.put(MediaStore.Images.Media.DATA, Environment.getExternalStorageDirectory() + imageName);
+        values.put(MediaStore.Images.Media.DATA, Environment.getExternalStorageDirectory()+ File.separator + activity.getPackageName()+ File.separator+"myimages/" + imageName);
         Uri uri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         activity.startActivityForResult(intent, PHOTOGRAPH);
@@ -129,8 +129,8 @@ public class PhotoUtilsCircle {
         intent.setDataAndType(uri, IMAGE_UNSPECIFIED);
         intent.putExtra("crop", "true");
         // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", aspectX);
-        intent.putExtra("aspectY", aspectY);
+//        intent.putExtra("aspectX", aspectX);
+//        intent.putExtra("aspectY", aspectY);
         // outputX outputY 是裁剪图片宽高
         intent.putExtra("outputY", width);
         intent.putExtra("noFaceDetection", true); //关闭人脸检测
@@ -165,19 +165,19 @@ public class PhotoUtilsCircle {
         long tag = System.currentTimeMillis();
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             //SDCard是否可用
-            path = Environment.getExternalStorageDirectory() + File.separator + "myimages/";
+            path = Environment.getExternalStorageDirectory() + File.separator  + context.getPackageName() + File.separator+"myimages/";
             file = new File(path);
             if (!file.exists()) {
                 file.mkdirs();
             }
-            path = Environment.getExternalStorageDirectory() + File.separator + "myimages/" + tag + ".png";
+            path = Environment.getExternalStorageDirectory() + File.separator  + context.getPackageName() + File.separator + "myimages/" + tag + ".png";
         } else {
-            path = context.getFilesDir() + File.separator + "myimages/";
+            path = context.getFilesDir() + File.separator + context.getPackageName() + File.separator+"myimages/";
             file = new File(path);
             if (!file.exists()) {
                 file.mkdirs();
             }
-            path = context.getFilesDir() + File.separator + "myimages/" + tag + ".png";
+            path = context.getFilesDir()+ File.separator + context.getPackageName() + File.separator + "myimages/" + tag + ".png";
         }
         return path;
     }
@@ -195,10 +195,10 @@ public class PhotoUtilsCircle {
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
                 picture = new File(Environment.getExternalStorageDirectory() + PhotoUtilsCircle.imageName);
                 if (!picture.exists()) {
-                    picture = new File(Environment.getExternalStorageDirectory() + PhotoUtilsCircle.imageName);
+                    picture = new File(Environment.getExternalStorageDirectory() + File.separator + context.getPackageName() + File.separator+"myimages/"+ PhotoUtilsCircle.imageName);
                 }
             } else {
-                picture = new File(context.getFilesDir() + PhotoUtilsCircle.imageName);
+                picture = new File(context.getFilesDir() + File.separator + context.getPackageName() + File.separator+"myimages/"+ PhotoUtilsCircle.imageName);
                 if (!picture.exists()) {
                     picture = new File(context.getFilesDir() + PhotoUtilsCircle.imageName);
                 }
@@ -230,7 +230,7 @@ public class PhotoUtilsCircle {
             WindowManager wm = context.getWindowManager();
             int width = wm.getDefaultDisplay().getWidth();
             int height = wm.getDefaultDisplay().getHeight();
-            PhotoUtilsCircle.startPhotoZoom(context, data.getData(), 328, 116, height, width, imageUri);
+            PhotoUtilsCircle.startPhotoZoom(context, data.getData(), 328, 328, height, width, imageUri);
         }
         /////////////////////////////// 处理裁剪结果////////////////////////////////////////////////////////////////
         if (requestCode == PhotoUtilsCircle.PHOTORESOULT) {

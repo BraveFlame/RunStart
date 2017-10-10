@@ -54,7 +54,7 @@ public class GroupFragment extends Fragment {
     private RelativeLayout zeroGroup;
     private Button moreRecommendedGroup;
 
-    private List<Group> groupList;
+    private List<Group> groupList=new ArrayList<>();
     private List<Map<String, Object>> allGroupList = new ArrayList<>();
     private Map<String, Bitmap> bitmapMap = new ArrayMap<>();
 
@@ -103,6 +103,7 @@ public class GroupFragment extends Fragment {
            public void done(BmobQueryResult<Group> bmobQueryResult, BmobException e) {
                if (e == null){
                    groupList = bmobQueryResult.getResults();
+                   if(groupList.size()>0)
                    handler.sendEmptyMessage(FINISH_LOADING_GROUP);
                }else {
                    Toast.makeText(getActivity(), "load groups failed", Toast.LENGTH_SHORT).show();
