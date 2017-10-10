@@ -118,6 +118,7 @@ public class FragmentWalkFirstPage extends Fragment implements View.OnClickListe
                 break;
 
             case R.id.iv_walk_data:
+
                 startActivity(new Intent(getActivity(), HistoryChartActivity.class));
                 break;
         }
