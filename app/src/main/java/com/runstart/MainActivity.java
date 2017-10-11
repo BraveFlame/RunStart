@@ -2,6 +2,7 @@ package com.runstart;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.runstart.bottom.CircleFragment;
 import com.runstart.bottom.FriendsFragment;
 import com.runstart.bottom.HeadPageFragment;
 import com.runstart.bottom.MineFragment;
+import com.runstart.friend.ListenMsgService;
 import com.runstart.help.GetSHA1;
 import com.runstart.help.ToastShow;
 
@@ -62,6 +64,9 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //监听消息
+        Intent intent = new Intent(this, ListenMsgService.class);
+        startService(intent);
         //初始化底部状态栏的fragment
         initFragment();
         //底部状态栏切换fragment

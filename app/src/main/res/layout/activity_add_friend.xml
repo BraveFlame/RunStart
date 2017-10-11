@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/rootView"
+    tools:context=".friend.friendactivity.AddFriendActivity">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <EditText
+            android:id="@+id/search_edit_input"
+            android:layout_gravity="center_vertical"
+            android:drawableLeft="@mipmap/ic_shousu"
+            android:paddingLeft="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:drawablePadding="5dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/my_search_border"
+            android:textSize="16sp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:hint="Search for friends"/>
+        <ImageView
+            android:id="@+id/search_iv_delete"
+            android:visibility="gone"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/sha"
+            android:layout_gravity="right|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+    <com.example.user.lovesport.view.ListViewForScrollView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:id="@+id/search_lv_tips"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp">
+    </com.example.user.lovesport.view.ListViewForScrollView>
+</LinearLayout>

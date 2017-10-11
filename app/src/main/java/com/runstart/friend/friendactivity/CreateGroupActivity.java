@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -29,14 +27,13 @@ import com.runstart.BmobBean.User;
 import com.runstart.R;
 import com.runstart.friend.adapter.AdapterForAddFriends;
 import com.runstart.friend.adapter.ListViewForScrollView;
+import com.runstart.friend.adapter.MyUtils;
 import com.runstart.friend.adapter.PhotoUtils;
 import com.runstart.history.MyApplication;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,13 +48,6 @@ import cn.bmob.v3.listener.SQLQueryListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 public class CreateGroupActivity extends AppCompatActivity implements View.OnClickListener, AdapterForAddFriends.Callback {
-
-    private List<Friend> friends;
-    private List<User> users = new ArrayList<>();
-    private Map<String, Bitmap> bitmapMap = new ArrayMap<>();
-    private List<User> orderedUserList = new ArrayList<>();
-    private Map<String, String> selectedUserObjectIdMap = new HashMap();
-
     private Button goBack, createGroup;
     private EditText groupName, individualSignature;
     private ListViewForScrollView friendsListView;
@@ -67,42 +57,19 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
     private MyHeaderImageView showHeadPortrait;
 
     private String path;
-    private Bitmap groupImageBitmap = null;
 
-    private final int FINISH_LOADING_FRIEND = 0x111;
-    private final int FINISH_LOADING_BITMAP = 0x112;
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == FINISH_LOADING_FRIEND){
-                getUser();
-            }
-            if (msg.what == FINISH_LOADING_BITMAP){
-                showResult();
-            }
-        }
-    };
+    private List<User> userList = new ArrayList<>();
+    private List<Friend> friendList;
+    private Map<String, Bitmap> bitmapMap = new ArrayMap<>();
+    private List<User> orderedUserList = new ArrayList<>();
+    private Map<String, String> selectedUserObjectIdMap = new HashMap();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
 
-        String sql_friend = "select * from Friend where userObjectId=? and isFriend=1";
-        BmobQuery<Friend> query = new BmobQuery<>();
-        query.setSQL(sql_friend);
-        query.setPreparedParams(new String[]{MyApplication.applicationMap.get("userObjectId")});
-        query.doSQLQuery(new SQLQueryListener<Friend>() {
-            @Override
-            public void done(BmobQueryResult<Friend> bmobQueryResult, BmobException e) {
-                if (e == null){
-                    friends = bmobQueryResult.getResults();
-                    handler.sendEmptyMessage(FINISH_LOADING_FRIEND);
-                }else {
-                    Toast.makeText(CreateGroupActivity.this, "load friends failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        queryFriend();
 
         goBack = (Button)findViewById(R.id.goBack);
         createGroup = (Button)findViewById(R.id.createGroup);
@@ -116,6 +83,24 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
         selectImage.setOnClickListener(this);
         showHeadPortrait.setOnClickListener(this);
         createGroup.setOnClickListener(this);
+    }
+
+    private void queryFriend(){
+        new BmobQuery<Friend>().setSQL("select * from Friend where userObjectId=? and isFriend=1")
+                .setPreparedParams(new String[]{MyApplication.applicationMap.get("userObjectId")})
+                .doSQLQuery(new SQLQueryListener<Friend>() {
+                    @Override
+                    public void done(BmobQueryResult<Friend> bmobQueryResult, BmobException e) {
+                        if (e == null){
+                            friendList = bmobQueryResult.getResults();
+                            if (friendList.size() != 0){
+                                queryUser();
+                            }
+                        }else {
+                            Toast.makeText(CreateGroupActivity.this, "load friends failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     @Override
@@ -139,14 +124,20 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
                 for (String memberObjectId: keySet){
                     memberObjectIdList.add(selectedUserObjectIdMap.get(memberObjectId));
                 }
-                final BmobFile bmobFile = new BmobFile(new File(path));
-                bmobFile.uploadblock(new UploadFileListener() {
-                    @Override
-                    public void done(BmobException e) {
-                        new Group(MyApplication.applicationMap.get("userObjectId"), bmobFile.getUrl(),
-                                memberObjectIdList.size(), 0, groupNameStr, groupDetail, memberObjectIdList).save();
-                    }
-                });
+                if (path != null){
+                    final BmobFile bmobFile = new BmobFile(new File(path));
+                    bmobFile.uploadblock(new UploadFileListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            new Group(MyApplication.applicationMap.get("userObjectId"), bmobFile.getUrl(),
+                                    memberObjectIdList.size(), 0, groupNameStr, groupDetail, memberObjectIdList).save();
+                        }
+                    });
+                }else {
+                    new Group(MyApplication.applicationMap.get("userObjectId"), null,
+                            memberObjectIdList.size(), 0, groupNameStr, groupDetail, memberObjectIdList).save();
+                }
+
                 Toast.makeText(this, "创建群成功！", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
@@ -192,7 +183,6 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
         }
         if (requestCode == PhotoUtils.PHOTORESOULT) {
             Bitmap bitmap = PhotoUtils.convertToBitmap(path, PhotoUtils.PICTURE_HEIGHT, PhotoUtils.PICTURE_WIDTH);
-            groupImageBitmap = bitmap;
             if(bitmap != null){
                 showHeadPortrait.setImageBitmap(bitmap);
             }
@@ -200,20 +190,19 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void getUser(){
-        if ((users.size() == friends.size()) && (friends.size() != 0)){
-            return;
-        }
-        for (int i = 0; i < friends.size(); i++){
-            String sql = "select * from User where objectId=?";
-            new BmobQuery<User>().setSQL(sql).setPreparedParams(new String[]{friends.get(i).getFriendObjectId()})
+    private void queryUser(){
+        String sql = "select * from User where objectId=?";
+        for (int i = 0; i < friendList.size(); i++){
+            new BmobQuery<User>().setSQL(sql).setPreparedParams(new String[]{friendList.get(i).getFriendObjectId()})
                     .doSQLQuery(new SQLQueryListener<User>() {
                         @Override
                         public void done(BmobQueryResult<User> bmobQueryResult, BmobException e) {
                             if (e == null){
-                                User user = bmobQueryResult.getResults().get(0);
-                                users.add(user);
-                                getBitmap(user);
+                                synchronized (InviteFriendToGroupActivity.class) {
+                                    User user = bmobQueryResult.getResults().get(0);
+                                    userList.add(user);
+                                    queryBitmap(user);
+                                }
                             }else {
                                 Toast.makeText(CreateGroupActivity.this, "load friends failed", Toast.LENGTH_SHORT).show();
                             }
@@ -221,29 +210,39 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
                     });
         }
     }
-    private void getBitmap(User user){
+    private void queryBitmap(User user){
         final int objectIdLength = user.getObjectId().length();
-        new BmobFile(getStringToday() + user.getObjectId() + ".png", "", user.getHeaderImageUri())
-                .download(new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage",
-                        getStringToday() + user.getObjectId() + ".png"), new DownloadFileListener() {
-                    @Override
-                    public void done(String s, BmobException e) {
+        String saveName = MyUtils.getStringToday() + user.getObjectId() + ".png";
+        String headerImageUri = user.getHeaderImageUri();
+        File saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
+        if (headerImageUri == null || headerImageUri.length() == 0){
+            synchronized (Object.class){
+                bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
+                if (bitmapMap.size() == friendList.size()){
+                    showResult();
+                }
+                return;
+            }
+        }
+        new BmobFile(saveName, "", headerImageUri).download(saveFile, new DownloadFileListener() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null){
+                    synchronized (Object.class){
                         bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                        if (bitmapMap.size() == friends.size()){
-                            handler.sendEmptyMessage(FINISH_LOADING_BITMAP);
+                        if (bitmapMap.size() == friendList.size()){
+                            showResult();
                         }
                     }
-                    @Override
-                    public void onProgress(Integer integer, long l) {
-                    }
-                });
+                }else {
+                    Toast.makeText(CreateGroupActivity.this, "load friends' images failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onProgress(Integer integer, long l) {}
+        });
     }
     private void showResult(){
-
-        if (users.size() == 0){
-            return;
-        }
-
         String[] mItemCols = new String[]{"rankings", "headerImage", "nickName", "sportDistance", "addFriendToMyGroup"};
         int[] mItemIds = new int[]{R.id.rankings, R.id.headerImage, R.id.nickName, R.id.sportDistance, R.id.addFriendToMyGroup};
 
@@ -256,7 +255,7 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
         orderedUserList = Arrays.asList(orderedUsers);
 
         ArrayList<Map<String, Object>> mapList = new ArrayList<>();
-        for (int i = 0; i < users.size(); i++){
+        for (int i = 0; i < userList.size(); i++){
             User user = orderedUsers[i];
             Map<String, Object> map = new HashMap<>();
             map.put("rankings", i + 1);
@@ -269,10 +268,10 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
         return mapList;
     }
     private User[] getOrderedUsers(){
-        User[] orderedUsers = new User[users.size()];
-        users.toArray(orderedUsers);
-        for (int i = 0; i < users.size() - 1; i++){
-            for (int j = i + 1; j < users.size(); j++){
+        User[] orderedUsers = new User[userList.size()];
+        userList.toArray(orderedUsers);
+        for (int i = 0; i < userList.size() - 1; i++){
+            for (int j = i + 1; j < userList.size(); j++){
                 if (getSportDistance(orderedUsers[i]) < getSportDistance(orderedUsers[j])){
                     User tempUser = orderedUsers[i];
                     orderedUsers[i] = orderedUsers[j];
@@ -284,12 +283,6 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
     }
     private int getSportDistance(User user){
         return user.getWalkDistance() + user.getRunDistance() + user.getRideDistance();
-    }
-    public static String getStringToday() {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String dateString = formatter.format(currentTime);
-        return dateString;
     }
 
     @Override

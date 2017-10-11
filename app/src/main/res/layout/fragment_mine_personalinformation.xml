@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#f2f1f1"
+    android:orientation="vertical">
+    <!--个人信息标题栏-->
+    <RelativeLayout
+        android:id="@+id/mine_personalinformation_rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffff"
+        >
+        <ImageView
+            android:id="@+id/mine_personalinformation_iv_zuojiantou"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+
+            style="?android:attr/borderlessButtonStyle"
+
+            android:src="@mipmap/ic_zuojiantou"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+
+            android:text="Personal Information"
+            android:textSize="20sp"
+            android:textColor="#212121"
+            />
+    </RelativeLayout>
+    <!--个人信息的内容部分-->
+    <!--第一部分-->
+    <LinearLayout
+        android:id="@+id/mine_personalinformation_content_ll_first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_personalinformation_rl_title"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="18dp"
+
+            android:text="Basic Information"
+            android:textSize="18sp"
+            android:textColor="#878787"
+            />
+    </LinearLayout>
+    <!--第二部分-->
+    <RelativeLayout
+        android:id="@+id/mine_personalinformation_content_rl_second"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_personalinformation_content_ll_first"
+        android:background="#ffff"
+        >
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="18dp"
+              android:layout_marginTop="18dp"
+              android:layout_marginBottom="5dp"
+
+              android:text="Add Portrait"
+              android:textSize="18sp"
+              android:textColor="#000000"
+              />
+        <com.runstart.mine.MyHeaderImageView
+            android:id="@+id/mine_myhearimg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:src="@mipmap/ic_shangchuangtupiang"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="5dp"
+
+            android:src="@mipmap/ic_youjiantou"
+            />
+    </RelativeLayout>
+    <!--第一条分割线-->
+    <View
+        android:id="@+id/mine_personalinformation_content_line_first"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/mine_personalinformation_content_rl_second"/>
+    <!--第三部分-->
+    <RelativeLayout
+        android:id="@+id/mine_personalinformation_content_rl_three"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_personalinformation_content_line_first"
+
+        android:background="#ffff"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            tools:mockup_opacity="0.34"
+
+            android:hint="Set your name"
+            android:textColorHint="#d5d5d5"
+            android:textSize="18sp"
+            android:textColor="#212121"
+            android:background="@null"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:src="@mipmap/ic_youjiantou"
+            />
+    </RelativeLayout>
+    <!--第二条分割线-->
+    <View
+        android:id="@+id/mine_personalinformation_content_line_second"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_below="@+id/mine_personalinformation_content_rl_three"/>
+    <!--第四部分-->
+    <RelativeLayout
+        android:id="@+id/mine_personalinformation_content_rl_four"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_personalinformation_content_line_second"
+
+        android:background="#ffff"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:text="Location"
+            android:textSize="18sp"
+            android:textColor="#7b7c7c"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:text="China"
+            android:textSize="18sp"
+            android:textColor="#7b7c7c"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:src="@mipmap/ic_youjiantou"
+            />
+    </RelativeLayout>
+    <!--第三条分割线-->
+    <View
+        android:id="@+id/mine_personalinformation_content_line_three"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_below="@+id/mine_personalinformation_content_rl_four"/>
+    <!--第五部分-->
+    <RelativeLayout
+        android:id="@+id/mine_personalinformation_content_rl_five"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_personalinformation_content_line_three"
+
+        android:background="#ffff"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            tools:mockup_opacity="0.34"
+
+            android:hint="Bind the mailbox"
+            android:textColorHint="#d5d5d5"
+            android:textSize="18sp"
+            android:textColor="#212121"
+            android:background="@null"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:src="@mipmap/ic_youjiantou"
+            />
+    </RelativeLayout>
+    <!--第六部分 create-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+
+
+            android:text="Create"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="#21187f"
+            android:background="@drawable/mine_addexdiary_btn_selector"
+            />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="340dp"
+    android:background="#ffff"
+    >
+    <!--第一条分割线-->
+    <View
+        android:id="@+id/mine_ourmall_listitem_line_first"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_alignParentTop="true"
+        android:background="#f1f0f0" />
+    <!--ourmall的商品名称-->
+    <RelativeLayout
+        android:id="@+id/mine_ourmall_listitem_rl_first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_ourmall_listitem_line_first">
+
+        <TextView
+            android:id="@+id/mine_ourmall_listitem_commodityname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18sp"
+            android:layout_marginTop="10dp"
+
+            android:text="Nike Air Max"
+            android:textSize="18sp" />
+    </RelativeLayout>
+    <!--ourmall的商品图片-->
+    <RelativeLayout
+        android:id="@+id/mine_ourmall_listitem_rl_second"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/mine_ourmall_listitem_rl_first">
+
+        <ImageView
+            android:id="@+id/mine_ourmall_listitem_iv_commodityImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:src="@mipmap/ourmall_shoes" />
+    </RelativeLayout>
+    <!--ourmall的商品的价格-->
+    <RelativeLayout
+        android:id="@+id/mine_ourmall_listitem_rl_three"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_ourmall_listitem_rl_second">
+
+        <TextView
+            android:id="@+id/mine_ourmall_listitem_tv_commodityprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="56dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="15dp"
+
+            android:text="$155.00"
+            android:textColor="#b96fdd"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/mine_ourmall_listitem_btn_jumpbuy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/mine_ourmall_btn_shape"
+            android:text="Jump to buy"
+
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</RelativeLayout>

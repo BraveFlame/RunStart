@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffff"
+    >
+
+    <!--第一条分割线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+
+        android:background="#f0f1f1" />
+    <!--exercise dairy的title-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/mine_exercisediary_listitem_exdiarytitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:text="Adhere to victory"
+            android:textSize="18dp"
+            android:textColor="#212121"
+            />
+        <CheckBox
+            android:id="@+id/mine_exercisediary_listitem_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp"
+
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+    </RelativeLayout>
+    <!--第二条分割线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+
+        android:background="#f0f1f1" />
+    <!--exercise dairy的content-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/mine_exercisediary_listitem_exdiarycontent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="In September 1, 2017, through my unremitting efforts to finally control their weight in 90 pounds.I must"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            />
+        <TextView
+            android:id="@+id/mine_exercisediary_listitem_exdiarydate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mine_exercisediary_listitem_exdiarycontent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+
+            android:text="2017-09-09"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            />
+    </RelativeLayout>
+</LinearLayout>

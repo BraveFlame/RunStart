@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffff"
+    >
+<!--用户头像-->
+    <ImageView
+        android:id="@+id/mine_messagerecord_listitem_iv_userimage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="18dp"
+        android:src="@mipmap/arvin_febry_302935_copy3"
+        />
+    <!--用户名-->
+    <TextView
+        android:id="@+id/mine_messagerecord_listitem_tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/mine_messagerecord_listitem_iv_userimage"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+
+
+        android:text="aafa.chen。。。"
+        android:textSize="18sp"
+        android:textColor="#212121"
+        />
+    <!--用户信息-->
+    <TextView
+        android:id="@+id/mine_messagerecord_listitem_tv_usermessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_messagerecord_listitem_tv_username"
+        android:layout_alignLeft="@+id/mine_messagerecord_listitem_tv_username"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+
+        android:text="hello"
+        android:textSize="16sp"
+        android:textColor="#757575"
+        />
+
+    <TextView
+        android:id="@+id/mine_messagerecord_listitem_tv_usertime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="17dp"
+
+        android:text="P.M10:37"
+        android:textSize="16sp"
+        android:textColor="#757575"
+        />
+</RelativeLayout>

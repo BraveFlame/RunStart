@@ -5,8 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.ArrayMap;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.runstart.BmobBean.Friend;
 import com.runstart.BmobBean.User;
 import com.runstart.R;
@@ -32,10 +30,8 @@ import com.runstart.friend.friendactivity.FriendsDetailsActivity;
 import com.runstart.history.MyApplication;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,32 +50,23 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
     private RadioGroup mRadioGroup;
     private RadioButton[] mRadioButtons = new RadioButton[4];
 
-    private List<Friend> friends = new ArrayList<>();
-    private List<User> users = new ArrayList<>();
+    private List<Friend> friendList = new ArrayList<>();
+    private List<User> userList = new ArrayList<>();
     private Map<String, Bitmap> bitmapMap = new ArrayMap<>();
 
     private Map<String, Bitmap> forDetailsBitmap = new ArrayMap<>();
     private User[] orderedUserArr;
     private Friend[] orderedFriendArr;
 
-    private final int FINISH_LOADING_FRIEND = 0x111;
-    private final int FINISH_LOADING_BITMAP = 0x112;
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == FINISH_LOADING_FRIEND){
-                init();
-                getUser();
-            }
-            if (msg.what == FINISH_LOADING_BITMAP){
-                showResult("walkDistance+runDistance+rideDistance", 0);
-            }
-        }
-    };
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        queryFriend();
     }
 
     @Override
@@ -91,37 +78,16 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
         mRadioGroup = (RadioGroup)view.findViewById(R.id.buttonRadioGroup);
         mRadioButtons = new RadioButton[]{(RadioButton) view.findViewById(R.id.all), (RadioButton) view.findViewById(R.id.walk),
                 (RadioButton) view.findViewById(R.id.run), (RadioButton) view.findViewById(R.id.ride)};
-
         return view;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        String sql_friend = "select * from Friend where userObjectId=? and isFriend=1";
-        BmobQuery<Friend> query = new BmobQuery<>();
-        query.setSQL(sql_friend);
-        query.setPreparedParams(new String[]{MyApplication.applicationMap.get("userObjectId")});
-        query.doSQLQuery(new SQLQueryListener<Friend>() {
-            @Override
-            public void done(BmobQueryResult<Friend> bmobQueryResult, BmobException e) {
-                if (e == null){
-                    friends = bmobQueryResult.getResults();
-                    handler.sendEmptyMessage(FINISH_LOADING_FRIEND);
-                }else {
-                    Toast.makeText(getActivity(), "load friends failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        init();
     }
 
     private void init(){
-        if (friends.size() == 0){
-            ((ScrollView)view).removeAllViews();
-            ((ScrollView)view).addView(LayoutInflater.from(getActivity()).inflate(R.layout.zero_friend, null));
-            return;
-        }
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -158,54 +124,93 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
         });
     }
 
-    private void getUser(){
-        if (friends.size() == 0){
-            return;
-        }
-        for (int i = 0; i < friends.size(); i++){
-            String sql = "select * from User where objectId=?";
-            new BmobQuery<User>().setSQL(sql).setPreparedParams(new String[]{friends.get(i).getFriendObjectId()})
-                    .doSQLQuery(new SQLQueryListener<User>() {
-                        @Override
-                        public void done(BmobQueryResult<User> bmobQueryResult, BmobException e) {
-                            if (e == null){
-                                synchronized (GroupFragment.class){
-                                    User user = bmobQueryResult.getResults().get(0);
-                                    users.add(user);
-                                    getBitmap(user);
-                                }
-                            }else {
-                                Toast.makeText(getActivity(), "load friends failed", Toast.LENGTH_SHORT).show();
+    private void queryFriend(){
+        userList.clear();
+        bitmapMap.clear();
+        forDetailsBitmap.clear();
+        String sql_friend = "select * from Friend where userObjectId=? and isFriend=1";
+        BmobQuery<Friend> query = new BmobQuery<>();
+        query.setSQL(sql_friend);
+        query.setPreparedParams(new String[]{MyApplication.applicationMap.get("userObjectId")});
+        query.doSQLQuery(new SQLQueryListener<Friend>() {
+            @Override
+            public void done(BmobQueryResult<Friend> bmobQueryResult, BmobException e) {
+                if (e == null){
+                    friendList = bmobQueryResult.getResults();
+
+                    //设置无好友时界面
+                    if (friendList.size() == 0){
+                        ((ScrollView)view).removeAllViews();
+                        ((ScrollView)view).addView(LayoutInflater.from(getActivity()).inflate(R.layout.zero_friend, null));
+                        return;
+                    }
+
+                    //获取好友详细详细
+                    if (friendList.size() != 0){
+                        queryUser();
+                    }
+                }else {
+                    Toast.makeText(getActivity(), "load friends failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void queryUser(){
+        String sql = "select * from User where objectId=?";
+        for (int i = 0; i < friendList.size(); i++){
+            new BmobQuery<User>().setSQL(sql).setPreparedParams(new String[]{friendList.get(i).getFriendObjectId()})
+                .doSQLQuery(new SQLQueryListener<User>() {
+                    @Override
+                    public void done(BmobQueryResult<User> bmobQueryResult, BmobException e) {
+                        if (e == null){
+                            synchronized (MyFriendsFragment.class){
+                                User user = bmobQueryResult.getResults().get(0);
+                                userList.add(user);
+                                queryBitmap(user);
                             }
+                        }else {
+                            Toast.makeText(getActivity(), "load friends' information failed", Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    }
+                });
         }
     }
 
-    private void getBitmap(User user){
+    private void queryBitmap(final User user){
         final int objectIdLength = user.getObjectId().length();
-            new BmobFile(getStringToday() + user.getObjectId() + ".png", "", user.getHeaderImageUri())
-                    .download(new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage",
-                            getStringToday() + user.getObjectId() + ".png"), new DownloadFileListener() {
-                        @Override
-                        public void done(String s, BmobException e) {
-                            bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                            if (bitmapMap.size() == friends.size()){
-                                handler.sendEmptyMessage(FINISH_LOADING_BITMAP);
-                            }
+        String saveName = MyUtils.getStringToday() + user.getObjectId() + ".png";
+        String headerImageUri = user.getHeaderImageUri();
+        File saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
+        if (headerImageUri == null || headerImageUri.length() == 0){
+            synchronized (Bitmap.class){
+                bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
+                if (bitmapMap.size() == friendList.size()){
+                    showResult("walkDistance+runDistance+rideDistance", 0);
+                }
+                return;
+            }
+        }
+        new BmobFile(saveName, "", headerImageUri).download(saveFile, new DownloadFileListener() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null){
+                    synchronized (Bitmap.class){
+                        bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
+                        if (bitmapMap.size() == friendList.size()){
+                            showResult("walkDistance+runDistance+rideDistance", 0);
                         }
-                        @Override
-                        public void onProgress(Integer integer, long l) {
-                        }
-                    });
+                    }
+                }else {
+                    Toast.makeText(getActivity(), "load friends' images failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onProgress(Integer integer, long l) {}
+        });
     }
 
     private void showResult(String sportCategory, int radioButtonIndex){
-
-        if (users.size() == 0){
-            return;
-        }
-
         String[] mItemCols = new String[]{"rankings", "headerImage", "nickName", "sportDistance", "likeImage", "likeNumberForHistory"};
         int[] mItemIds = new int[]{R.id.rankings, R.id.headerImage, R.id.nickName, R.id.sportLength, R.id.likeImage, R.id.likeNumber};
 
@@ -225,22 +230,22 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
         User[] orderedUsers = getOrderedUsers(sportCategory);
         orderedUserArr = orderedUsers;
 
-        Friend[] orderedFriends = new Friend[friends.size()];
+        Friend[] orderedFriends = new Friend[friendList.size()];
         orderedFriendArr = orderedFriends;
 
-        for (int i = 0; i < friends.size(); i++){
+        for (int i = 0; i < userList.size(); i++){
             User user = orderedUsers[i];
-            for (int j = 0; j < friends.size(); j++){
+            for (int j = 0; j < friendList.size(); j++){
                 String userObjectId = user.getObjectId();
-                String friendObjectId = friends.get(j).getFriendObjectId();
+                String friendObjectId = friendList.get(j).getFriendObjectId();
                 if (userObjectId.equals(friendObjectId)){
-                    orderedFriends[i] = friends.get(j);
+                    orderedFriends[i] = friendList.get(j);
                 }
             }
         }
 
         ArrayList<Map<String, Object>> mapList = new ArrayList<>();
-        for (int i = 0; i < friends.size(); i++){
+        for (int i = 0; i < userList.size(); i++){
             User user = orderedUsers[i];
             Friend friend = orderedFriends[i];
             Map<String, Object> map = new HashMap<>();
@@ -248,7 +253,6 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
             map.put("headerImage", bitmapMap.get(user.getObjectId()));
             forDetailsBitmap.put(user.getObjectId(), bitmapMap.get(user.getObjectId()));
             map.put("nickName", user.getNickName());
-
             map.put("sportDistance", getSportDistance(user, sportCategory) + " m");
 
             if (friend.getLikeDate() == null || friend.getLikeDate().length() == 0) {
@@ -267,7 +271,7 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
                 }
             }
             if (i == 0){
-                //imageForNo1.setImageBitmap(bitmapMap.get(user.getObjectId()));
+                imageForNo1.setImageBitmap(bitmapMap.get(user.getObjectId()));
             }
             map.put("likeNumberForHistory", user.getLikeNumberForHistory());
             mapList.add(map);
@@ -276,10 +280,10 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
     }
 
     private User[] getOrderedUsers(String sportCategory){
-        User[] orderedUsers = new User[users.size()];
-        users.toArray(orderedUsers);
-        for (int i = 0; i < users.size() - 1; i++){
-            for (int j = i + 1; j < users.size(); j++){
+        User[] orderedUsers = new User[userList.size()];
+        userList.toArray(orderedUsers);
+        for (int i = 0; i < userList.size() - 1; i++){
+            for (int j = i + 1; j < userList.size(); j++){
                 if (getSportDistance(orderedUsers[i], sportCategory) < getSportDistance(orderedUsers[j], sportCategory)){
                     User tempUser = orderedUsers[i];
                     orderedUsers[i] = orderedUsers[j];
@@ -291,7 +295,6 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
     }
 
     private int getSportDistance(User user, String sportCategory){
-
         int sportDistance = 0;
         switch (sportCategory){
             case "walkDistance+runDistance+rideDistance":
@@ -315,19 +318,14 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
     public void click(View view) {
         ImageView likeImage = (ImageView)view;
         TextView rankingText = (TextView) ((LinearLayout)view.getParent()).findViewById(R.id.rankings);
-        int index = Integer.parseInt(rankingText.getText().toString());
+        int index = Integer.parseInt(rankingText.getText().toString()) - 1;
         TextView likeNumberText = (TextView) ((LinearLayout)view.getParent()).findViewById(R.id.likeNumber);
 
         Friend friend = orderedFriendArr[index];
+        friend.setObjectId(orderedFriendArr[index].getObjectId());
         User user = orderedUserArr[index];
+        user.setObjectId(orderedUserArr[index].getObjectId());
 
-        MyUtils.like(likeImage, friend, user, getActivity(), likeNumberText);
-    }
-
-    public static String getStringToday() {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String dateString = formatter.format(currentTime);
-        return dateString;
+        MyUtils.like(0, likeImage, friend, user, getActivity(), likeNumberText);
     }
 }

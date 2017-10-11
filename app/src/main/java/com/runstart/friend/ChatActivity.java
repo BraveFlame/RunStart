@@ -19,7 +19,9 @@ import com.runstart.help.ToastShow;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +67,8 @@ public class ChatActivity extends Activity implements View.OnClickListener {
     private String lastRecContent;
 
     private LocalChatLog chatDb;
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 
     @Override
@@ -136,14 +140,16 @@ public class ChatActivity extends Activity implements View.OnClickListener {
 
     /**
      * 发送信息，为文字或者已上传的图片地址，没有图片时，地址为110
+     *
      * @param content
      * @param imgPath
      */
     public void sendMsg(final String content, final String imgPath) {
         final MsgChat msgChat = new MsgChat();
         //发送信息时，顺便保留到离线信息。
+        final String time = dateFormat.format(new Date());
         msgChat.setContent(content);
-        msgChat.setLeaveMsg(myToHimLeave.append(".*.|*|" + content).toString());
+        msgChat.setLeaveMsg(myToHimLeave.append(".*.|*|" + content + time).toString());
         msgChat.update(chatUserObjectId, new UpdateListener() {
             @Override
             public void done(BmobException e) {
@@ -155,6 +161,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                             msg.setContent(content);
                         else msg.setContent(imgPath);
                         msg.setType(MsgChat.TYPE_SENT);
+                        msg.setTime(time);
                         msgList.add(msg);
                         adapter.notifyDataSetChanged(); // 当有新消息时,刷新
                         msgListView.setSelection(msgList.size()); // 将ListView
@@ -210,11 +217,9 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                     friendLeaveMsg = msgChat.getLeaveMsg();
                     ToastShow.showToast(ChatActivity.this, "huoqu-chgong");
                     //查看对方给我的离线信息，并清0
-                    if (!friendLeaveMsg.equals("0") && !friendLeaveMsg.equals("")) {
-                      //  leaveContent(friendLeaveMsg);
-                        BmobJdonChat.getLeaveMsg(adapter,msgListView,msgList, friendLeaveMsg, ChatActivity.this, chatUserObjectId, chatFriendObjectId);
-//                        adapter.notifyDataSetChanged(); // 当有新消息时,刷新
-//                        msgListView.setSelection(msgList.size()); // 将ListView
+                    if (!friendLeaveMsg.equals("0") && !friendLeaveMsg.equals("") && friendLeaveMsg != null) {
+                        BmobJdonChat.getLeaveMsg(adapter, msgListView, msgList, friendLeaveMsg,
+                                ChatActivity.this, chatUserObjectId, chatFriendObjectId);
                         msgChat.setLeaveMsg("0");
                         msgChat.setContent(".*.|*|");
 
@@ -264,6 +269,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
     public void recContent(JSONObject data) {
 
         lastRecContent = BmobJdonChat.jsonToString(data, "content");
+        String time = BmobJdonChat.jsonToString(data, "updatedAt");
         if (lastRecContent.equals(".*.|*|"))
             return;
         if (lastRecContent.equals("")) {
@@ -275,28 +281,15 @@ public class ChatActivity extends Activity implements View.OnClickListener {
         if (lastRecContent.contains("http://bmob-cdn-14232.b0.upaiyun.com")) {
             String picName = System.currentTimeMillis() + ".png";
             BmobFile bmobFile = new BmobFile(picName, "", lastRecContent);
-            recImg(bmobFile, picName);
+            recImg(bmobFile, picName, time);
         }
         //接收到文字或表情
         else {
-            recMsg(lastRecContent);
+            recMsg(lastRecContent, time);
         }
 
         Log.d("bmob", "(" + data.optString("action") + ")" + "数据：" + data);
 
-    }
-
-    public void leaveContent(String friendLeaveMsg){
-        //接收到图片
-        if (friendLeaveMsg.contains("http://bmob-cdn-14232.b0.upaiyun.com")) {
-            String picName = System.currentTimeMillis() + ".png";
-            BmobFile bmobFile = new BmobFile(picName, "", friendLeaveMsg);
-            recImg(bmobFile, picName);
-        }
-        //接收到文字或表情
-        else {
-            recMsg(friendLeaveMsg);
-        }
     }
 
     /**
@@ -304,10 +297,11 @@ public class ChatActivity extends Activity implements View.OnClickListener {
      *
      * @param lastRecContent
      */
-    public void recMsg(String lastRecContent) {
+    public void recMsg(String lastRecContent, String time) {
         MsgChat msg = new MsgChat();
         msg.setType(MsgChat.TYPE_RECEIVED);
         msg.setContent(lastRecContent);
+        msg.setTime(time);
         chatDb.saveLocalChat(msg, chatUserObjectId, chatFriendObjectId);
         msgList.add(msg);
         adapter.notifyDataSetChanged(); // 当有新消息时,刷新
@@ -322,7 +316,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
      * @param bmobFile
      * @param name
      */
-    public void recImg(BmobFile bmobFile, String name) {
+    public void recImg(final BmobFile bmobFile, String name, final String time) {
         // 设置文件保存路径这里放在del目录下
         final File file;
         String path;
@@ -347,7 +341,20 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                 if (e == null) {
                     //获取成功
                     if (s != null)
-                        recMsg(s);
+                        recMsg(s, time);
+                    Log.e("bmob", "bmobFileurl" + bmobFile.getUrl());
+                    //删除bmob的图片
+                    bmobFile.delete(new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e == null) {
+                                Log.e("bmob", "bmobFileurl删除成功");
+                            } else {
+                                Log.e("bmob", "bmobFileurl删除失败");
+                            }
+                        }
+                    });
+
 
                 }
             }

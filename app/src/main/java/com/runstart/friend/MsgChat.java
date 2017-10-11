@@ -12,6 +12,7 @@ public class MsgChat extends BmobObject {
     public String userObjectId, friendObjectId;
     private String content;
     private String leaveMsg;
+    private String time;
     private int type;
 
     public MsgChat(String userObjectId, String friendObjectId, String content, String leaveMsg, int type) {
@@ -23,6 +24,14 @@ public class MsgChat extends BmobObject {
     }
 
     public MsgChat() {
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getContent() {
@@ -65,6 +74,18 @@ public class MsgChat extends BmobObject {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "MsgChat{" +
+                "userObjectId='" + userObjectId + '\'' +
+                ", friendObjectId='" + friendObjectId + '\'' +
+                ", content='" + content + '\'' +
+                ", leaveMsg='" + leaveMsg + '\'' +
+                ", time='" + time + '\'' +
+                ", type=" + type +
+                '}';
     }
 }
 

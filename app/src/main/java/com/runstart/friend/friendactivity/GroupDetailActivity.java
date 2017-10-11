@@ -9,13 +9,11 @@ import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -23,17 +21,16 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.runstart.BmobBean.Group;
 import com.runstart.BmobBean.User;
 import com.runstart.R;
 import com.runstart.friend.adapter.ListViewForScrollView;
+import com.runstart.friend.adapter.MyUtils;
 import com.runstart.history.MyApplication;
 
 import java.io.File;
-import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +60,6 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
     private List<User> userList = new ArrayList<>();
     private String groupObjectId = "";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +79,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         joinGroup = (Button)findViewById(R.id.joinGroup);
         groupImage = (MyHeaderImageView) findViewById(R.id.groupImage);
         latestTalkerImage = (MyHeaderImageView) findViewById(R.id.latestTalkerImage);
+
         imageByKcal0 = (MyHeaderImageView) findViewById(R.id.imageByKcal0);
         imageByKcal1 = (MyHeaderImageView) findViewById(R.id.imageByKcal1);
         imageByKcal2 = (MyHeaderImageView) findViewById(R.id.imageByKcal2);
@@ -91,6 +88,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         imageByKcal5 = (MyHeaderImageView) findViewById(R.id.imageByKcal5);
         headerImageViews = new MyHeaderImageView[]{imageByKcal0, imageByKcal1, imageByKcal2,
                 imageByKcal3, imageByKcal4, imageByKcal5};
+
         activityListView = (ListViewForScrollView)findViewById(R.id.activityListView);
 
         goBack.setOnClickListener(this);
@@ -112,6 +110,9 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         distance.setText(groupMap.get("distance").toString());
         groupDetail.setText(groupMap.get("groupDetail").toString());
         groupImage.setImageBitmap((Bitmap) groupMap.get("groupImage"));
+        if (groupMap.get("groupImage") == null){
+            groupImage.setImageResource(R.mipmap.ic_shangchuangtupiang);
+        }
 
         for (final String memberObjectId: memberObjectIdList){
            new BmobQuery<User>().setSQL("select * from User where objectId=?")
@@ -122,7 +123,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                        synchronized (GroupDetailActivity.class){
                            User user = bmobQueryResult.getResults().get(0);
                            userList.add(user);
-                           getBitmap(user, memberObjectIdList.size());
+                           queryBitmap(user, memberObjectIdList.size());
                        }
                    }else {
                        Toast.makeText(GroupDetailActivity.this, "load group member images failed", Toast.LENGTH_SHORT).show();
@@ -132,22 +133,35 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void getBitmap(User user, final int memberCount){
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private void queryBitmap(User user, final int memberCount){
         final int objectIdLength = user.getObjectId().length();
-        new BmobFile(getStringToday() + user.getObjectId() + ".png", "", user.getHeaderImageUri())
-                .download(new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage",
-                        getStringToday() + user.getObjectId() + ".png"), new DownloadFileListener() {
-                    @Override
-                    public void done(String s, BmobException e) {
-                        bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                        if (bitmapMap.size() == memberCount){
-                            showOrderedImagesByKcal(memberCount);
-                        }
-                    }
-                    @Override
-                    public void onProgress(Integer integer, long l) {
-                    }
-                });
+        String saveName = MyUtils.getStringToday() + user.getObjectId() + ".png";
+        String imageUri = user.getHeaderImageUri();
+        File saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
+        if (imageUri == null || imageUri.length() == 0){
+            bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
+            if (bitmapMap.size() == memberCount){
+                showOrderedImagesByKcal(memberCount);
+            }
+            return;
+        }
+        new BmobFile(saveName, "", imageUri).download(saveFile, new DownloadFileListener() {
+            @Override
+            public void done(String s, BmobException e) {
+                bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
+                if (bitmapMap.size() == memberCount){
+                    showOrderedImagesByKcal(memberCount);
+                }
+            }
+            @Override
+            public void onProgress(Integer integer, long l) {
+            }
+        });
     }
 
     private void showOrderedImagesByKcal(int memberCount){
@@ -164,18 +178,14 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         }
         for (int i = 0; i < memberCount && i < headerImageViews.length; i++){
             headerImageViews[i].setImageBitmap(bitmapMap.get(orderedUsers[i].getObjectId()));
+            if (bitmapMap.get(orderedUsers[i].getObjectId()) == null){
+                headerImageViews[i].setImageResource(R.mipmap.ic_shangchuangtupiang);
+            }
         }
     }
 
     private int getTotalKcal(User user){
         return user.getWalkKcal() + user.getRunKcal() + user.getRideKcal();
-    }
-
-    private String getStringToday() {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String dateString = formatter.format(currentTime);
-        return dateString;
     }
 
     @Override
@@ -186,7 +196,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.menuButton:
                 if (flag){
-                    menuPopupWindow.showAsDropDown(menuButton, 0, 30);
+                    menuPopupWindow.showAsDropDown(menuButton, -290, 20);
                     flag = false;
                 }else {
                     menuPopupWindow.dismiss();
@@ -221,6 +231,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                     List<String> memberObjectIdList = group.getMemberObjectIdList();
                     memberObjectIdList.remove(memberObjectIdList.indexOf(MyApplication.applicationMap.get("userObjectId")));
                     group.setMemberObjectIdList(memberObjectIdList);
+                    group.setMemberCount(memberObjectIdList.size());
                     group.update();
                     finish();
                     Toast.makeText(GroupDetailActivity.this, "Exiting group successfully", Toast.LENGTH_SHORT).show();
@@ -252,7 +263,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
-    private void joinTheGroup(String groupObjectId){
+    private void joinGroup(String groupObjectId){
         new BmobQuery<Group>().setSQL("select * from Group where objectId=?")
                 .setPreparedParams(new String[]{groupObjectId}).doSQLQuery(new SQLQueryListener<Group>() {
             @Override
@@ -262,6 +273,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                     List<String> list = group.getMemberObjectIdList();
                     list.add(MyApplication.applicationMap.get("userObjectId"));
                     group.setMemberObjectIdList(list);
+                    group.setMemberCount(list.size());
                     group.update();
                     finish();
                     Toast.makeText(GroupDetailActivity.this, "Joined group successfully", Toast.LENGTH_SHORT).show();
@@ -291,7 +303,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                 joinGroup.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        joinTheGroup(groupObjectId);
+                        joinGroup(groupObjectId);
                     }
                 });
             }
@@ -345,7 +357,8 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                         break;
                     case "invite friends":
                         menuPopupWindow.dismiss();
-
+                        startActivity(new Intent(GroupDetailActivity.this,
+                                InviteFriendToGroupActivity.class).putExtra("groupObjectId", groupObjectId));
                         break;
                 }
             }

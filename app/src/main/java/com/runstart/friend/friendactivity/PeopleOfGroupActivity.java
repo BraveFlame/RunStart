@@ -1,16 +1,18 @@
 package com.runstart.friend.friendactivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,14 +24,11 @@ import com.runstart.R;
 import com.runstart.friend.adapter.ListViewForScrollView;
 import com.runstart.friend.adapter.MySimpleAdapter;
 import com.runstart.friend.adapter.MyUtils;
-import com.runstart.friend.friendfragment.GroupFragment;
 import com.runstart.history.MyApplication;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +50,7 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
     private Map<String, Friend> friendMap = new ArrayMap<>();
     private Map<String, Bitmap> forDetailsBitmap = new ArrayMap<>();
     private User[] orderedUserArr;
+    private Friend[] orderedFriendArr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,30 +74,36 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
                     public void done(BmobQueryResult<Group> bmobQueryResult, BmobException e) {
                         if (e == null){
                             List<String> memberObjectIdList = bmobQueryResult.getResults().get(0).getMemberObjectIdList();
-                            getUser(memberObjectIdList);
+                            if (memberObjectIdList.size() != 0){
+                                queryUser(memberObjectIdList);
+                            }
                         } else {
-                            Toast.makeText(PeopleOfGroupActivity.this, "load group member failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PeopleOfGroupActivity.this, "load group failed", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
-    private void getUser(final List<String> memberObjectIdList){
-        if (memberObjectIdList.size() == 0){
-            return;
-        }
+    private void queryUser(final List<String> memberObjectIdList){
         for (int i = 0; i < memberObjectIdList.size(); i++){
+            if (Thread.activeCount() >= 4){
+                try{
+                    Thread.sleep(200);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
             String sql = "select * from User where objectId=?";
             new BmobQuery<User>().setSQL(sql).setPreparedParams(new String[]{memberObjectIdList.get(i)})
                     .doSQLQuery(new SQLQueryListener<User>() {
                         @Override
                         public void done(BmobQueryResult<User> bmobQueryResult, BmobException e) {
                             if (e == null){
-                                synchronized (GroupFragment.class){
+                                synchronized (Object.class){
                                     User user = bmobQueryResult.getResults().get(0);
                                     userList.add(user);
-                                    getBitmap(user, memberObjectIdList.size());
-                                    getFriend(user, memberObjectIdList.size());
+                                    queryBitmap(user, memberObjectIdList.size());
+                                    queryFriend(user, memberObjectIdList.size());
                                 }
                             }else {
                                 Toast.makeText(PeopleOfGroupActivity.this, "load group member failed", Toast.LENGTH_SHORT).show();
@@ -107,14 +113,22 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
         }
     }
 
-    private void getFriend(final User user, final int memberCount){
+    private void queryFriend(final User user, final int memberCount){
+        if (Thread.activeCount() >= 4){
+            try{
+                Thread.sleep(200);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
         new BmobQuery<Friend>().setSQL("select * from Friend where userObjectId=? and friendObjectId=?")
                 .setPreparedParams(new String[]{MyApplication.applicationMap.get("userObjectId"), user.getObjectId()})
                 .doSQLQuery(new SQLQueryListener<Friend>() {
             @Override
             public void done(BmobQueryResult<Friend> bmobQueryResult, BmobException e) {
                 if (e == null){
-                    synchronized (GroupFragment.class){
+                    synchronized (PeopleOfGroupActivity.class){
                         Friend friend;
                         if (bmobQueryResult.getResults().size() == 0){
                             friend = new Friend(MyApplication.applicationMap.get("userObjectId"),
@@ -129,46 +143,74 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
                         }
                     }
                 }else {
-                    Toast.makeText(PeopleOfGroupActivity.this, "load group member failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PeopleOfGroupActivity.this, "load group friend failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private void getBitmap(User user, final int memberCount){
+    private void queryBitmap(User user, final int memberCount){
         final int objectIdLength = user.getObjectId().length();
-        new BmobFile(getStringToday() + user.getObjectId() + ".png", "", user.getHeaderImageUri())
-                .download(new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage",
-                        getStringToday() + user.getObjectId() + ".png"), new DownloadFileListener() {
-                    @Override
-                    public void done(String s, BmobException e) {
-                        bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                        if ((friendMap.size() == memberCount) && (bitmapMap.size() == memberCount)){
-                            showResult();
-                        }
-                    }
-                    @Override
-                    public void onProgress(Integer integer, long l) {
-                    }
-                });
+        String saveName = MyUtils.getStringToday() + user.getObjectId() + ".png";
+        String imageUri = user.getHeaderImageUri();
+        File saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
+        if (imageUri == null || imageUri.length() == 0){
+            bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
+            if ((friendMap.size() == memberCount) && (bitmapMap.size() == memberCount)){
+                showResult();
+            }
+            return;
+        }
+        new BmobFile(saveName, "", imageUri).download(saveFile, new DownloadFileListener() {
+            @Override
+            public void done(String s, BmobException e) {
+                bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
+                if ((friendMap.size() == memberCount) && (bitmapMap.size() == memberCount)){
+                    showResult();
+                }
+            }
+            @Override
+            public void onProgress(Integer integer, long l) {
+            }
+        });
     }
 
     private void showResult(){
         String[] mItemCols = new String[]{"rankings", "headerImage", "nickName", "sportDistance", "likeImage", "likeNumberForHistory"};
         int[] mItemIds = new int[]{R.id.rankings, R.id.headerImage, R.id.nickName, R.id.sportLength, R.id.likeImage, R.id.likeNumber};
 
-        MySimpleAdapter adapter = new MySimpleAdapter(this, orderBySportDiance(), R.layout.item_friend, mItemCols, mItemIds, this);
+        MySimpleAdapter adapter = new MySimpleAdapter(this, orderBySportDistance(), R.layout.item_friend, mItemCols, mItemIds, this);
         peopleOfGroupListView.setAdapter(adapter);
+
+        peopleOfGroupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(PeopleOfGroupActivity.this, FriendsDetailsActivity.class);
+                int index = Integer.parseInt(((TextView)view.findViewById(R.id.rankings)).getText().toString()) - 1;
+                Bundle data = new Bundle();
+                data.putSerializable("friend", friendMap.get(orderedUserArr[index].getObjectId()));
+                data.putSerializable("user", orderedUserArr[index]);
+                ArrayList<Bitmap> bitmapList = new ArrayList<>();
+                bitmapList.add(bitmapMap.get(orderedUserArr[index].getObjectId()));
+                data.putSerializable("headerImage", bitmapList);
+                intent.putExtras(data);
+                startActivity(intent);
+            }
+        });
     }
 
-    private ArrayList<Map<String, Object>> orderBySportDiance(){
+    private ArrayList<Map<String, Object>> orderBySportDistance(){
         User[] orderedUsers = getOrderedUsers();
         orderedUserArr = orderedUsers;
+
+        Friend[] orderedFriends = new Friend[userList.size()];
+        orderedFriendArr = orderedFriends;
 
         ArrayList<Map<String, Object>> mapList = new ArrayList<>();
         for (int i = 0; i < userList.size(); i++){
             User user = orderedUsers[i];
             Friend friend = friendMap.get(user.getObjectId());
+            orderedFriendArr[i] = friend;
             Map<String, Object> map = new HashMap<>();
             map.put("rankings", i + 1);
             map.put("headerImage", bitmapMap.get(user.getObjectId()));
@@ -216,12 +258,6 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
         return user.getWalkDistance() + user.getRunDistance() + user.getRideDistance();
     }
 
-    private String getStringToday() {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String dateString = formatter.format(currentTime);
-        return dateString;
-    }
     //点赞
     @Override
     public void click(View view) {
@@ -230,11 +266,11 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
         int index = Integer.parseInt(rankingText.getText().toString()) - 1;
         TextView likeNumberText = (TextView) ((LinearLayout)view.getParent()).findViewById(R.id.likeNumber);
 
+        Friend friend = orderedFriendArr[index];
+        friend.setObjectId(friend.getObjectId());
         User user = orderedUserArr[index];
-        Friend friend = friendMap.get(user.getObjectId());
+        user.setObjectId(user.getObjectId());
 
-        MyUtils.like(likeImage, friend, user, this, likeNumberText);
+        MyUtils.like(0, likeImage, friend, user, this, likeNumberText);
     }
-
-
 }
