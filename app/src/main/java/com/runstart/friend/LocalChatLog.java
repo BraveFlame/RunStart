@@ -42,12 +42,13 @@ public class LocalChatLog {
         if (db == null||list==null)
             return;
         Cursor cursor = db.query("ChatLog", new String[]{"content", "time","recOrsen"}, "userId=? and friendId=?"
-                , new String[]{userId, friendId}, null, null, null);
+                , new String[]{userId, friendId}, null, null, "time");
         if (cursor.moveToFirst()) {
             do {
                 MsgChat msgChat=new MsgChat();
                 msgChat.setContent(cursor.getString(cursor.getColumnIndex("content")));
                 msgChat.setType(cursor.getInt(cursor.getColumnIndex("recOrsen")));
+                msgChat.setTime(cursor.getString(cursor.getColumnIndex("time")));
                 list.add(msgChat);
             } while (cursor.moveToNext());
         }
@@ -64,7 +65,8 @@ public class LocalChatLog {
             values.put("friendId",friendId);
             values.put("recOrsen",msgChat.getType());
 
-            values.put("time",format.format(new Date()));
+           // values.put("time",format.format(new Date()));
+            values.put("time",msgChat.getTime());
 
             db.insert("ChatLog",null,values);
 

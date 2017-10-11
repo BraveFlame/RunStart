@@ -20,7 +20,7 @@
             android:layout_height="0dp" />
         <com.runstart.friend.friendactivity.MyHeaderImageView
             android:id="@+id/groupImage"
-            android:src="@drawable/a0814_7"
+            android:src="@mipmap/ic_shangchuangtupiang"
             android:layout_width="40dp"
             android:layout_height="60dp"/>
         <LinearLayout
@@ -32,16 +32,16 @@
                 android:id="@+id/groupName"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                android:text="group name"
+                android:text="Exercise one hour a day"
                 android:textColor="#000000"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:gravity="center_vertical"/>
             <TextView
                 android:id="@+id/groupDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:gravity="start"
-                android:text="detail"
+                android:text="Welcome to join our groupWelcome to join our    …"
                 android:textSize="12sp"/>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="16dp"
                     android:layout_marginLeft="12dp"
-                    android:text="member count"
+                    android:text="5460 people"
                     android:textSize="12sp"/>
                 <ImageView
                     android:layout_width="20dp"
@@ -69,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="length"
+                    android:text="4673km"
                     android:textSize="12sp"/>
             </LinearLayout>
         </LinearLayout>

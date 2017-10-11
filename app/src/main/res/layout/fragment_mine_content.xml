@@ -20,6 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:layout_alignParentTop="true"
+
                 android:src="@mipmap/wode_beijing" />
 
             <com.runstart.mine.MyHeaderImageView
@@ -28,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="90dp"
+
                 android:src="@mipmap/mpumelelo_macu_283883_copy3" />
 
             <TextView
@@ -82,7 +84,7 @@
                     android:layout_marginLeft="15dp"
 
                     android:text="Total movement data"
-                    android:textColor="#dcc8c8"
+                    android:textColor="#959494"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -97,7 +99,6 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="10dp"
-
                     android:text="Join us for 80 days"
                     android:textSize="16sp"
 
@@ -129,7 +130,7 @@
                 android:layout_marginTop="10sp"
 
                 android:text="Total walk"
-                android:textColor="#bdbdbd"
+                android:textColor="#9b9b9b"
                 android:textSize="15sp" />
 
             <TextView
@@ -154,7 +155,7 @@
                 android:layout_toRightOf="@+id/mine_three_totalwalk"
 
                 android:text="Total run"
-                android:textColor="#bdbdbd"
+                android:textColor="#9b9b9b"
                 android:textSize="15sp" />
 
             <TextView
@@ -180,7 +181,7 @@
                 android:layout_toRightOf="@+id/mine_three_totalrun"
 
                 android:text="Total run"
-                android:textColor="#bdbdbd"
+                android:textColor="#9b9b9b"
                 android:textSize="15sp" />
 
             <TextView
@@ -214,9 +215,9 @@
             android:gravity="center_horizontal"
             android:background="#ffff"
             android:orientation="vertical">
-            <!--My Push Card-->
+            <!--My Exercise diary-->
             <RelativeLayout
-                android:id="@+id/mine_rl_pushcard"
+                android:id="@+id/mine_rl_exercisediary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
@@ -224,21 +225,21 @@
                 android:focusable="true"
                 >
                 <ImageView
-                    android:id="@+id/mine_iv_four_punchcard"
+                    android:id="@+id/mine_iv_four_exercisediary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
 
-                    android:src="@mipmap/ic_my_punchcard" />
+                    android:src="@mipmap/ic_exercise_diary" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/mine_iv_four_punchcard"
+                    android:layout_toRightOf="@+id/mine_iv_four_exercisediary"
                     android:layout_marginTop="7dp"
                     android:layout_marginLeft="30dp"
 
-                    android:text="My punch card"
+                    android:text="Exercise diary"
                     android:textSize="18sp"
                     android:textColor="#343434"
                     />
@@ -258,29 +259,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="#f1f0f0" />
-            <!--My good friend-->
+            <!--About Sport-->
             <RelativeLayout
-                android:id="@+id/mine_rl_goodfriend"
+                android:id="@+id/mine_rl_aboutsport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 >
                 <ImageView
-                    android:id="@+id/mine_iv_four_goodfriend"
+                    android:id="@+id/mine_iv_four_aboutsport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
 
-                    android:src="@mipmap/ic_my_goodfriend" />
+                    android:src="@mipmap/ic_about_sport" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/mine_iv_four_goodfriend"
+                    android:layout_toRightOf="@+id/mine_iv_four_aboutsport"
                     android:layout_marginTop="7dp"
                     android:layout_marginLeft="30dp"
 
-                    android:text="My good friend"
+                    android:text="About sport"
                     android:textSize="18sp"
                     android:textColor="#343434"
                     />
@@ -300,30 +301,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="#f1f0f0" />
-            <!--My group-->
+            <!--Our mall-->
             <RelativeLayout
-                android:id="@+id/mine_rl_group"
+                android:id="@+id/mine_rl_ourmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
 
                 >
                 <ImageView
-                    android:id="@+id/mine_iv_four_group"
+                    android:id="@+id/mine_iv_four_ourmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
 
-                    android:src="@mipmap/ic_my_group" />
+                    android:src="@mipmap/ic_our_mall" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/mine_iv_four_group"
+                    android:layout_toRightOf="@+id/mine_iv_four_ourmall"
                     android:layout_marginTop="7dp"
                     android:layout_marginLeft="30dp"
 
-                    android:text="My group"
+                    android:text="Our mall"
                     android:textSize="18sp"
                     android:textColor="#343434"
                     />

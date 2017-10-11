@@ -21,7 +21,6 @@ import android.support.v7.widget.AppCompatImageView;
 import com.runstart.R;
 
 
-
 /**
  * Created by User on 17-9-12.
  */

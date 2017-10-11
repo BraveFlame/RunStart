@@ -89,7 +89,9 @@ public class AdapterForAddFriends extends SimpleAdapter {
                             ((ImageView) v).setImageBitmap((Bitmap)data);
                         }else if (data instanceof Integer) {
                             setViewImage((ImageView) v, (Integer) data);
-                        } else {
+                        }else if (data == null){
+                            ((ImageView) v).setImageResource(R.mipmap.ic_shangchuangtupiang);
+                        }else {
                             setViewImage((ImageView) v, text);
                         }
                     } else {

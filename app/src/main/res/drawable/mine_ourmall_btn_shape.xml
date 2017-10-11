@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 按钮正常的时候的背景 -->
+<!-- shape的默认形状是rectangle，还有oval(椭圆),line（线）,ring（圆环），我就用过rectangle,其他的大家可以试一试 -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 矩形的圆角弧度 -->
+    <!-- 矩形的填充色 -->
+    <solid android:color="#1122db" />
+
+    <!-- 矩形的边框的宽度,每段虚线的长度，和两段虚线之间的颜色和颜色 -->
+    <stroke
+        android:width="0dp"
+
+        />
+    <!-- padding：Button里面的文字与Button边界的间隔 -->
+    <padding
+        android:top="-10dp"
+        android:left="50dp"
+        android:right="50dp"
+        android:bottom="-10dp"
+         />
+
+    <gradient
+        android:angle="90"
+       android:centerX="1"
+        android:centerY="-1"
+        android:startColor="#9d5df7"
+        android:endColor="#1f187d"
+        android:type="sweep"
+        android:useLevel="false"
+    />
+</shape>

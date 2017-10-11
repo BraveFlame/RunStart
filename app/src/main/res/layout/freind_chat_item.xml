@@ -4,6 +4,14 @@
     android:orientation="vertical"
     android:padding="10dp">
 
+    <TextView
+        android:id="@+id/chat_time_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="2017-05-12 15:20"
+        android:layout_marginBottom="5dp"/>
+
     <RelativeLayout
         android:id="@+id/chat_left_layout"
         android:layout_width="wrap_content"

@@ -2,19 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".slidingpage.LoginPageActivity"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:orientation="horizontal"
         android:background="#ffffff">
         <Button
             android:id="@+id/goBack"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
             android:background="@mipmap/ic_fanghui"/>
@@ -29,34 +27,36 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
         <ImageView
             android:layout_marginTop="10dp"
             android:id="@+id/logo"
-            android:layout_marginLeft="20dp"
-            android:layout_width="50dp"
-            android:layout_height="75dp"
-            android:src="@mipmap/logo"
-            android:scaleType="fitXY"/>
+            android:layout_marginLeft="10dp"
+            android:layout_width="70dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/logo" />
         <TextView
             android:layout_toRightOf="@id/logo"
-            android:layout_marginLeft="20dp"
+            android:layout_alignBottom="@+id/logo"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="20dp"
-            android:layout_width="120dp"
-            android:layout_height="60dp"
+            android:layout_marginBottom="15dp"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
             android:gravity="bottom"
-            android:text="LOVE SPORTS"
-            android:textSize="20dp"
+            android:text="RHYTHM IN LIFE"
+            android:textSize="16sp"
             android:textColor="#21187f"/>
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="70dp"
         android:layout_gravity="center_horizontal"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content">
+        android:layout_width="290dp"
+        android:layout_height="90dp">
         <LinearLayout
-            android:layout_width="310dp"
+            android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
@@ -67,21 +67,21 @@
                 android:layout_height="match_parent"
                 android:src="@mipmap/ic_shouji"/>
             <EditText
-                android:text="18202727686"
                 android:id="@+id/phoneNumber"
                 android:layout_width="0dp"
                 android:layout_weight="12"
                 android:layout_height="match_parent"
-                android:hint="Please enter your mobile number"
+                android:hint="Cellphone Number"
                 android:textColor="#21187f"
-                android:textSize="16dp"
+                android:textSize="18sp"
                 android:focusable="true"
+                android:text="18202727686"
                 android:focusableInTouchMode="true"
                 android:inputType="phone"/>
         </LinearLayout>
         <LinearLayout
             android:layout_marginTop="40dp"
-            android:layout_width="310dp"
+            android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
@@ -97,18 +97,20 @@
                 android:layout_width="0dp"
                 android:layout_weight="12"
                 android:layout_height="match_parent"
-                android:hint="Please enter your password"
+                android:hint="Password"
                 android:textColor="#21187f"
-                android:textSize="16dp"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"/>
         </LinearLayout>
         <ToggleButton
             android:id="@+id/showPassword"
             android:layout_width="25dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="43dp"
-            android:layout_marginLeft="300dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
             android:textOff=""
             android:textOn=""
             android:background="@mipmap/ic_eye1"/>
@@ -117,22 +119,22 @@
     <TextView
         android:layout_marginTop="5dp"
         android:id="@+id/forgetPassword"
-        android:layout_width="310dp"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="right"
         android:text="forget password?"
-        android:textSize="16dp"
+        android:textSize="14sp"
         android:textColor="#acacac"/>
     <Button
         android:id="@+id/login"
-        android:layout_width="310dp"
+        android:layout_width="290dp"
         android:layout_height="50dp"
         android:text="Log in"
         android:textAllCaps="false"
-        android:textSize="20dp"
+        android:textSize="16sp"
         android:textColor="#21187f"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
-        android:background="#ffffff" />
+        android:background="@drawable/my_search_border" />
 </LinearLayout>

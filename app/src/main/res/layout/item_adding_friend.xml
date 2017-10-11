@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="30dp"
     android:paddingRight="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
@@ -11,44 +11,45 @@
     <TextView
         android:id="@+id/rankings"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:textSize="15sp"
+        android:text="100"
+        android:textSize="14sp"
         android:layout_marginLeft="10dp"
         android:layout_weight="3"/>
     <com.runstart.friend.friendactivity.MyHeaderImageView
         android:id="@+id/headerImage"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:layout_marginLeft="4.5dp"
         app:civ_border_overlay="true"
         app:civ_border_width="0dp"
-        android:src="@mipmap/ic_paobu"
+        android:src="@mipmap/ic_shangchuangtupiang"
         android:focusable="false"
         android:layout_weight="5"/>
     <TextView
         android:id="@+id/nickName"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:text="zhangSan"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:layout_marginLeft="9dp"
         android:layout_weight="10"/>
     <TextView
         android:id="@+id/sportDistance"
         android:layout_width="0dp"
-        android:layout_height="31.5dp"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:text="2222 km"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:layout_marginLeft="4.5dp"
         android:layout_weight="8" />
     <ImageView
         android:id="@+id/addFriendToMyGroup"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="match_parent"
         android:src="@mipmap/add"
         android:gravity="center"
         android:layout_marginLeft="4.5dp"

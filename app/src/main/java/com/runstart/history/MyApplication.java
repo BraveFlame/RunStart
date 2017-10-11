@@ -23,6 +23,7 @@ import cn.bmob.v3.Bmob;
 public class MyApplication extends Application {
 
     private final static String applicationID = "6bbf7fb6372e29f54eead6a98a204621";
+    public static final String userObjectIdKey = "userObjectId";
     public NowDB nowDB;
     public static Map<String, String> applicationMap = new HashMap<>();
 

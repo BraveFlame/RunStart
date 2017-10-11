@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffff"
+    >
+
+    <!--exercisedairy Content的标题栏-->
+    <RelativeLayout
+        android:id="@+id/mine_exercisediary_content_rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffff"
+        >
+        <ImageView
+            android:id="@+id/mine_exercisediary_content_iv_zuojiantou"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+
+            style="?android:attr/borderlessButtonStyle"
+
+            android:src="@mipmap/ic_zuojiantou"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+
+            android:text="Exercise diary"
+            android:textSize="20sp"
+            android:textColor="#212121"
+            />
+    </RelativeLayout>
+    <!--第一条分割线-->
+    <View
+        android:id="@+id/mine_exercisediary_content_line_first"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+
+        android:layout_below="@+id/mine_exercisediary_content_rl_title"
+        android:background="#f0f1f1" />
+    <!--Exercise diary content的内容部分-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mine_exercisediary_content_line_first"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!--exercise dairy content的title-->
+            <RelativeLayout
+                android:id="@+id/mine_exercisediary_content_rl_first"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+                <TextView
+                    android:id="@+id/mine_exercisediary_content_exdiarytitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:text="Adhere to victory"
+                    android:textSize="18dp"
+                    android:textColor="#212121"
+                    />
+
+            </RelativeLayout>
+            <!--第二条分割线-->
+            <View
+                android:id="@+id/mine_exercisediary_content_line_second"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+
+                android:layout_below="@+id/mine_exercisediary_content_rl_first"
+                android:background="#f0f1f1" />
+            <!--exercise dairy content的内容-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mine_exercisediary_content_line_second"
+                >
+                <TextView
+                    android:id="@+id/mine_exercisediary_content_exdiarycontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+
+                    android:text="In September 1, 2017, "
+                    android:textSize="16sp"
+                    android:textColor="#212121"
+                    />
+                <TextView
+                    android:id="@+id/mine_exercisediary_content_exdiarydate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/mine_exercisediary_content_exdiarycontent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:text="2017-09-09"
+                    android:textSize="16sp"
+                    android:textColor="#212121"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
