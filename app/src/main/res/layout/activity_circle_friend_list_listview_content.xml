@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        android:id="@+id/friend_list_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="45"
+        android:gravity="center"
+        android:textSize="17sp"
+        android:maxLines="1"
+        android:textColor="#000000"
+        android:text="8" />
+
+    <ImageView
+        android:id="@+id/friend_list_header"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="32"
+        android:src="@mipmap/arvin_febry_302935_copy3" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"/>
+
+    <TextView
+        android:id="@+id/friend_list_name"
+        android:layout_width="0dp"
+        android:layout_weight="100"
+        android:textSize="17sp"
+        android:maxLines="1"
+        android:textColor="#000000"
+        android:layout_height="wrap_content"
+        android:text="ertwererte" />
+
+    <TextView
+        android:id="@+id/friend_list_distance"
+        android:layout_width="0dp"
+        android:textSize="17sp"
+        android:textColor="#000000"
+        android:layout_weight="70"
+        android:gravity="center|right"
+        android:maxLines="1"
+        android:layout_height="60dp"
+        android:text="2134m"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_weight="28"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:id="@+id/friend_list_likeLL"
+        android:layout_width="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="56"
+        android:gravity="center_vertical"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/friend_list_like"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+        <TextView
+            android:id="@+id/friend_list_like_times"
+            android:text="112"
+            android:textSize="11sp"
+            android:maxLines="1"
+            android:textColor="#000000"
+            android:layout_width="0dp"
+            android:layout_weight="35"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

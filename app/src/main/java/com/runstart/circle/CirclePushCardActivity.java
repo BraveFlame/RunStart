@@ -15,18 +15,17 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.zhouj.viewpagerdemo.BmobBean.ActivityAndMember;
+import com.example.zhouj.viewpagerdemo.BmobBean.ActivityData;
+import com.example.zhouj.viewpagerdemo.BmobBean.User;
+import com.example.zhouj.viewpagerdemo.MyApplication;
+import com.example.zhouj.viewpagerdemo.R;
 import com.google.gson.Gson;
-
 import com.google.gson.reflect.TypeToken;
-import com.runstart.BmobBean.ActivityAndMember;
-import com.runstart.BmobBean.ActivityData;
-import com.runstart.BmobBean.User;
-import com.runstart.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class CirclePushCardActivity extends AppCompatActivity {
 
@@ -37,15 +36,15 @@ public class CirclePushCardActivity extends AppCompatActivity {
     ImageView memberHeaderUrl1,memberHeaderUrl2,memberHeaderUrl3,memberHeaderUrl4,memberHeaderUrl5,memberHeaderUrl6;
     Button punchCard;
 
-    private static String initActivityId,initMyId;
+    public static String initActivityId,initMyId;
 
     ActivityData activityData;
     ActivityAndMember activityAndMember;
     User user;
 
-    ProgressDialog progressDialog;
-
     Handler handler=new Handler(){
+        int k=0;
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -58,6 +57,7 @@ public class CirclePushCardActivity extends AppCompatActivity {
                     str=bundle.getString("ActivityData");
                     ActivityData activityData = gson.fromJson(str, ActivityData.class);
                     setADview(activityData);
+                    k++;
                     //取出，用于判断是否完成任务，与上方无关
                     CirclePushCardActivity.this.activityData=activityData;
                     break;
@@ -67,6 +67,7 @@ public class CirclePushCardActivity extends AppCompatActivity {
                     ActivityAndMember activityAndMember =gson.fromJson(str,ActivityAndMember.class);
                     CirclePushCardActivity.this.activityAndMember = activityAndMember;
                     setMTAview(activityAndMember);
+                    k++;
                     break;
                 //获取成员的用户信息，并设置到布局
                 case 3:
@@ -75,6 +76,7 @@ public class CirclePushCardActivity extends AppCompatActivity {
                     setUserView(user);
                     //取出，用于判断是否完成任务，与上方无关
                     CirclePushCardActivity.this.user=user;
+                    k++;
                     break;
                 //成员信息更新后调用，重新获取成员信息并设置，同时有个抖的动作
                 case 4:
@@ -98,8 +100,7 @@ public class CirclePushCardActivity extends AppCompatActivity {
                 //有图片加载完了才进行，这个时候算比较晚了，故三种数据都取好了，下面交叉调用的才不会出错
                 case 6:
                     handler.sendEmptyMessage(8);
-                    setButton();
-                    progressDialog.cancel();
+                    ((MyApplication)getApplicationContext()).stopProgressDialog();
                     break;
                 //按钮抖一下然后消失的动画
                 case 7:
@@ -118,13 +119,16 @@ public class CirclePushCardActivity extends AppCompatActivity {
                     break;
                 default:break;
             }
+            if(k==3){
+                k=0;
+                setButton();
+            }
         }
     };
 
-    public static void jump(String initActivityId,String initMyId,Activity activity){
+    public static void jump(String initActivityId,Activity activity){
         Intent intent=new Intent(activity,CirclePushCardActivity.class);
         intent.putExtra("initAcitivityId",initActivityId);
-        intent.putExtra("initMyId",initMyId);
         activity.startActivity(intent);
     }
 
@@ -142,7 +146,7 @@ public class CirclePushCardActivity extends AppCompatActivity {
     private void init_data(){
         Intent intent=getIntent();
         this.initActivityId=intent.getStringExtra("initAcitivityId");
-        this.initMyId=intent.getStringExtra("initMyId");
+        this.initMyId=((MyApplication)getApplicationContext()).applicationMap.get("userObjectId");
     }
 
     private void init_view(){
@@ -170,18 +174,22 @@ public class CirclePushCardActivity extends AppCompatActivity {
         memberHeaderUrl5=(ImageView)findViewById(R.id.circle_pushcard_iv_userimage_five);
         memberHeaderUrl6=(ImageView)findViewById(R.id.circle_pushcard_iv_userimage_six);
 
-        findViewById(R.id.circle_ib_zuojiantou).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.circle_pushcard_iv_zuojiantou).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+        findViewById(R.id.circle_pushcard_ll_friend_list).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CircleFriendListActivity.jump(activityData.getObjectId(),CirclePushCardActivity.this);
+            }
+        });
 
         new NowPupwindow(this);
 
-        progressDialog=new ProgressDialog(this);
-        progressDialog.setMessage("正在获取数据...");
-        progressDialog.show();
+        ((MyApplication)getApplicationContext()).showProgressDialog(this);
     }
 
     private void setADview(ActivityData activityData){
@@ -229,7 +237,10 @@ public class CirclePushCardActivity extends AppCompatActivity {
         int distance=user.getWalkDistance()+user.getRunDistance()+user.getWalkDistance();
         int kcal=user.getWalkKcal()+user.getRunKcal()+user.getRideKcal();
         long time=user.getRideTime()+user.getRunTime()+user.getWalkTime();
-        long speed=distance/time;
+        long speed;
+        if(time!=0)
+         speed=distance/time;
+        else speed=0;
         exerciseTime.setText(CommonUtils.secondsToHHmmss((int)time));
         cal.setText(""+kcal);
         averageSpeed.setText(""+speed+"km/h");

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f1f0f0"
+    >
+    <!--feedback的标题栏-->
+    <RelativeLayout
+        android:id="@+id/mine_setup_aboutus_rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#ffff"
+        >
+        <ImageView
+            android:id="@+id/mine_setup_aboutus_iv_zuojiantou"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+
+            style="?android:attr/borderlessButtonStyle"
+
+            android:src="@mipmap/ic_zuojiantou"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+
+            android:text="About us"
+            android:textSize="18sp"
+            android:textColor="#212121"
+            />
+    </RelativeLayout>
+    <!--第一条分割线-->
+    <View
+        android:id="@+id/mine_setup_aboutus_line_first"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/mine_setup_aboutus_rl_title"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/mine_setup_aboutus_line_first"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mine_setup_aboutus_line_first"
+
+            android:text="    TCL Communication Technology Holdings Limited, a global mobile terminal manufacturer and internet service provider, was founded on March, 1999. Incorporated in Hong Kong, TCL Communication is a subsidiary company of TCL Corporation. Today, the company has over 10,000 employees worldwide. It provides globally its rich portfolio of product and service under three key brands – TCL, Alcatel and BlackBerry.\n
+     In 2017 H1, TCL Communication’s total sales volume of handsets and other products reached 21.17 million units. According to telecommunication research firm IDC and company data, TCL Communication ranked top 10 among global phone manufacturer in the first quarter of 2017.\n
+     TCL Communication is committed to deliver smart devices and ultimate experience with latest technology and innovation to global customers. Its product portfolio varies from smart phone, tablet, smart connectivity device, wearable, VR and accessories, associated with dedicated applications and internet services. Today, the company’s sales network covers more than 160 countries throughout North America, Latin America, Europe, the Middle East, Africa, Asia Pacific and China. The company has built a solid partnership with the global mainstream operators such as VODAFONE, ORANGE and retail giants like WALMART, BEST BUY, Amazon, etc.\n
+     As a mobile device manufacturer serving global customers, TCL Communication has reached world class standard in terms of innovation competence, production facilities and quality control systems. The company owned 9 centers located in Silicon Valley, Paris, Shanghai, Beijing, Ningbo, Huizhou, Shenzhen, Chengdu and Hong Kong. With many dedicated research projects and development equipment, the company has become one of the few companies in the world who owns or licenses 2G, 2.5G, 2.75G, 3G, 4G and 5G patented technologies. TCL Communication owned a global factory located in Huizhou, and its capacity reaches 120 Million units per year. With possess a world leading SMT production line and MMI automatic testing system, the factory has become one of the largest and efficient single production sites in China, and the powerful, efficient global supply chain system can help to keep its advantages in both quality and cost. Meanwhile, TCL Communication has established a consummate quality management system, which has certificates of ISO9001, ISO14001, OHSAS18001, SA8000, TL9000 and GSV and meets the requirement of QC080000.\n
+     Moving forward, TCL Communication aims to become the first global multi brand company in mobile industry. The company will continue to provide customers with quality products and premium services with its rich experience and global network.\n
+"           android:textSize="16sp"
+            />
+    </ScrollView>
+
+</RelativeLayout>

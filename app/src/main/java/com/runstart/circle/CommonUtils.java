@@ -1,8 +1,5 @@
 package com.runstart.circle;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,13 +31,26 @@ public class CommonUtils {
         return day;
     }
 
+    public static long getYimanTwoDay(String sj) {
+        int year=Integer.parseInt(sj.substring(0,4));
+        int month=Integer.parseInt(sj.substring(4,6));
+        int Day=Integer.parseInt(sj.substring(6,8));
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month-1);
+        calendar.set(Calendar.DAY_OF_MONTH, Day);
+        Calendar calendar_now=Calendar.getInstance();
+        long interval=calendar_now.getTime().getTime()-calendar.getTime().getTime();
+        return interval/(24 * 60 * 60 * 1000);
+    }
+
     public static int getTwoWeek(String sj){
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date date = sdf.parse(sj);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
-            Calendar c=Calendar.getInstance();
+            Calendar c= Calendar.getInstance();
             return (c.get(Calendar.WEEK_OF_YEAR)-calendar.get(Calendar.WEEK_OF_YEAR));
         } catch (ParseException e) {
             // TODO Auto-generated catch block
@@ -55,7 +65,7 @@ public class CommonUtils {
             Date date = sdf.parse(sj);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
-            Calendar c=Calendar.getInstance();
+            Calendar c= Calendar.getInstance();
             return (c.get(Calendar.MONTH)-calendar.get(Calendar.MONTH));
         } catch (ParseException e) {
             // TODO Auto-generated catch block
@@ -76,5 +86,13 @@ public class CommonUtils {
         if(second<10)str+=("0"+second);
         else str+=""+second;
         return str;
+    }
+
+    //获取日期和时间的格式化形式
+    public static String getStringToday() {
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String dateString = formatter.format(currentTime);
+        return dateString;
     }
 }
