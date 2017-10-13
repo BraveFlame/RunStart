@@ -26,6 +26,7 @@
                 android:textSize="18sp" />
 
             <RelativeLayout
+                android:id="@+id/themePhoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -43,14 +44,26 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/foreViewThemePhoto"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="60dp"
                     android:layout_marginTop="10dp"
 
                     android:src="@mipmap/ic_shangchuangtupiang" />
+                <com.runstart.friend.friendactivity.MyHeaderImageView
+                    android:id="@+id/circleForeViewThemePhoto"
+                    android:visibility="gone"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="60dp"
+                    android:layout_marginTop="10dp"
+
+                    android:src="@mipmap/ic_shangchuangtupiang"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -72,67 +85,43 @@
 
             android:background="#f1f0f0" />
         <!--第二部分-->
-        <LinearLayout
-            android:id="@+id/circle_createactivity_ll_second"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <EditText
+            android:id="@+id/ETactivityName"
             android:layout_below="@+id/circle_createactivity_line_first"
-
             android:background="#ffff"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginTop="10dp"
-
-                android:hint="Give your activity a task"
-                android:textColor="#212121"
-                android:textColorHint="#878787"
-                android:textSize="18sp" />
-
-        </LinearLayout>
+            android:paddingLeft="20dp"
+            android:hint="Give you activity a name"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <!--第二条分割线-->
         <View
             android:id="@+id/circle_createactivity_line_second"
             android:layout_width="match_parent"
             android:layout_height="15dp"
-            android:layout_below="@+id/circle_createactivity_ll_second"
+            android:layout_below="@+id/ETactivityName"
 
             android:background="#f1f0f0" />
         <!--第三部分-->
-        <LinearLayout
-            android:id="@+id/circle_createactivity_ll_three"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <EditText
+            android:id="@+id/ETactivityIntroduction"
             android:layout_below="@+id/circle_createactivity_line_second"
-
             android:background="#ffff"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:hint="Introduce your activity"
-
-
-                android:minHeight="130dp"
-                android:textColor="#212121"
-                android:textColorHint="#878787"
-                android:textSize="18sp" />
-        </LinearLayout>
+            android:paddingLeft="20dp"
+            android:gravity="top"
+            android:minHeight="130dp"
+            android:hint="Introduce your activity"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <!--第四部分-->
         <LinearLayout
             android:id="@+id/circle_createactivity_ll_four"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/circle_createactivity_ll_three"
+            android:layout_below="@+id/ETactivityIntroduction"
 
             android:orientation="vertical">
 
@@ -251,7 +240,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/circle_createactivity_ll_five"
-
             android:orientation="vertical">
 
             <TextView
@@ -265,89 +253,14 @@
                 android:textColor="#878787"
                 android:textSize="18sp" />
 
-            <RelativeLayout
+            <com.runstart.friend.adapter.ListViewForScrollView
+                android:id="@+id/friendsListView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="#ffff">
+                android:layout_height="5dp"
+                android:divider="#eaeaea"
+                android:dividerHeight="1dp">
 
-                <ImageView
-                    android:id="@+id/circle_createactivity_iv_userimage_first"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="18dp"
-
-                    android:src="@mipmap/mpumelelo_macu_283883"
-                    />
-                <ImageView
-                    android:id="@+id/circle_createactivity_iv_userimage_second"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_toRightOf="@+id/circle_createactivity_iv_userimage_first"
-
-                    android:src="@mipmap/mpumelelo_macu_283883"
-                    />
-                />
-                <ImageView
-                    android:id="@+id/circle_createactivity_iv_userimage_three"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_toRightOf="@+id/circle_createactivity_iv_userimage_second"
-
-                    android:src="@mipmap/mpumelelo_macu_283883"
-                    />
-                <ImageView
-                    android:id="@+id/circle_createactivity_iv_userimage_four"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_toRightOf="@+id/circle_createactivity_iv_userimage_three"
-
-                    android:src="@mipmap/mpumelelo_macu_283883"
-                    />
-                <ImageView
-                    android:id="@+id/circle_createactivity_iv_userimage_five"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_toRightOf="@+id/circle_createactivity_iv_userimage_four"
-
-                    android:src="@mipmap/mpumelelo_macu_283883"
-                    />
-                <ImageView
-                    android:id="@+id/circle_createactivity_iv_userimage_six"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_toRightOf="@+id/circle_createactivity_iv_userimage_five"
-
-                    android:src="@mipmap/mpumelelo_macu_283883"
-                    />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp"
-
-                    android:src="@mipmap/ic_youjiantou" />
-            </RelativeLayout>
+            </com.runstart.friend.adapter.ListViewForScrollView>
         </LinearLayout>
         <!--第七部分-->
         <LinearLayout
@@ -358,6 +271,7 @@
             android:layout_marginBottom="10dp"
             >
             <Button
+                android:id="@+id/create_activity_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"

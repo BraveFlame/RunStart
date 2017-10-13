@@ -14,7 +14,6 @@ import com.runstart.help.GetSHA1;
 public class WalkFragment extends Fragment {
 
     private FragmentWalkFirstPage fragmentWalkFirstPage;
-    private FragmentWalkSecondPage fragmentWalkSecondPage;
 
     private View view;
     @Override
@@ -26,7 +25,7 @@ public class WalkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.fragment_walk, container, false);
-        initView();
+       initView();
         Log.e("SHA",GetSHA1.getCertificateSHA1Fingerprint(getContext()));
         return view;
     }
@@ -35,10 +34,9 @@ public class WalkFragment extends Fragment {
      */
     private void initView() {
         fragmentWalkFirstPage = new FragmentWalkFirstPage();
-        fragmentWalkSecondPage = new FragmentWalkSecondPage();
 
         getActivity().getSupportFragmentManager().beginTransaction()
-                .add(R.id.first_page, fragmentWalkFirstPage).add(R.id.second_page, fragmentWalkSecondPage)
+                .add(R.id.first_page, fragmentWalkFirstPage)
                 .commit();
 
 

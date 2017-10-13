@@ -10,8 +10,12 @@
         android:layout_height="wrap_content">
         <include layout="@layout/fragment_circle_pushcard_title" />
     </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <include layout="@layout/fragment_circle_pushcard_content" />
+    </LinearLayout>
+
 
 
 </LinearLayout>

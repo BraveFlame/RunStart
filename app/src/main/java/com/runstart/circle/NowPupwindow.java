@@ -1,8 +1,11 @@
 package com.runstart.circle;
 
 import android.content.DialogInterface;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +13,18 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.runstart.BmobBean.ActivityAndMember;
+import com.runstart.BmobBean.ActivityData;
 import com.runstart.R;
+import com.runstart.history.MyApplication;
+
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by zhouj on 2017-09-21.
@@ -18,6 +32,7 @@ import com.runstart.R;
 
 public class NowPupwindow implements PopupMenu.OnMenuItemClickListener{
 
+    MyApplication myApplication;
     CirclePushCardActivity activity;
 
     //定义PopupMenu菜单对象
@@ -29,6 +44,7 @@ public class NowPupwindow implements PopupMenu.OnMenuItemClickListener{
         this.activity=activity;
         initPopMenu();
         initMenu();
+        myApplication=(MyApplication)activity.getApplicationContext();
     }
 
     /**
@@ -100,12 +116,26 @@ public class NowPupwindow implements PopupMenu.OnMenuItemClickListener{
                 Toast.makeText(activity, "您点击了“未知“按钮", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.circle_pushcard_menu_exitactivity:
-                new AlertDialog.Builder(activity).setTitle("Make Sure").setMessage("Are you sure to exit?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        GetFromBmob.delete(activity.activityAndMember.getObjectId());
-                    }
-                }).setNegativeButton("No",null).show();
+                if(!activity.activityData.getCreatorId().equals(activity.initMyId)) {
+                    new AlertDialog.Builder(activity).setTitle("Make Sure").setMessage("Are you sure to exit?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            delete(activity.activityAndMember.getObjectId());
+                            ((MyApplication)activity.getApplicationContext()).showProgressDialog(activity);
+                        }
+                    }).setNegativeButton("No", null).show();
+                } else {
+                    new AlertDialog.Builder(activity).setTitle("Make Sure").setMessage("Are you sure to delete this activity?").
+                            setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            deleteActivityMembersByActivityId(activity.activityData.getObjectId());
+                            deleteActivityData(activity.activityData.getObjectId());
+                            deletePicture(activity.activityData.getBackgroundURL());
+                            ((MyApplication)activity.getApplicationContext()).showProgressDialog(activity);
+                        }
+                    }).setNegativeButton("No", null).show();
+                }
                 break;
             case R.id.circle_pushcard_menu_news:
                 Toast.makeText(activity, "您点击了“sdfg“按钮", Toast.LENGTH_SHORT).show();
@@ -118,4 +148,99 @@ public class NowPupwindow implements PopupMenu.OnMenuItemClickListener{
         }
         return false;
     }
+
+    Handler handler=new Handler(){
+
+        int k=0;
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            k++;
+            if(k==3){
+                k=0;
+                myApplication.isFragmentWalkShouldRefresh=true;
+                ((MyApplication)activity.getApplicationContext()).stopProgressDialog();
+                activity.finish();
+            }
+        }
+    };
+
+    public void delete(String id){
+        final ActivityAndMember activityAndMember=new ActivityAndMember();
+        activityAndMember.setObjectId(id);
+        activityAndMember.delete(new UpdateListener() {
+
+            @Override
+            public void done(BmobException e) {
+                ((MyApplication)activity.getApplicationContext()).isFragmentWalkShouldRefresh=true;
+                ((MyApplication)activity.getApplicationContext()).stopProgressDialog();
+                activity.finish();
+                if(e==null){
+                    Log.e("database","删除成功:"+activityAndMember.getUpdatedAt());
+                }else{
+                    Log.e("database","删除失败：" + e.getMessage());
+                }
+            }
+
+        });
+    }
+
+    public void deleteActivityData(String id){
+        final ActivityData activityData=new ActivityData();
+        activityData.setObjectId(id);
+        activityData.delete(new UpdateListener() {
+
+            @Override
+            public void done(BmobException e) {
+                handler.sendEmptyMessage(1);
+                if(e==null){
+                    Log.e("database","删除成功:"+activityData.getUpdatedAt());
+                }else{
+                    Log.e("database","删除失败：" + e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void deleteActivityMembersByActivityId(String id){
+        BmobQuery<ActivityAndMember> bmobQuery = new BmobQuery<ActivityAndMember>();
+        bmobQuery.addWhereEqualTo("activityId",id);
+        bmobQuery.findObjects(new FindListener<ActivityAndMember>() {
+            @Override
+            public void done(List<ActivityAndMember> object, BmobException e) {
+                handler.sendEmptyMessage(1);
+                if(e==null){
+                    for (ActivityAndMember gameScore : object) {
+                        gameScore.delete(new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                Log.e("database","删除成功");
+                            }
+                        });
+                    }
+                }else{
+                    Log.e("bmob","活动成员 失败："+e.getMessage()+","+e.getErrorCode());
+                }
+            }
+        });
+    }
+
+    public void deletePicture(String url){
+        BmobFile file = new BmobFile();
+        file.setUrl(url);//此url是上传文件成功之后通过bmobFile.getUrl()方法获取的。
+        file.delete(new UpdateListener() {
+
+            @Override
+            public void done(BmobException e) {
+                handler.sendEmptyMessage(1);
+                if(e==null){
+                    Log.e("database","文件删除成功");
+                }else{
+                    Log.e("database","文件删除失败："+e.getErrorCode()+","+e.getMessage());
+                }
+            }
+        });
+    }
+
 }

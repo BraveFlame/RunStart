@@ -23,6 +23,24 @@ public class User extends BmobObject implements Serializable {
     private long runTime;
     private long rideTime;
 
+    private String location,mailBox;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getMailBox() {
+        return mailBox;
+    }
+
+    public void setMailBox(String mailBox) {
+        this.mailBox = mailBox;
+    }
+
     public User(){}
 
     public User(String phoneNumber, String password, String nickName, String headerImageUri, int likeNumberForHistory,

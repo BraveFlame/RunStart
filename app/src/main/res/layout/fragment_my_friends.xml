@@ -26,7 +26,7 @@
                 android:gravity="center_vertical"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="10dp"
                 android:background="#88e1e1e1">
                 <RadioButton
                     android:id="@+id/all"
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:divider="#eaeaea"
-            android:dividerHeight="1dp"
+            android:dividerHeight="2dp"
             android:footerDividersEnabled="true"
             android:headerDividersEnabled="true"/>
         <TextView

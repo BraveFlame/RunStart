@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f1f0f0"
+    >
+    <!--feedback的标题栏-->
+    <RelativeLayout
+        android:id="@+id/mine_setup_feedback_rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#ffff"
+        >
+        <ImageView
+            android:id="@+id/mine_setup_feedback_iv_zuojiantou"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+
+            style="?android:attr/borderlessButtonStyle"
+
+            android:src="@mipmap/ic_zuojiantou"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+
+            android:text="Feedback"
+            android:textSize="18sp"
+            android:textColor="#212121"
+            />
+    </RelativeLayout>
+    <!--第一条分割线-->
+    <View
+        android:id="@+id/mine_setup_feedback_line_first"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/mine_setup_feedback_rl_title"
+        />
+    <RelativeLayout
+        android:id="@+id/mine_setup_feedback_rl_first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffff"
+        android:layout_below="@+id/mine_setup_feedback_line_first"
+        >
+        <EditText
+            android:id="@+id/mine_setup_feedback_et_feedbackcontent"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+
+            style="?android:attr/textViewStyle"
+            android:background="@null"
+            android:gravity="left"
+            android:maxLines="50"
+            android:ellipsize="end"
+            android:hint="Feedback"
+            android:textColorHint="#878787"
+            android:textSize="18sp"
+            android:textColor="#212121"
+            />
+    </RelativeLayout>
+
+    <!--第二条分割线-->
+    <View
+        android:id="@+id/mine_setup_feedback_line_second"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@+id/mine_setup_feedback_rl_first"
+        />
+    <TextView
+        android:id="@+id/mine_setup_feedback_tv_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_setup_feedback_line_second"
+        android:gravity="center"
+
+        android:text="Your feedback will be sent to our mailbox,\nwe will contact you in time"
+        android:textSize="16sp"
+        android:textColor="#878787"
+        />
+    <!--第二条分割线-->
+    <View
+        android:id="@+id/mine_setup_feedback_line_three"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_below="@+id/mine_setup_feedback_tv_hint"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+
+        android:layout_below="@+id/mine_setup_feedback_line_three"
+        >
+        <Button
+            android:id="@+id/mine_setup_feedback_btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textColor="#21187f"
+            android:background="@drawable/mine_addexdiary_btn_selector"
+            />
+    </LinearLayout>
+</RelativeLayout>

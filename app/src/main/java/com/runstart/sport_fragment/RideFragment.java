@@ -24,7 +24,6 @@ import com.runstart.view.LinearCircles;
 public class RideFragment extends Fragment{
 
     private FragmentRideFirstPage fragmentRideFirstPage;
-    private FragmentRideSecondPage fragmentRideSecondPage;
 
     private View view;
     @Override
@@ -46,10 +45,9 @@ public class RideFragment extends Fragment{
      */
     private void initView() {
         fragmentRideFirstPage = new FragmentRideFirstPage();
-        fragmentRideSecondPage = new FragmentRideSecondPage();
 
         getActivity().getSupportFragmentManager().beginTransaction()
-                .add(R.id.first_ride_page, fragmentRideFirstPage).add(R.id.second_ride_page, fragmentRideSecondPage)
+                .add(R.id.first_ride_page, fragmentRideFirstPage)
                 .commit();
 
 

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f1f0f0"
+    >
+    <!--feedback的标题栏-->
+    <RelativeLayout
+        android:id="@+id/mine_setup_aboutus_rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#ffff"
+        >
+        <ImageView
+            android:id="@+id/mine_setup_aboutus_iv_zuojiantou"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+
+            style="?android:attr/borderlessButtonStyle"
+
+            android:src="@mipmap/ic_zuojiantou"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+
+            android:text="Related Us"
+            android:textSize="18sp"
+            android:textColor="#212121"
+            />
+    </RelativeLayout>
+    <!--第一条分割线-->
+    <View
+        android:id="@+id/mine_setup_aboutus_line_first"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/mine_setup_aboutus_rl_title"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/mine_setup_aboutus_line_first"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mine_setup_aboutus_line_first"
+
+            android:text="     The product developed by TCL Communication Technology Co., Ltd. Dear users, if you have any questions, please call the official hotline, 150-3456788.\n
+     If you If you have other technical related issues, you can contact Song Chung Ho, his phone number is 15669790456."
+            android:textSize="16sp"
+            />
+    </ScrollView>
+
+</RelativeLayout>

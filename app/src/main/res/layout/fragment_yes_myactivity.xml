@@ -5,73 +5,23 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/fragment_yes_myactivity_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:text="My activity"
         android:textStyle="bold"
+        android:textSize="16sp"
         />
 
-
-
-        <ImageView
-            android:layout_marginTop="13dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:src="@mipmap/bitmap" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="33dp"
-            android:text="Exercise every day"
-            android:textSize="18sp"
-            android:textColor="@android:color/white" />
-        <ImageView
-            android:id="@+id/user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="39dp"
-            android:layout_marginRight="32dp"
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/arvin_febry_302935_copy3"
-            />
-
-    <TextView
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/lv_walk_myactivity"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="38dp"
-        android:layout_alignParentRight="true"
-        android:text="Mary"
-        android:textSize="12sp"
-        android:layout_marginTop="85dp"
-        android:textColor="@android:color/white" />
-
-
-        <TextView
-            android:id="@+id/tv_degree"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="117dp"
-            android:paddingBottom="25dp"
-            android:layout_marginLeft="30dp"
-            android:text="Degree of completion"
-            android:textSize="12sp"
-            android:textColor="@android:color/white"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="129dp"
-            android:paddingTop="5dp"
-            android:src="@mipmap/progressbar"
-            android:layout_alignLeft="@+id/tv_degree" />
-
+        android:layout_below="@+id/fragment_yes_myactivity_activity"
+        >
+    </ListView>
 
 
 </RelativeLayout>

@@ -8,7 +8,7 @@
     android:background="#f2f1f1">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:orientation="horizontal"
         android:background="#ffffff">
         <TextView
@@ -16,13 +16,15 @@
             android:layout_height="30dp"
             android:layout_centerInParent="true"
             android:text="Love sports"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:textColor="#000000"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
         <ImageView
             android:layout_marginTop="10dp"
             android:id="@+id/logo"
@@ -38,8 +40,8 @@
             android:layout_width="110dp"
             android:layout_height="60dp"
             android:gravity="bottom"
-            android:text="LOVE SPORTS"
-            android:textSize="18sp"
+            android:text="RHYTHM  IN LIFE"
+            android:textSize="16sp"
             android:textColor="#21187f"/>
         <Button
             android:id="@+id/jump"
@@ -57,25 +59,25 @@
     <Button
         android:id="@+id/login"
         android:layout_width="220dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@drawable/btn_background"
         android:text="Log in"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textAllCaps="false"
         android:textColor="#ffffff"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="130dp" />
+        android:layout_marginTop="180dp" />
     <TextView
         android:id="@+id/nullCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do not you have an account?"
-        android:textSize="18sp"
+        android:text="Not registered?"
+        android:textSize="16sp"
         android:textColor="#21187f"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="35dp"/>
+        android:layout_marginTop="20dp"/>
     <LinearLayout
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
@@ -105,20 +107,20 @@
         android:orientation="horizontal"
         android:gravity="top">
         <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@mipmap/ic_g"
             android:scaleType="fitCenter"/>
         <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@mipmap/ic_f"
             android:scaleType="fitCenter"/>
         <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@mipmap/ic_t"
             android:scaleType="fitCenter"/>

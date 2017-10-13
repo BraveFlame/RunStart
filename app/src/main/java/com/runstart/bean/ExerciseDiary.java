@@ -10,11 +10,19 @@ public class ExerciseDiary extends BmobObject{
     /*
     定义字段
      */
+    private String userObjectId;
     private String exDairyTitle;
     private String exDairyContent;
     private String exDairyDate;
     private boolean isCheck;
 
+    public String getUserObjectId() {
+        return userObjectId;
+    }
+
+    public void setUserObjectId(String userObjectId) {
+        this.userObjectId = userObjectId;
+    }
     /*
     定义字段属性的setter/getter的方法
      */

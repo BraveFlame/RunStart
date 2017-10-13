@@ -1,5 +1,7 @@
 package com.runstart.bean;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by zhouj on 2017-10-07.
  */
@@ -8,18 +10,20 @@ public class MessageRecord {
     /**
      * 定义字段
      */
-    private String userImage;
+    private Bitmap userImage;
     private String userName;
     private String userMessage;
     private String userTime;
+    private String msgcount;
+    private String friendObjectId;
     /**
      * 初始化字段的getter/setter属性
      */
-    public String getUserImage() {
+    public Bitmap getUserImage() {
         return userImage;
     }
 
-    public void setUserImage(String userImage) {
+    public void setUserImage(Bitmap userImage) {
         this.userImage = userImage;
     }
 
@@ -45,5 +49,21 @@ public class MessageRecord {
 
     public void setUserTime(String userTime) {
         this.userTime = userTime;
+    }
+
+    public String getMsgcount() {
+        return msgcount;
+    }
+
+    public void setMsgcount(String msgcount) {
+        this.msgcount = msgcount;
+    }
+
+    public String getFriendObjectId() {
+        return friendObjectId;
+    }
+
+    public void setFriendObjectId(String friendObjectId) {
+        this.friendObjectId = friendObjectId;
     }
 }

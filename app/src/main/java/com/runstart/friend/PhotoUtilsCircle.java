@@ -37,6 +37,7 @@ public class PhotoUtilsCircle {
     public static final int PICTURE_HEIGHT = 500;
     public static final int PICTURE_WIDTH = 500;
     public static String imageName;
+    public  static String headImgName="";
 
     /**
      * 从系统相册中选取照片上传
@@ -159,7 +160,8 @@ public class PhotoUtilsCircle {
      * @param context
      * @return
      */
-    public static String getPath(Context context) {
+    public static String getPath(Context context,String photo) {
+
         String path = null;
         File file = null;
         long tag = System.currentTimeMillis();
@@ -170,19 +172,30 @@ public class PhotoUtilsCircle {
             if (!file.exists()) {
                 file.mkdirs();
             }
-            path = Environment.getExternalStorageDirectory() + File.separator  + context.getPackageName() + File.separator + "myimages/" + tag + ".png";
+            if("photo".equals(photo)){
+                path=path+File.separator+"photo/";
+            }
+            if(!"".equals(headImgName))
+            path = path + headImgName + ".png";
+            else path=path+tag+".png";
         } else {
             path = context.getFilesDir() + File.separator + context.getPackageName() + File.separator+"myimages/";
             file = new File(path);
             if (!file.exists()) {
                 file.mkdirs();
             }
-            path = context.getFilesDir()+ File.separator + context.getPackageName() + File.separator + "myimages/" + tag + ".png";
+            if("photo/".equals(photo)){
+                path=path+photo;
+            }
+            if(!"".equals(headImgName))
+                path = path + headImgName + ".png";
+            else path=path+tag+".png";
         }
         return path;
     }
 
-    static public String myPictureOnResultOperate(int requestCode, int resultCode, Intent data, Activity context) {
+    static public String myPictureOnResultOperate(int requestCode, int resultCode, Intent data, Activity context,String headImgNames) {
+        headImgName=headImgNames;
         String BxfPath = "";
         final String TAG = "database";
         if (resultCode == PhotoUtilsCircle.NONE) {
@@ -198,13 +211,13 @@ public class PhotoUtilsCircle {
                     picture = new File(Environment.getExternalStorageDirectory() + File.separator + context.getPackageName() + File.separator+"myimages/"+ PhotoUtilsCircle.imageName);
                 }
             } else {
-                picture = new File(context.getFilesDir() + File.separator + context.getPackageName() + File.separator+"myimages/"+ PhotoUtilsCircle.imageName);
+                    picture = new File(context.getFilesDir() + File.separator + context.getPackageName() + File.separator+"myimages/"+ PhotoUtilsCircle.imageName);
                 if (!picture.exists()) {
                     picture = new File(context.getFilesDir() + PhotoUtilsCircle.imageName);
                 }
             }
 
-            BxfPath = PhotoUtilsCircle.getPath(context);// 生成一个地址用于存放剪辑后的图片
+            BxfPath = PhotoUtilsCircle.getPath(context,"");// 生成一个地址用于存放剪辑后的图片
             if (TextUtils.isEmpty(BxfPath)) {
                 Log.e(TAG, "随机生成的用于存放剪辑后的图片的地址失败");
                 return "1";
@@ -221,7 +234,7 @@ public class PhotoUtilsCircle {
             return "4";
         ////////////////////////////// 读取相册缩放图片///////////////////////////////////////////////////////////
         if (requestCode == PhotoUtilsCircle.PHOTOZOOM) {
-            BxfPath = PhotoUtilsCircle.getPath(context);// 生成一个地址用于存放剪辑后的图片
+            BxfPath = PhotoUtilsCircle.getPath(context,"pict");// 生成一个地址用于存放剪辑后的图片
             if (TextUtils.isEmpty(BxfPath)) {
                 Log.e(TAG, "随机生成的用于存放剪辑后的图片的地址失败");
                 return "2";
@@ -246,12 +259,13 @@ public class PhotoUtilsCircle {
         return "bxf" + BxfPath;
     }
 
-    static public void showImage(ImageView imageView, String path) {
+    static public String showImage(ImageView imageView, String path) {
         File file = new File(path);
         if (file.exists()) {
             Bitmap bm = BitmapFactory.decodeFile(path);
             imageView.setImageBitmap(bm);
-        }
+            return "1";
+        }else return "0";
     }
 
     static public void options(final Activity activity) {

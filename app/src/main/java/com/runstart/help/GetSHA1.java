@@ -17,10 +17,10 @@ import java.security.cert.X509Certificate;
 /**
  * Created by user on 17-8-29.
  */
-
+//这个是获取电脑SHA1的方法
 public class GetSHA1 {
-
-    //这个是获取SHA1的方法 DB:A2:5A:15:D7:F7:37:6C:D7:A3:1C:D2:67:D7:37:22:79:A3:47:51我的电脑
+     //runstartkey:B6:76:01:85:A9:21:3B:70:45:DA:AA:94:B7:ED:B7:32:C6:D4:A9:AD
+     //我的电脑DB:A2:5A:15:D7:F7:37:6C:D7:A3:1C:D2:67:D7:37:22:79:A3:47:51
     //公司电脑80:02:E3:70:C9:E0:9C:58:76:1D:0D:7C:4E:6D:AB:70:91:99:94:06
     //keystore版B7:58:C9:08:F7:36:43:F2:EE:E7:B8:0F:12:5F:4F:9C:4B:F6:D7:4B
     public static String getCertificateSHA1Fingerprint(Context context) {

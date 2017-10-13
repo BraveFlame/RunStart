@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="13dp"
                 android:layout_toRightOf="@id/ride_iv_weather"
-                android:text="未连接"
+                android:text="Not connected"
                 android:textSize="16sp" />
 
             <TextView
@@ -112,7 +112,7 @@
 
                 android:layout_marginTop="5dp"
                 android:text="9.54km"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -158,7 +158,7 @@
                 android:layout_marginTop="5dp"
 
                 android:text="78"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="wrap_content"

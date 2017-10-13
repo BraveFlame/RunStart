@@ -60,7 +60,7 @@ public class ListViewAdapter extends BaseAdapter {
         ViewHolder viewHolder=null;
         if (convertView == null) {
             viewHolder=new ViewHolder();
-            convertView = mLayoutInflater.inflate(R.layout.walk_secondpage_listitem, null);
+            convertView = mLayoutInflater.inflate(R.layout.walk_myactivity_listitem, null);
             viewHolder.topicImage = (ImageView) convertView.findViewById(R.id.topic_image);
             viewHolder.topicTitle = (TextView) convertView.findViewById(R.id.topic_title);
             viewHolder.userHeadImage = (ImageView) convertView.findViewById(R.id.topic_user_headImage);

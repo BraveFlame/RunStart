@@ -8,7 +8,7 @@
         android:layout_height="match_parent">
         <!--第一部分-->
         <LinearLayout
-            android:id="@+id/circle_join_ll_first"
+            android:id="@+id/circle_pushcard_ll_first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffff"
@@ -17,16 +17,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
-                android:layout_below="@+id/circle_rl_join_title"
+                android:layout_below="@+id/circle_rl_pushcard_title"
                 >
                 <ImageView
+                    android:id="@+id/activityBackground"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
                     android:src="@mipmap/bitmap_walk"
                     />
+
             </LinearLayout>
             <TextView
+                android:id="@+id/activityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="18dp"
@@ -41,40 +44,41 @@
         </LinearLayout>
         <!--第一条分割线-->
         <View
-            android:id="@+id/circle_join_line_first"
+            android:id="@+id/circle_pushcard_line_first"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_below="@+id/circle_join_ll_first"
+            android:layout_below="@+id/circle_pushcard_ll_first"
 
             android:background="#f1f0f0"
             />
         <!--第二部分-->
         <RelativeLayout
-            android:id="@+id/circle_join_rl_second"
+            android:id="@+id/circle_pushcard_rl_second"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/circle_join_line_first"
+            android:layout_below="@+id/circle_pushcard_line_first"
 
             android:background="#ffff"
             >
             <TextView
-                android:id="@+id/circle_join_tv_acds"
+                android:id="@+id/activityIntroduction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="18dp"
                 android:layout_marginRight="13dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-
+                android:minHeight="70dp"
                 android:text="activity description：We need to have enough exercise every day to maintain our healthy life,I hope we can drink every day we work together, punch together"
                 android:textSize="16sp"
                 android:textColor="#5e5e5e"
                 />
             <TextView
+                android:id="@+id/activityCreatingDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_alignBottom="@+id/circle_join_tv_acds"
+                android:layout_below="@+id/activityIntroduction"
                 android:layout_marginRight="15dp"
 
                 android:text="2017-09-09"
@@ -83,76 +87,60 @@
                 android:textColor="#5e5e5e"
                 />
         </RelativeLayout>
+
         <!--第二条分割线-->
         <View
-            android:id="@+id/circle_join_line_second"
+            android:id="@+id/circle_pushcard_line_second"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_below="@+id/circle_join_rl_second"
+            android:layout_below="@+id/circle_pushcard_rl_second"
 
             android:background="#f1f0f0"
             />
-        <!--第三部分-->
-        <LinearLayout
-            android:id="@+id/circle_join_ll_three"
+        <RelativeLayout
+            android:id="@+id/circle_frequency_ll"
+            android:layout_below="@id/circle_pushcard_line_second"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/circle_join_line_second"
+            android:background="#ffffff"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/frequency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="18dp"
 
-            android:background="#ffff"
-            android:orientation="vertical"
-            >
-            <!--select the frequency-->
-            <RelativeLayout
+                android:text="once a week"
+                android:textSize="18sp"
+                android:textColor="#212121"
+                />
+            <TextView
+                android:id="@+id/exerciseAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+
+                android:text="1800m"
+                android:textSize="18dp"
+                android:textColor="#a9a9a9"
+                />
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="18dp"
+                android:layout_height="2dp"
+                android:layout_below="@+id/frequency"
 
-                    android:text="select the frequency"
-                    android:textSize="18sp"
-                    android:textColor="#878787"
-                    />
-                <TextView
-                    android:id="@+id/one_line"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-
-                    android:text="once a week"
-                    android:textSize="18dp"
-                    android:textColor="#000000"
-                    />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_below="@+id/one_line"
-
-                    android:background="#f1f0f0"/>
-            </RelativeLayout>
-        </LinearLayout>
-        <!--第三条分割线-->
-        <View
-            android:id="@+id/circle_join_line_three"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/circle_join_ll_three"
-
-            android:background="#f1f0f0"
-            />
+                android:background="#f1f0f0"/>
+        </RelativeLayout>
         <!--第三部分-->
         <LinearLayout
-            android:id="@+id/circle_join_ll_four"
+            android:id="@+id/circle_pushcard_ll_three"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/circle_join_line_three"
+            android:layout_below="@+id/circle_frequency_ll"
 
             android:orientation="vertical"
             >
@@ -163,7 +151,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="18dp"
 
@@ -173,115 +161,105 @@
                     />
             </LinearLayout>
             <!--展示组员的用户头像-->
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/ll_friend_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:background="#ffff"
                 >
                 <ImageView
-                    android:id="@+id/circle_join_iv_userimage_first"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="18dp"
+                    android:id="@+id/circle_pushcard_iv_userimage_first"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/my_padding"
+                    android:paddingRight="@dimen/my_padding"
+                    android:layout_weight="1"
 
-                    android:src="@mipmap/mpumelelo_macu_283883"
                     />
                 <ImageView
-                    android:id="@+id/circle_join_iv_userimage_second"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_toRightOf="@+id/circle_join_iv_userimage_first"
+                    android:id="@+id/circle_pushcard_iv_userimage_second"
+                    android:layout_width="0dp"
+                    android:paddingLeft="@dimen/my_padding"
+                    android:paddingRight="@dimen/my_padding"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
 
-                    android:src="@mipmap/mpumelelo_macu_283883"
                     />
                 />
                 <ImageView
-                    android:id="@+id/circle_join_iv_userimage_three"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_toRightOf="@+id/circle_join_iv_userimage_second"
+                    android:id="@+id/circle_pushcard_iv_userimage_three"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/my_padding"
+                    android:paddingRight="@dimen/my_padding"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
 
-                    android:src="@mipmap/mpumelelo_macu_283883"
                     />
                 <ImageView
-                    android:id="@+id/circle_join_iv_userimage_four"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_toRightOf="@+id/circle_join_iv_userimage_three"
+                    android:id="@+id/circle_pushcard_iv_userimage_four"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:paddingLeft="@dimen/my_padding"
+                    android:paddingRight="@dimen/my_padding"
+                    android:layout_height="match_parent"
 
-                    android:src="@mipmap/mpumelelo_macu_283883"
                     />
                 <ImageView
-                    android:id="@+id/circle_join_iv_userimage_five"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_toRightOf="@+id/circle_join_iv_userimage_four"
+                    android:id="@+id/circle_pushcard_iv_userimage_five"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/my_padding"
+                    android:paddingRight="@dimen/my_padding"
+                    android:layout_weight="1"
 
-                    android:src="@mipmap/mpumelelo_macu_283883"
                     />
                 <ImageView
-                    android:id="@+id/circle_join_iv_userimage_six"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_toRightOf="@+id/circle_join_iv_userimage_five"
+                    android:id="@+id/circle_pushcard_iv_userimage_six"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/my_padding"
+                    android:paddingRight="@dimen/my_padding"
 
-                    android:src="@mipmap/mpumelelo_macu_283883"
                     />
 
                 <!--右箭头-->
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="25dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginRight="15dp"
 
                     android:src="@mipmap/ic_youjiantou"
                     />
-            </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
-        <!--第四条分割线-->
+
         <View
             android:id="@+id/circle_join_line_four"
             android:layout_width="match_parent"
             android:layout_height="15dp"
-            android:layout_below="@+id/circle_join_ll_four"
+            android:layout_below="@+id/circle_pushcard_ll_three"
 
             android:background="#f1f0f0"/>
 
         <!--第四部分-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:gravity="center"
             android:layout_below="@+id/circle_join_line_four"
             >
             <Button
-                android:id="@+id/circle_join_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
+                android:id="@+id/circle_join_button"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+
                 android:textAllCaps="false"
                 android:background="@mipmap/ic_caise"
+                android:enabled="false"
                 android:text="Join"
                 android:textSize="18dp"
                 android:textColor="#ffff"

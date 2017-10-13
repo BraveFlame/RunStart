@@ -8,20 +8,27 @@
     <RelativeLayout
         android:id="@+id/circle_rl_join_title"
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="50dp">
 
         <ImageView
             android:id="@+id/circle_join_iv_zuojiantou"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
+
             android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+
             android:src="@mipmap/ic_zuojiantou" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginLeft="110dp"
+            android:layout_toRightOf="@+id/circle_join_iv_zuojiantou"
+            android:paddingTop="10dp"
+
             android:text="Circle"
             android:textColor="#212121"
             android:textSize="20sp" />
@@ -31,9 +38,11 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-8dp"
+            android:layout_alignBottom="@+id/circle_join_iv_zuojiantou"
+
             android:layout_alignParentRight="true"
             android:gravity="center"
+
             android:text="..."
             android:textSize="21dp" />
     </RelativeLayout>

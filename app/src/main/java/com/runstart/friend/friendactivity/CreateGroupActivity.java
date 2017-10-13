@@ -5,11 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.runstart.BmobBean.Friend;
 import com.runstart.BmobBean.Group;
@@ -48,7 +48,8 @@ import cn.bmob.v3.listener.SQLQueryListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 public class CreateGroupActivity extends AppCompatActivity implements View.OnClickListener, AdapterForAddFriends.Callback {
-    private Button goBack, createGroup;
+    private Button goBack;
+    private FloatingActionButton createGroup;
     private EditText groupName, individualSignature;
     private ListViewForScrollView friendsListView;
 
@@ -72,7 +73,7 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
         queryFriend();
 
         goBack = (Button)findViewById(R.id.goBack);
-        createGroup = (Button)findViewById(R.id.createGroup);
+        createGroup = (FloatingActionButton) findViewById(R.id.createGroup);
         showHeadPortrait = (MyHeaderImageView)findViewById(R.id.showHeadPortrait);
         selectImage = (ImageView) findViewById(R.id.selectImage);
         groupName = (EditText)findViewById(R.id.groupName);

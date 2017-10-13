@@ -1,18 +1,21 @@
 package com.runstart.history;
 
+import android.app.Activity;
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 
-
+import com.runstart.sport_fragment.FragmentWalkSecondPage;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
-
 
 import cn.bmob.v3.Bmob;
 
@@ -62,7 +65,38 @@ public class MyApplication extends Application {
         }
     }
 
+//////////////////////毕小福//////////////////////////////////
+    private ProgressDialog progressDialog;
+    public void showProgressDialog(Activity activity){
+        progressDialog=new ProgressDialog(activity);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("正在获取数据...");
+        progressDialog.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                myhandler.sendEmptyMessage(11);
+            }
+        }).start();
+    }
 
+    public void stopProgressDialog(){
+        myhandler.sendEmptyMessage(11);
+    }
 
+    Handler myhandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            progressDialog.cancel();
+        }
+    };
 
+    public boolean isFragmentWalkShouldRefresh=false;
+    public FragmentWalkSecondPage fragmentWalkSecondPage;
 }

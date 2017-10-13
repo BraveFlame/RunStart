@@ -13,7 +13,6 @@ import com.runstart.help.GetSHA1;
 
 public class RunFragment extends Fragment{
     private FragmentRunFirstPage fragmentRunFirstPage;
-    private FragmentRunSecondPage fragmentRunSecondPage;
 
     private View view;
     @Override
@@ -35,10 +34,9 @@ public class RunFragment extends Fragment{
      */
     private void initView() {
         fragmentRunFirstPage = new FragmentRunFirstPage();
-        fragmentRunSecondPage = new FragmentRunSecondPage();
 
         getActivity().getSupportFragmentManager().beginTransaction()
-                .add(R.id.first_run_page, fragmentRunFirstPage).add(R.id.second_run_page, fragmentRunSecondPage)
+                .add(R.id.first_run_page, fragmentRunFirstPage)
                 .commit();
 
 

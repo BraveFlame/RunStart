@@ -390,8 +390,11 @@ public class ChatActivity extends Activity implements View.OnClickListener {
      * 获取本地聊天记录
      */
     public void getLocalChat() {
-        chatDb.getLocalChat(chatUserObjectId, chatFriendObjectId, msgList);
+       chatDb.getLocalChat(chatUserObjectId, chatFriendObjectId, msgList);
+
+        //chatDb.getLastMsgChat(chatUserObjectId,chatFriendObjectId);
         Log.e("chatDb", "" + msgList.size());
+        Log.e("chatDb", chatDb.getLastMsgChat(chatUserObjectId,chatFriendObjectId));
     }
 
     private String bxfPath = "";
@@ -406,7 +409,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String str = PhotoUtilsCircle.myPictureOnResultOperate(requestCode, resultCode, data, this);
+        String str = PhotoUtilsCircle.myPictureOnResultOperate(requestCode, resultCode, data, this,"");
         if (str.length() > 3) {
             if (str.substring(0, 3).equals("bxf"))
                 bxfPath = str.substring(3);
