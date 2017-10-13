@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -59,7 +60,7 @@ public class FriendsDetailsActivity extends AppCompatActivity {
 
     private LinearLayout goChatting;
 
-    private Button addFriend;
+    private FloatingActionButton addFriend;
 
     private Friend friend;
     private User user;
@@ -94,7 +95,7 @@ public class FriendsDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friends_details);
 
         goChatting = (LinearLayout) findViewById(R.id.goChatting);
-        addFriend = (Button) findViewById(R.id.addFriend);
+        addFriend = (FloatingActionButton) findViewById(R.id.addFriend);
 
         headerImageRect = (ImageView) findViewById(R.id.headerImageRect);
         likeImage = (ImageView) findViewById(R.id.likeImage);

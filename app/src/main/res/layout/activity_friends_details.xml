@@ -340,6 +340,5 @@
         android:elevation="10dp"
         app:pressedTranslationZ="5dp"
         android:src="@mipmap/ic_floatbutton"
-
         />
 </FrameLayout>
