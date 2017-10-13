@@ -59,6 +59,13 @@ public class MySimpleAdapter extends SimpleAdapter {
             final View v = view.findViewById(to[i]);
             if (v != null) {
                 final Object data = dataSet.get(from[i]);
+                /****************/
+                if (data instanceof Integer){
+                    if ((Integer)data == R.mipmap.ic_zan){
+                        ((TextView)view.findViewById(to[5])).setTextColor(0xffc562ff);
+                    }
+                }
+                /****************/
                 String text = data == null ? "" : data.toString();
                 if (text == null) {
                     text = "";
@@ -80,13 +87,18 @@ public class MySimpleAdapter extends SimpleAdapter {
                                     " should be bound to a Boolean, not a " +
                                     (data == null ? "<unknown type>" : data.getClass()));
                         }
-                    } else if (v instanceof TextView) {
+                    }
+                    /****************/
+                    /**************/
+                    else if (v instanceof TextView) {
                         setViewText((TextView) v, text);
                     } else if (v instanceof ImageView) {
                         if (data instanceof Bitmap){
                             ((ImageView) v).setImageBitmap((Bitmap)data);
                         }else if (data instanceof Integer) {
                             setViewImage((ImageView) v, (Integer) data);
+                            /****************/
+                            /**************/
                         }else if (data == null){
                             ((ImageView) v).setImageResource(R.mipmap.ic_shangchuangtupiang);
                         }else {
@@ -113,9 +125,9 @@ public class MySimpleAdapter extends SimpleAdapter {
 
         bindView(position, view);
 
-        ViewHolder holder;
-        holder = new ViewHolder();
+        ViewHolder holder = new ViewHolder();
         holder.likeImage = (ImageView) view.findViewById(R.id.likeImage);
+        holder.likeNumber = (TextView) view.findViewById(R.id.likeNumber);
         holder.likeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,5 +147,6 @@ public class MySimpleAdapter extends SimpleAdapter {
 
     public class ViewHolder{
         public ImageView likeImage;
+        public TextView likeNumber;
     }
 }

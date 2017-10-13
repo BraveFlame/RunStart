@@ -11,15 +11,21 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.runstart.R;
+import com.runstart.bean.ActivityTopic;
 import com.runstart.help.CountDown;
 import com.runstart.help.GetMap;
 import com.runstart.help.ToastShow;
 import com.runstart.history.HistoryChartActivity;
+import com.runstart.middle.ListViewAdapter;
 import com.runstart.sport_map.SportingActivity;
 import com.runstart.view.LinearCircles;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -33,7 +39,7 @@ public class FragmentWalkFirstPage extends Fragment implements View.OnClickListe
     private TextView weather, lastDistance, lastSpeed;
     private Button startPace;
     private ImageView historyData;
-
+    ListView myListView;
 
     View view;
     GetMap map;
@@ -67,7 +73,8 @@ public class FragmentWalkFirstPage extends Fragment implements View.OnClickListe
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         assignViews(view);
         initData();
-
+        initView();
+        useAdapter();
         map = GetMap.getMap();
         map.getLocation(getContext());
         return view;
@@ -81,6 +88,45 @@ public class FragmentWalkFirstPage extends Fragment implements View.OnClickListe
 
     }
 
+    /**
+     * 初始化view
+     */
+    public void initView(){
+        myListView = (ListView) view.findViewById(R.id.lv_walk_myactivity);
+    }
+    /**
+     * 初始化数据
+     */
+    public List<ActivityTopic> getActivityTopicData(){
+        List<ActivityTopic> topicList = new ArrayList<>();
+
+        ActivityTopic activityTopic=new ActivityTopic();
+        activityTopic.setTopicImage(String.valueOf(R.mipmap.bitmap_walk));
+        activityTopic.setTopicTitle("every day");
+        activityTopic.setUserHeadImage(String.valueOf(R.mipmap.arvin_febry_302935_copy3));
+        activityTopic.setUserName("alien");
+        activityTopic.setTopicProgressbar(String.valueOf(R.mipmap.progressbar));
+        topicList.add(activityTopic);
+        ActivityTopic activityTopic2=new ActivityTopic();
+        activityTopic2.setTopicImage(String.valueOf(R.mipmap.bitmap_walk));
+        activityTopic2.setTopicTitle("every day");
+        activityTopic2.setUserHeadImage(String.valueOf(R.mipmap.arvin_febry_302935_copy3));
+        activityTopic2.setUserName("alien");
+        activityTopic2.setTopicProgressbar(String.valueOf(R.mipmap.progressbar));
+        topicList.add(activityTopic2);
+
+        return topicList;
+    }
+    /**
+     * 使用ListViewAdapter
+     */
+    public  void useAdapter(){
+        List<ActivityTopic> topicList=getActivityTopicData();
+        ListViewAdapter listViewAdapter=new ListViewAdapter(getContext());
+        listViewAdapter.setTopicList(topicList);
+        myListView.setAdapter(listViewAdapter);
+
+    }
     private void addListener() {
         startPace.setOnClickListener(this);
         weather.setOnClickListener(this);

@@ -1,13 +1,19 @@
 package com.runstart.friend;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 
+import com.runstart.R;
 import com.runstart.history.MyApplication;
+import com.runstart.mine.MineMessageRecordActivity;
 
 import org.json.JSONObject;
 
@@ -38,6 +44,9 @@ public class ListenMsgService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         listenMsgChanged();
     }
 
@@ -45,6 +54,7 @@ public class ListenMsgService extends Service {
     private Map<String, MsgChat> msgChatMap;
     private Map<String, Integer> msgCountMap;
     private BmobRealTimeData bmobRealTimeData = new BmobRealTimeData();
+    private int lastMsgCount = 0;
 
     private void getMsgChatMap(){
         msgChatMap = new HashMap<>();
@@ -54,31 +64,39 @@ public class ListenMsgService extends Service {
                 .doSQLQuery(new SQLQueryListener<MsgChat>() {
                     @Override
                     public void done(BmobQueryResult<MsgChat> bmobQueryResult, BmobException e) {
-                        List<MsgChat> msgChatList = bmobQueryResult.getResults();
-                        for (MsgChat msgChat: msgChatList){
-                            msgChatMap.put(msgChat.getUserObjectId(), msgChat);
-                        }
-                        for (Map.Entry<String, MsgChat> entry:msgChatMap.entrySet()){
-                            String key = entry.getKey();
-                            String data = entry.getValue().toString();
-                            if (data.contains(", leaveMsg='0.*.|*|")){
-                                String leaveMsg = data.split(", leaveMsg='0\\.\\*\\.\\|\\*\\|")[1];
-                                msgCountMap.put(key, 1);
-                                if (leaveMsg.contains(".*.|*|")){
-                                    msgCountMap.put(key, leaveMsg.split("\\.\\*\\.\\|\\*\\|").length);
-                                }
-                            }else {
-                                msgCountMap.put(key, 0);
+                        if (e == null){
+                            List<MsgChat> msgChatList = bmobQueryResult.getResults();
+                            for (MsgChat msgChat: msgChatList){
+                                msgChatMap.put(msgChat.getUserObjectId(), msgChat);
                             }
+                            for (Map.Entry<String, MsgChat> entry:msgChatMap.entrySet()){
+                                String key = entry.getKey();
+                                String data = entry.getValue().getLeaveMsg();
+                                if (data == null || data.equals("0")){
+                                    msgCountMap.put(key, 0);
+                                } else {
+                                    msgCountMap.put(key, data.split("\\.\\*\\.\\|\\*\\|").length - 1);
+                                }
+
+                                int count = 0;
+                                for (Map.Entry<String, Integer> entry1: msgCountMap.entrySet()){
+                                    count += entry1.getValue();
+                                }
+                                if (count > lastMsgCount){
+                                    notifyNewMsg(MineMessageRecordActivity.class,
+                                            R.mipmap.ic_xiaoxi, "you have " + count + " new messages to read");
+                                }
+                                lastMsgCount = count;
+                            }
+                            //发送广播
+                            Intent intent = new Intent(FILTER_STR);
+                            Bundle data = new Bundle();
+                            ArrayList<Map<String, Integer>> msgCountMapLoader = new ArrayList<>();
+                            msgCountMapLoader.add(msgCountMap);
+                            data.putSerializable("msgCountMapLoader", msgCountMapLoader);
+                            intent.putExtras(data);
+                            sendBroadcast(intent);
                         }
-                        //发送广播
-                        Intent intent = new Intent(FILTER_STR);
-                        Bundle data = new Bundle();
-                        ArrayList<Map<String, Integer>> msgCountMapLoader = new ArrayList<>();
-                        msgCountMapLoader.add(msgCountMap);
-                        data.putSerializable("msgCountMapLoader", msgCountMapLoader);
-                        intent.putExtras(data);
-                        sendBroadcast(intent);
                     }
                 });
     }
@@ -97,5 +115,18 @@ public class ListenMsgService extends Service {
                 }
             }
         });
+    }
+
+    private NotificationManager notificationManager;
+    private void notifyNewMsg(Class clazz, int iconId, String content){
+        Intent intent = new Intent(ListenMsgService.this, clazz);
+        PendingIntent pi = PendingIntent.getActivity(ListenMsgService.this, 0, intent, 0);
+
+        Notification notification = new Notification.Builder(ListenMsgService.this)
+                .setAutoCancel(true).setTicker("New messages").setContentTitle("New messages").setSmallIcon(iconId)
+                .setContentText(content).setDefaults(Notification.DEFAULT_VIBRATE)
+                .setWhen(System.currentTimeMillis()).setContentIntent(pi)
+                .build();
+        notificationManager.notify(NotificationManager.IMPORTANCE_NONE, notification);
     }
 }

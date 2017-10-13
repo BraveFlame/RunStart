@@ -68,7 +68,7 @@
                 android:layout_marginRight="13dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-
+                android:minHeight="70dp"
                 android:text="activity description：We need to have enough exercise every day to maintain our healthy life,I hope we can drink every day we work together, punch together"
                 android:textSize="16sp"
                 android:textColor="#5e5e5e"
@@ -123,6 +123,7 @@
             </LinearLayout>
             <!--展示组员的用户头像-->
             <LinearLayout
+                android:id="@+id/circle_pushcard_ll_friend_list"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:gravity="center_vertical"

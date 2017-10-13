@@ -14,10 +14,10 @@
 
     <RelativeLayout
         android:id="@+id/chat_left_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:background="@drawable/chat_left">
+       >
 
         <EditText
             android:id="@+id/chat_left_msg"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
-            android:background="@null"
+            android:background="@drawable/chat_left"
             android:editable="false"
             android:text="a"
             android:textCursorDrawable="@null"
@@ -34,22 +34,25 @@
         <ImageView
             android:id="@+id/chat_left_img"
             android:layout_width="120dp"
-            android:layout_height="160dp" />
+            android:layout_height="160dp"
+            android:background="@drawable/chat_left"
+            android:layout_marginLeft="8dp"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/chat_right_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:background="@drawable/chat_right">
+        >
 
         <EditText
             android:id="@+id/chat_right_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="13dp"
-            android:background="@null"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/chat_right_me"
             android:editable="false"
             android:text="s"
             android:textCursorDrawable="@null"
@@ -57,7 +60,10 @@
 
         <ImageView
             android:id="@+id/chat_right_img"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
             android:layout_width="120dp"
+            android:background="@drawable/chat_right_me"
             android:layout_height="160dp" />
     </RelativeLayout>
 

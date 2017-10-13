@@ -3,14 +3,16 @@ package com.runstart.friend.friendactivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,6 +26,7 @@ import com.runstart.BmobBean.Friend;
 import com.runstart.BmobBean.User;
 import com.runstart.R;
 import com.runstart.friend.ChatActivity;
+import com.runstart.friend.ListenMsgService;
 import com.runstart.friend.MsgChat;
 import com.runstart.friend.adapter.MyUtils;
 import com.runstart.history.MyApplication;
@@ -31,6 +34,7 @@ import com.runstart.history.MyApplication;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,13 +45,14 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.SQLQueryListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class FriendsDetailsActivity extends AppCompatActivity {
 
     private ImageView headerImageRect, likeImage;
     private MyHeaderImageView headerImageCircle;
 
-    private TextView friendName, likeNumber, sportDistance, msgCount, averageSpeed, timeCost, kCal;
+    private TextView friendName, likeNumber, sportDistance, msgCountTextView, averageSpeed, timeCost, kCal;
 
     private RadioGroup mRadioGroup;
     private RadioButton[] mRadioButtons;
@@ -55,6 +60,9 @@ public class FriendsDetailsActivity extends AppCompatActivity {
     private LinearLayout goChatting;
 
     private Button addFriend;
+
+    private Friend friend;
+    private User user;
 
     public static void jump(Activity activity, User friendUser, Friend friend, Bitmap headerImage) {
         Intent intent = new Intent(activity, FriendsDetailsActivity.class);
@@ -94,7 +102,7 @@ public class FriendsDetailsActivity extends AppCompatActivity {
         friendName = (TextView) findViewById(R.id.NickName);
         likeNumber = (TextView) findViewById(R.id.likeNumber);
         sportDistance = (TextView) findViewById(R.id.sportLength);
-        msgCount = (TextView) findViewById(R.id.msgCount);
+        msgCountTextView = (TextView) findViewById(R.id.msgCount);
         averageSpeed = (TextView) findViewById(R.id.averageSpeed);
         timeCost = (TextView) findViewById(R.id.timeCost);
         kCal = (TextView) findViewById(R.id.kCal);
@@ -105,15 +113,9 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                 (RadioButton) findViewById(R.id.run), (RadioButton) findViewById(R.id.ride)};
         mRadioButtons[0].setChecked(true);
         //获取数据
-        final User user = (User) getIntent().getSerializableExtra("user");
-        Friend friend_0 = (Friend) getIntent().getSerializableExtra("friend");
-        if (friend_0 == null) {
-            friend_0 = new Friend(MyApplication.applicationMap.get("userObjectId"), user.getObjectId(), 0, "");
-            friend_0.save();
-        }
-        final Friend friend = friend_0;
-        friend.setObjectId(friend_0.getObjectId());
-        if (friend.isFriend() == 0 && (!user.getObjectId().equals(MyApplication.applicationMap.get("userObjectId")))) {
+        user = (User) getIntent().getSerializableExtra("user");
+        friend = (Friend) getIntent().getSerializableExtra("friend");
+        if ((friend == null || friend.isFriend() == 0) && (!MyApplication.applicationMap.get("userObjectId").equals(user.getObjectId()))) {
             addFriend.setVisibility(View.VISIBLE);
         }
         final List<Bitmap> bitmapList = (List<Bitmap>) getIntent().getSerializableExtra("headerImage");
@@ -148,8 +150,9 @@ public class FriendsDetailsActivity extends AppCompatActivity {
             headerImageCircle.setImageBitmap(bitmapList.get(0));
         }
         onClickRadioButton(user, sportDistance, averageSpeed, timeCost, kCal, "all", 0);
-        if (friend.getLikeDate().length() == 0) {
+        if (friend == null || friend.getLikeDate() == null || friend.getLikeDate().length() == 0) {
             likeImage.setImageResource(R.mipmap.ic_zan2);
+            likeNumber.setTextColor(0xff000000);
         } else {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -159,8 +162,10 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                     (month == Integer.parseInt(friend.getLikeDate().substring(4, 6))) &&
                     (day == Integer.parseInt(friend.getLikeDate().substring(6, 8))))) {
                 likeImage.setImageResource(R.mipmap.ic_zan2);
+                likeNumber.setTextColor(0xff888888);
             } else {
                 likeImage.setImageResource(R.mipmap.ic_zan);
+                likeNumber.setTextColor(0xffc562ff);
             }
         }
         friendName.setText(user.getNickName());
@@ -169,6 +174,10 @@ public class FriendsDetailsActivity extends AppCompatActivity {
         likeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (friend == null){
+                    friend = new Friend(MyApplication.applicationMap.get("userObjectId"), user.getObjectId(), 0, "");
+                    friend.save();
+                }
                 MyUtils.like(1, likeImage, friend, user, FriendsDetailsActivity.this, likeNumber);
             }
         });
@@ -197,7 +206,7 @@ public class FriendsDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final ArrayList<Map<String, String>> msgChatArrayList = new ArrayList<>();
-                final Map<String, String> msgObjectIdMap = new ArrayMap<>();
+                final Map<String, String> msgObjectIdMap = new HashMap<>();
                 goChat(new String[]{MyApplication.applicationMap.get("userObjectId"), user.getObjectId()},
                         "userMsgObjectId", user, msgChatArrayList, msgObjectIdMap);
                 goChat(new String[]{user.getObjectId(), MyApplication.applicationMap.get("userObjectId")},
@@ -206,7 +215,9 @@ public class FriendsDetailsActivity extends AppCompatActivity {
         });
 
         addFriend.setOnClickListener(new View.OnClickListener() {
-            private void createFriend(final String userObjectId, final String friendObjectId) {
+            private boolean hasAddFriend_0 = false;
+            private boolean hasAddFriend_1 = false;
+            private void createFriend_0(final String userObjectId, final String friendObjectId) {
                 new BmobQuery<Friend>().setSQL("select * from Friend where userObjectId=? and friendObjectId=?")
                         .setPreparedParams(new String[]{userObjectId, friendObjectId})
                         .doSQLQuery(new SQLQueryListener<Friend>() {
@@ -220,8 +231,53 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                                     } else {
                                         friend_update = bmobQueryResult.getResults().get(0);
                                         friend_update.setFriend(1);
-                                        friend_update.setObjectId(friend_update.getObjectId());
-                                        friend_update.update();
+                                        friend_update.update(bmobQueryResult.getResults().get(0).getObjectId(), new UpdateListener() {
+                                            @Override
+                                            public void done(BmobException e) {
+                                                if (e == null){
+                                                    hasAddFriend_0 = true;
+                                                    if (hasAddFriend_0 && hasAddFriend_1){
+                                                        Toast.makeText(FriendsDetailsActivity.this, "Add friend successfully", Toast.LENGTH_SHORT).show();
+                                                        addFriend.setVisibility(View.GONE);
+                                                    }
+                                                } else {
+                                                    Toast.makeText(FriendsDetailsActivity.this, "Add friend failed", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+            }
+            private void createFriend_1(final String userObjectId, final String friendObjectId) {
+                new BmobQuery<Friend>().setSQL("select * from Friend where userObjectId=? and friendObjectId=?")
+                        .setPreparedParams(new String[]{userObjectId, friendObjectId})
+                        .doSQLQuery(new SQLQueryListener<Friend>() {
+                            @Override
+                            public void done(BmobQueryResult<Friend> bmobQueryResult, BmobException e) {
+                                if (e == null) {
+                                    Friend friend_update;
+                                    if (bmobQueryResult.getResults().size() == 0) {
+                                        friend_update = new Friend(userObjectId, friendObjectId, 1, "");
+                                        friend_update.save();
+                                    } else {
+                                        friend_update = bmobQueryResult.getResults().get(0);
+                                        friend_update.setFriend(1);
+                                        friend_update.update(bmobQueryResult.getResults().get(0).getObjectId(), new UpdateListener() {
+                                            @Override
+                                            public void done(BmobException e) {
+                                                if (e == null){
+                                                    hasAddFriend_1 = true;
+                                                    if (hasAddFriend_0 && hasAddFriend_1){
+                                                        Toast.makeText(FriendsDetailsActivity.this, "Add friend successfully", Toast.LENGTH_SHORT).show();
+                                                        addFriend.setVisibility(View.GONE);
+                                                    }
+                                                } else {
+                                                    Toast.makeText(FriendsDetailsActivity.this, "Add friend failed", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
                                     }
                                 }
                             }
@@ -235,10 +291,8 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                         .setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                createFriend(MyApplication.applicationMap.get("userObjectId"), user.getObjectId());
-                                createFriend(user.getObjectId(), MyApplication.applicationMap.get("userObjectId"));
-                                addFriend.setVisibility(View.GONE);
-                                Toast.makeText(FriendsDetailsActivity.this, "Add friend successfully", Toast.LENGTH_SHORT).show();
+                                createFriend_0(MyApplication.applicationMap.get("userObjectId"), user.getObjectId());
+                                createFriend_1(user.getObjectId(), MyApplication.applicationMap.get("userObjectId"));
                             }
                         }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
@@ -247,6 +301,14 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                 }).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initMsgCount();
+        IntentFilter filter = new IntentFilter(ListenMsgService.FILTER_STR);
+        registerReceiver(new MsgCountReceiver(), filter);
     }
 
     private void onClickRadioButton(User user, TextView sportDistanceTextView, TextView averageSpeedTextView,
@@ -291,9 +353,9 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                 kCalTextView.setText(walkKcal + " Kcal");
                 break;
             case "run":
-                sportDistanceTextView.setText(rideDistance + " m");
+                sportDistanceTextView.setText(runDistance + " m");
                 if (runTime != 0) {
-                    averageSpeedTextView.setText((rideDistance / 1000 * 60 * 60 / runTime) + " km/h");
+                    averageSpeedTextView.setText((runDistance / 1000 * 60 * 60 / runTime) + " km/h");
                 } else {
                     averageSpeedTextView.setText("0 hour cost");
                 }
@@ -369,5 +431,51 @@ public class FriendsDetailsActivity extends AppCompatActivity {
         });
     }
 
+    public class MsgCountReceiver extends BroadcastReceiver {
+        public MsgCountReceiver(){
+            super();
+        }
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Map<String, Integer> msgCountMap =
+                    ((ArrayList<Map<String, Integer>>)intent.getSerializableExtra("msgCountMapLoader")).get(0);
+            Integer msgCount = msgCountMap.get(user.getObjectId());
+            if (msgCount == null || msgCount == 0){
+                msgCountTextView.setVisibility(View.GONE);
+            } else {
+                msgCountTextView.setVisibility(View.VISIBLE);
+                msgCountTextView.setText(msgCount + "");
+                if (msgCount > 99){
+                    msgCountTextView.setText("99+");
+                }
+            }
+        }
+    }
+    private void initMsgCount(){
+        new BmobQuery<MsgChat>().setSQL("select * from MsgChat where friendObjectId=? and userObjectId=?")
+                .setPreparedParams(new String[]{MyApplication.applicationMap.get(MyApplication.userObjectIdKey), user.getObjectId()})
+                .doSQLQuery(new SQLQueryListener<MsgChat>() {
+                    @Override
+                    public void done(BmobQueryResult<MsgChat> bmobQueryResult, BmobException e) {
+                        List<MsgChat> msgChatList = bmobQueryResult.getResults();
+                        if (msgChatList.size() == 0){
+                            msgCountTextView.setVisibility(View.GONE);
+                        } else {
+                            MsgChat msgChat = msgChatList.get(0);
+                            String data = msgChat.getLeaveMsg();
+                            if (data == null || data.equals("0")){
+                                msgCountTextView.setVisibility(View.GONE);
+                            } else {
+                                int msgCount = data.split("\\.\\*\\.\\|\\*\\|").length - 1;
+                                msgCountTextView.setVisibility(View.VISIBLE);
+                                msgCountTextView.setText(msgCount + "");
+                                if (msgCount > 99){
+                                    msgCountTextView.setText("99+");
+                                }
+                            }
+                        }
+                    }
+                });
+    }
 }

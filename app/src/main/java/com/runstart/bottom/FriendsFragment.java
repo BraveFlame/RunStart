@@ -9,13 +9,13 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -33,6 +33,7 @@ import com.runstart.friend.friendactivity.CreateGroupActivity;
 import com.runstart.friend.friendfragment.GroupFragment;
 import com.runstart.friend.friendfragment.MyFriendsFragment;
 import com.runstart.history.MyApplication;
+import com.runstart.mine.MineMessageRecordActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +62,8 @@ public class FriendsFragment extends Fragment{
     private boolean flag = true;
 
     //消息数
-    private TextView msgCountextView;
+    private FrameLayout goChattingList;
+    private TextView msgCountTextView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,14 +131,15 @@ public class FriendsFragment extends Fragment{
         super.onResume();
         initMsgCount();
         IntentFilter filter = new IntentFilter(ListenMsgService.FILTER_STR);
-        getActivity().registerReceiver(new FriendsFragment.MsgCountReceiver(), filter);
+        getActivity().registerReceiver(new MsgCountReceiver(), filter);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_friends, container, false);
 
-        msgCountextView = (TextView) view.findViewById(R.id.msgCount);
+        goChattingList = (FrameLayout)view.findViewById(R.id.goChattingList);
+        msgCountTextView = (TextView) view.findViewById(R.id.msgCount);
         bottomRadioGroup = (RadioGroup) view.findViewById(R.id.fbuttonRadioGroup);
         bottomRadioGroup1 = (RadioGroup) view.findViewById(R.id.fbuttonRadioGroup1);
         menuButton = (Button)view.findViewById(R.id.menuButton);
@@ -214,11 +217,17 @@ public class FriendsFragment extends Fragment{
             public void onClick(View v) {
                 if (flag){
                     menuPopupWindow.showAsDropDown(menuButton, -290, 20);
-                    //menuPopupWindow.showAtLocation(view, Gravity.RELATIVE_LAYOUT_DIRECTION, 250, -620);
                     flag = false;
                 }else {
                     menuPopupWindow.dismiss();
                 }
+            }
+        });
+
+        goChattingList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MineMessageRecordActivity.class));
             }
         });
     }
@@ -235,13 +244,16 @@ public class FriendsFragment extends Fragment{
                     ((ArrayList<Map<String, Integer>>)intent.getSerializableExtra("msgCountMapLoader")).get(0);
             int msgCount = 0;
             for (Map.Entry<String, Integer> entry:msgCountMap.entrySet()){
-                String key = entry.getKey();
                 int data = entry.getValue();
                 msgCount += data;
             }
-            msgCountextView.setText(msgCount + "");
+            msgCountTextView.setVisibility(View.VISIBLE);
+            msgCountTextView.setText(msgCount + "");
             if (msgCount > 99){
-                msgCountextView.setText("99+");
+                msgCountTextView.setText("99+");
+            }
+            if (msgCount == 0){
+                msgCountTextView.setVisibility(View.GONE);
             }
         }
     }
@@ -254,31 +266,36 @@ public class FriendsFragment extends Fragment{
                 .doSQLQuery(new SQLQueryListener<MsgChat>() {
                     @Override
                     public void done(BmobQueryResult<MsgChat> bmobQueryResult, BmobException e) {
-                        List<MsgChat> msgChatList = bmobQueryResult.getResults();
-                        for (MsgChat msgChat: msgChatList){
-                            msgChatMap.put(msgChat.getUserObjectId(), msgChat);
-                        }
-                        int msgCount = 0;
-                        for (Map.Entry<String, MsgChat> entry:msgChatMap.entrySet()){
-                            String key = entry.getKey();
-                            String data = entry.getValue().toString();
-                            if (data.contains(", leaveMsg='0.*.|*|")){
-                                String leaveMsg = data.split(", leaveMsg='0\\.\\*\\.\\|\\*\\|")[1];
-                                msgCountMap.put(key, 1);
-                                if (leaveMsg.contains(".*.|*|")){
-                                    msgCountMap.put(key, leaveMsg.split("\\.\\*\\.\\|\\*\\|").length);
-                                }
-                            } else {
-                                msgCountMap.put(key, 0);
+                        if (e == null){
+                            List<MsgChat> msgChatList = bmobQueryResult.getResults();
+                            for (MsgChat msgChat: msgChatList){
+                                msgChatMap.put(msgChat.getUserObjectId(), msgChat);
                             }
-                            msgCount += msgCountMap.get(key);
+                            int msgCount = 0;
+                            for (Map.Entry<String, MsgChat> entry:msgChatMap.entrySet()) {
+                                String key = entry.getKey();
+                                String data = entry.getValue().toString();
+                                if (data == null || data.equals("0")) {
+                                    msgCountMap.put(key, 0);
+                                    continue;
+                                } else {
+                                    int count = data.split("\\.\\*\\.\\|\\*\\|").length - 1;
+                                    msgCountMap.put(key, count);
+                                    msgCount += count;
+                                }
+                            }
+                            if (msgCount == 0){
+                                msgCountTextView.setVisibility(View.GONE);
+                            } else {
+                                msgCountTextView.setVisibility(View.VISIBLE);
+                                msgCountTextView.setText(msgCount + "");
+                                if (msgCount > 99){
+                                    msgCountTextView.setText("99+");
+                                }
+                            }
                         }
-                        msgCountextView.setText(msgCount + "");
-                        if (msgCount > 99){
-                            msgCountextView.setText("99+");
-                        }
-
                     }
+
                 });
     }
 }

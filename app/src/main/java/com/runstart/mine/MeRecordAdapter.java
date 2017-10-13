@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.runstart.R;
 import com.runstart.bean.MessageRecord;
+import com.runstart.friend.friendactivity.*;
+import com.runstart.friend.friendactivity.MyHeaderImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +22,12 @@ import java.util.List;
  */
 
 final class ErViewHolder{
-    public ImageView userImage;
+    public MyHeaderImageView userImage;
+    public TextView friendObjectId;
     public TextView username;
     public TextView usermessage;
     public TextView usertime;
+    public TextView msgcount;
 }
 public class MeRecordAdapter extends BaseAdapter {
 
@@ -63,18 +67,30 @@ public class MeRecordAdapter extends BaseAdapter {
         if (convertView==null){
             convertView = mLayoutInflater.inflate(R.layout.mine_messagerecord_listitem, null);
             erViewHolder=new ErViewHolder();
-            erViewHolder.userImage=(ImageView)convertView.findViewById(R.id.mine_messagerecord_listitem_iv_userimage);
+            erViewHolder.userImage=(MyHeaderImageView) convertView.findViewById(R.id.mine_messagerecord_listitem_iv_userimage);
             erViewHolder.username = (TextView) convertView.findViewById(R.id.mine_messagerecord_listitem_tv_username);
             erViewHolder.usermessage = (TextView) convertView.findViewById(R.id.mine_messagerecord_listitem_tv_usermessage);
             erViewHolder.usertime = (TextView) convertView.findViewById(R.id.mine_messagerecord_listitem_tv_usertime);
+            erViewHolder.msgcount = (TextView) convertView.findViewById(R.id.mine_messagerecord_listitem_tv_msgCount);
+            erViewHolder.friendObjectId = (TextView) convertView.findViewById(R.id.friendObjectId);
             convertView.setTag(erViewHolder);
         }else {
             erViewHolder=(ErViewHolder)convertView.getTag();
         }
-        erViewHolder.userImage.setImageResource(Integer.parseInt(meRecordList.get(position).getUserImage()));
+        erViewHolder.userImage.setImageBitmap(meRecordList.get(position).getUserImage());
+        if (meRecordList.get(position).getUserImage() == null){
+            erViewHolder.userImage.setImageResource(R.mipmap.ic_shangchuangtupiang);
+        }
         erViewHolder.username.setText(meRecordList.get(position).getUserName());
         erViewHolder.usermessage.setText(meRecordList.get(position).getUserMessage());
         erViewHolder.usertime.setText(meRecordList.get(position).getUserTime());
+        erViewHolder.msgcount.setText(meRecordList.get(position).getMsgcount());
+        erViewHolder.friendObjectId.setText(meRecordList.get(position).getFriendObjectId());
+        if ("0".equals(meRecordList.get(position).getMsgcount())){
+            erViewHolder.msgcount.setVisibility(View.GONE);
+        } else {
+            erViewHolder.msgcount.setVisibility(View.VISIBLE);
+        }
         return convertView;
     }
 }

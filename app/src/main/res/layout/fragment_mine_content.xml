@@ -25,11 +25,10 @@
 
             <com.runstart.mine.MyHeaderImageView
                 android:id="@+id/mine_user_headImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="90dp"
-
                 android:src="@mipmap/mpumelelo_macu_283883_copy3" />
 
             <TextView
@@ -385,15 +384,28 @@
                     android:textColor="#343434"
                     />
                 <ImageView
+                    android:id="@+id/go_messagerecord"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="17dp"
-
                     android:src="@mipmap/ic_youjiantou"
                     />
+                <TextView
+                    android:id="@+id/msgCount"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/go_messagerecord"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:background="@drawable/my_textview"
+                    android:textSize="10sp"
+                    android:text="99+"
+                    android:visibility="gone"
+                    android:textColor="#ffffff"/>
             </RelativeLayout>
             <!--第四部分第二条分割线-->
             <View

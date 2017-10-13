@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.runstart.R;
 import com.runstart.help.ActivityCollector;
@@ -63,12 +64,19 @@ public class MineSetUpActivity extends Activity implements View.OnClickListener{
                 MineSetUpActivity.this.finish();
                 break;
             case R.id.mine_setup_content_rl_first:
+                Intent relatedIntent = new Intent(MineSetUpActivity.this,MineRelatedUsActivity.class);
+                startActivity(relatedIntent);
                 break;
             case R.id.mine_setup_content_rl_second:
+                Intent feedbackIntent = new Intent(MineSetUpActivity.this, MineFeedbackActivity.class);
+                startActivity(feedbackIntent);
                 break;
             case R.id.mine_setup_content_rl_three:
+                Toast.makeText(this, "The product is not on the line, please wait!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.mine_setup_content_rl_four:
+                Intent aboutusIntent = new Intent(MineSetUpActivity.this, MineAboutUsActivity.class);
+                startActivity(aboutusIntent);
                 break;
             case R.id.mine_setup_content_btn_logout:
                 ActivityCollector.finishAll();

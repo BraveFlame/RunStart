@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.user.lovesport.activity.PeopleOfGroupActivity">
+   >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:orientation="horizontal"
         android:background="#ffffff">
         <Button
@@ -23,7 +23,7 @@
             android:layout_height="30dp"
             android:layout_centerInParent="true"
             android:text="Group of people"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:textColor="#000000"/>
     </RelativeLayout>
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#eaeaea"/>
-            <com.example.user.lovesport.view.ListViewForScrollView
+            <com.runstart.friend.adapter.ListViewForScrollView
                 android:id="@+id/peopleOfGroupListView"
                 android:layout_width="match_parent"
                 android:layout_height="5dp"

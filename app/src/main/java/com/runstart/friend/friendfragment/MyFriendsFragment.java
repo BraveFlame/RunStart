@@ -187,9 +187,9 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
         if (headerImageUri == null || headerImageUri.length() == 0){
             synchronized (Bitmap.class){
                 bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
-                if (bitmapMap.size() == friendList.size()){
+                //if (bitmapMap.size() == friendList.size()){
                     showResult("walkDistance+runDistance+rideDistance", 0);
-                }
+                //}
                 return;
             }
         }
@@ -199,9 +199,9 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
                 if (e == null){
                     synchronized (Bitmap.class){
                         bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                        if (bitmapMap.size() == friendList.size()){
+                        //if (bitmapMap.size() == friendList.size()){
                             showResult("walkDistance+runDistance+rideDistance", 0);
-                        }
+                        //}
                     }
                 }else {
                     Toast.makeText(getActivity(), "load friends' images failed", Toast.LENGTH_SHORT).show();

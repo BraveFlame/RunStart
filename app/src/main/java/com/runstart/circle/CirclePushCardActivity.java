@@ -15,13 +15,13 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.example.zhouj.viewpagerdemo.BmobBean.ActivityAndMember;
-import com.example.zhouj.viewpagerdemo.BmobBean.ActivityData;
-import com.example.zhouj.viewpagerdemo.BmobBean.User;
-import com.example.zhouj.viewpagerdemo.MyApplication;
-import com.example.zhouj.viewpagerdemo.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.runstart.BmobBean.ActivityAndMember;
+import com.runstart.BmobBean.ActivityData;
+import com.runstart.BmobBean.User;
+import com.runstart.R;
+import com.runstart.history.MyApplication;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

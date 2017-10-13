@@ -13,11 +13,11 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.example.zhouj.viewpagerdemo.BmobBean.ActivityAndMember;
-import com.example.zhouj.viewpagerdemo.BmobBean.ActivityData;
-import com.example.zhouj.viewpagerdemo.MyApplication;
-import com.example.zhouj.viewpagerdemo.R;
-import com.example.zhouj.viewpagerdemo.bottom.CircleFragment;
+
+import com.runstart.BmobBean.ActivityAndMember;
+import com.runstart.BmobBean.ActivityData;
+import com.runstart.R;
+import com.runstart.history.MyApplication;
 
 import java.util.List;
 

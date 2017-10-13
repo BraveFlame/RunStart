@@ -8,6 +8,7 @@ public class ActivityTopicForCircle implements Comparable<ActivityTopicForCircle
     /**
      * 定义字段
      */
+    private String ADid;
     private String topicImage;
     private String topicTitle;
     private String userHeadImage;
@@ -18,6 +19,14 @@ public class ActivityTopicForCircle implements Comparable<ActivityTopicForCircle
      * 定义getter/settter属性
      *
      */
+    public String getADid() {
+        return ADid;
+    }
+
+    public void setADid(String ADid) {
+        this.ADid = ADid;
+    }
+
     public void setTopicImage(String topicImage) {
         this.topicImage = topicImage;
     }

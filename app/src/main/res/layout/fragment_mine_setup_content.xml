@@ -30,7 +30,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="18dp"
 
-            android:text="User guide"
+            android:text="Related Us"
             android:textSize="18sp"
             android:textColor="#212121"
             />
@@ -175,7 +175,7 @@
         android:gravity="center"
         android:layout_marginBottom="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        >
         <Button
             android:id="@+id/mine_setup_content_btn_logout"
             android:layout_width="wrap_content"

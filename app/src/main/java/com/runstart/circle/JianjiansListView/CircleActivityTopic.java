@@ -1,6 +1,6 @@
 package com.runstart.circle.JianjiansListView;
 
-import com.example.zhouj.viewpagerdemo.BmobBean.Friend;
+import com.runstart.BmobBean.Friend;
 
 import java.util.Comparator;
 

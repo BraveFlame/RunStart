@@ -21,9 +21,6 @@ public class Friend extends BmobObject {
         this.chatObjectId = chatObjectId;
     }
 
-    //private int likeState;
-
-
     public Friend(){}
     public Friend(String userObjectId, String friendObjectId, int isFriend, String likeDate) {
         this.userObjectId = userObjectId;
@@ -53,7 +50,7 @@ public class Friend extends BmobObject {
     }
 
     public void setFriend(int isFriend) {
-        isFriend = isFriend;
+        this.isFriend = isFriend;
     }
 
     public String getLikeDate() {
@@ -64,14 +61,6 @@ public class Friend extends BmobObject {
         this.likeDate = likeDate;
     }
 
-    /*public int getLikeState() {
-        return likeState;
-    }
-
-    public void setLikeState(int likeState) {
-        this.likeState = likeState;
-    }*/
-
     @Override
     public String toString() {
         return "Friend{" +
@@ -79,7 +68,6 @@ public class Friend extends BmobObject {
                 ", friendObjectId='" + friendObjectId + '\'' +
                 ", isFriend=" + isFriend +
                 ", likeDate=" + likeDate +
-                //", likeState=" + likeState +
                 '}';
     }
 }

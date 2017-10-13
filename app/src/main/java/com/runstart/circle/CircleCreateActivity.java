@@ -38,12 +38,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zhouj.viewpagerdemo.BmobBean.ActivityAndMember;
-import com.example.zhouj.viewpagerdemo.BmobBean.ActivityData;
-import com.example.zhouj.viewpagerdemo.BmobBean.Friend;
-import com.example.zhouj.viewpagerdemo.BmobBean.User;
-import com.example.zhouj.viewpagerdemo.MyApplication;
-import com.example.zhouj.viewpagerdemo.R;
+import com.runstart.BmobBean.ActivityData;
+import com.runstart.BmobBean.Friend;
+import com.runstart.BmobBean.User;
+import com.runstart.R;
+import com.runstart.friend.adapter.ListViewForScrollView;
+import com.runstart.history.MyApplication;
 
 import java.io.File;
 import java.util.ArrayList;

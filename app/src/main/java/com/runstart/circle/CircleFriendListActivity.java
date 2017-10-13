@@ -13,16 +13,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.zhouj.viewpagerdemo.BmobBean.ActivityAndMember;
-import com.example.zhouj.viewpagerdemo.BmobBean.ActivityData;
-import com.example.zhouj.viewpagerdemo.BmobBean.Friend;
-import com.example.zhouj.viewpagerdemo.BmobBean.User;
-import com.example.zhouj.viewpagerdemo.JianjiansListView.CircleActivityTopic;
-import com.example.zhouj.viewpagerdemo.JianjiansListView.NowJianjiansListView;
-import com.example.zhouj.viewpagerdemo.MyApplication;
-import com.example.zhouj.viewpagerdemo.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.runstart.BmobBean.ActivityAndMember;
+import com.runstart.BmobBean.Friend;
+import com.runstart.BmobBean.User;
+import com.runstart.R;
+import com.runstart.circle.JianjiansListView.CircleActivityTopic;
+import com.runstart.circle.JianjiansListView.NowJianjiansListView;
+import com.runstart.history.MyApplication;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

@@ -4,11 +4,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,6 +30,7 @@ import com.runstart.BmobBean.User;
 import com.runstart.R;
 import com.runstart.friend.adapter.ListViewForScrollView;
 import com.runstart.friend.adapter.MyUtils;
+import com.runstart.friend.adapter.PhotoUtils;
 import com.runstart.history.MyApplication;
 
 import java.io.File;
@@ -42,6 +46,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.SQLQueryListener;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 public class GroupDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -59,6 +64,8 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
     private Map<String, Bitmap> bitmapMap = new ArrayMap<>();
     private List<User> userList = new ArrayList<>();
     private String groupObjectId = "";
+
+    private Group group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,10 +104,19 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         seePeopleOfGroup.setOnClickListener(this);
         goGroupChatLayout.setOnClickListener(this);
         seePeopleOfGroupLayout.setOnClickListener(this);
+        groupImage.setOnClickListener(this);
 
         Map<String, Object> groupMap = ((ArrayList<Map<String, Object>>) getIntent().getSerializableExtra("groupDetail")).get(0);
 
         final List<String> memberObjectIdList = (List<String>) groupMap.get("memberObjectIdList");
+
+        String memberCountStr = groupMap.get("memberCount").toString();
+        String distanceStr = groupMap.get("distance").toString();
+        group = new Group(groupMap.get("creatorId").toString(), null,
+                Integer.parseInt(memberCountStr.substring(0, memberCountStr.length() - " people".length())),
+                Integer.parseInt(distanceStr.substring(0, distanceStr.length() - 2)), groupMap.get("groupName").toString(),
+                groupMap.get("groupDetail").toString(), memberObjectIdList);
+
         groupObjectId = groupMap.get("objectId").toString();
         initPopupMenuWindow(groupMap.get("creatorId").toString(), groupMap.get("objectId").toString(), memberObjectIdList);
 
@@ -218,6 +234,12 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                 intent2.putExtra("groupObjectId", groupObjectId);
                 startActivity(intent2);
                 break;
+            case R.id.groupImage:
+                if(MyApplication.applicationMap.get("userObjectId").equals(group.getCreatorId())){
+                    options();
+                }
+                break;
+
         }
     }
 
@@ -383,4 +405,85 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
             }
         });
     }
+
+    private static final String TAG = CreateGroupActivity.class.getSimpleName();
+    private String path;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == PhotoUtils.NONE){
+            return;
+        }
+        if (requestCode == PhotoUtils.PHOTOGRAPH) {
+            File picture;
+            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                picture = new File(Environment.getExternalStorageDirectory() + PhotoUtils.imageName);
+                if (!picture.exists()) {
+                    picture = new File(Environment.getExternalStorageDirectory() + PhotoUtils.imageName);
+                }
+            } else {
+                picture = new File(this.getFilesDir() + PhotoUtils.imageName);
+                if (!picture.exists()) {
+                    picture = new File(GroupDetailActivity.this.getFilesDir() + PhotoUtils.imageName);
+                }
+            }
+            path = PhotoUtils.getPath(this);
+            if (TextUtils.isEmpty(path)) {
+                Log.e(TAG, "随机生成的用于存放剪辑后的图片的地址失败");
+                return;
+            }
+            Uri imageUri = Uri.fromFile(new File(path));
+            PhotoUtils.startPhotoZoom(GroupDetailActivity.this, Uri.fromFile(picture), PhotoUtils.PICTURE_HEIGHT, PhotoUtils.PICTURE_WIDTH, imageUri);
+        }
+        if (data == null)
+            return;
+        if (requestCode == PhotoUtils.PHOTOZOOM) {
+            path = PhotoUtils.getPath(this);
+            if (TextUtils.isEmpty(path)) {
+                Log.e(TAG, "随机生成的用于存放剪辑后的图片的地址失败");
+                return;
+            }
+            Uri imageUri = Uri.fromFile(new File(path));
+            PhotoUtils.startPhotoZoom(GroupDetailActivity.this, data.getData(), PhotoUtils.PICTURE_HEIGHT, PhotoUtils.PICTURE_WIDTH, imageUri);
+        }
+        if (requestCode == PhotoUtils.PHOTORESOULT) {
+            Bitmap bitmap = PhotoUtils.convertToBitmap(path, PhotoUtils.PICTURE_HEIGHT, PhotoUtils.PICTURE_WIDTH);
+            if(bitmap != null){
+                groupImage.setImageBitmap(bitmap);
+                final BmobFile bmobFile = new BmobFile(new File(path));
+                bmobFile.uploadblock(new UploadFileListener() {
+                    @Override
+                    public void done(BmobException e) {
+                        group.setGroupImageUri(bmobFile.getUrl());
+                        group.update(groupObjectId, new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                if (e == null){
+                                    Toast.makeText(GroupDetailActivity.this, "uploaded image successfully", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    private void options(){
+        new AlertDialog.Builder(this).setTitle("请选择图片来源").setCancelable(true)
+                .setItems(new String[]{"拍照", "相册"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0){
+                            try {
+                                PhotoUtils.photograph(GroupDetailActivity.this);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }else {
+                            PhotoUtils.selectPictureFromAlbum(GroupDetailActivity.this);
+                        }
+                    }
+                }).show();
+    }
+
 }

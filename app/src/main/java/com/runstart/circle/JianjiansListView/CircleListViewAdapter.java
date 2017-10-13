@@ -16,13 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zhouj.viewpagerdemo.BmobBean.ActivityData;
-import com.example.zhouj.viewpagerdemo.BmobBean.Friend;
-import com.example.zhouj.viewpagerdemo.BmobBean.User;
-import com.example.zhouj.viewpagerdemo.MyApplication;
-import com.example.zhouj.viewpagerdemo.R;
-import com.example.zhouj.viewpagerdemo.circle.GetFromBmob;
 import com.google.gson.Gson;
+import com.runstart.BmobBean.Friend;
+import com.runstart.BmobBean.User;
+import com.runstart.R;
+import com.runstart.circle.GetFromBmob;
+import com.runstart.history.MyApplication;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;

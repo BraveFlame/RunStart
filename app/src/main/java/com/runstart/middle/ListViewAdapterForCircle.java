@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.zhouj.viewpagerdemo.R;
-import com.example.zhouj.viewpagerdemo.bean.ActivityTopicForCircle;
+import com.runstart.R;
+import com.runstart.bean.ActivityTopicForCircle;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

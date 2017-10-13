@@ -213,7 +213,7 @@ public class GroupFragment extends Fragment {
     }
 
     private void groupItemClickedRespond(View view){
-        if (allGroupList.size() == 0){
+        if (allGroupList.size() == 0 || bitmapMap.size() != groupList.size()){
             Toast.makeText(getActivity(), "Please waiting for loading data", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -238,9 +238,10 @@ public class GroupFragment extends Fragment {
                 saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
                 if (groupImageUri == null || groupImageUri.trim().length() == 0) {
                     bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
-                    if (bitmapMap.size() == groupList.size()) {
-                        handler.sendEmptyMessage(FINISH_LOADING_BITMAP);
-                    }
+                    //if (bitmapMap.size() == groupList.size()) {
+                        //handler.sendEmptyMessage(FINISH_LOADING_BITMAP);
+                    //}
+                    showResult();
                     continue;
                 }
             }
@@ -250,9 +251,10 @@ public class GroupFragment extends Fragment {
                     if (e == null){
                         synchronized (Object.class){
                             bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                            if (bitmapMap.size() == groupList.size()){
-                                handler.sendEmptyMessage(FINISH_LOADING_BITMAP);
-                            }
+                            //if (bitmapMap.size() == groupList.size()){
+                                //handler.sendEmptyMessage(FINISH_LOADING_BITMAP);
+                            //}
+                            showResult();
                         }
                     } else {
                         Toast.makeText(getActivity(), "loading group images failed", Toast.LENGTH_SHORT).show();

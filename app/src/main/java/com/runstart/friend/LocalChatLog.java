@@ -55,7 +55,6 @@ public class LocalChatLog {
 
     }
 
-    private SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
 
     public void saveLocalChat(MsgChat msgChat,String userId,String friendId) {
         if(msgChat!=null){
@@ -72,6 +71,27 @@ public class LocalChatLog {
 
         }
 
+
+    }
+
+    /**
+     * 获取最近一条信息
+     * @param userId
+     * @param friendId
+     * @return
+     */
+    public String getLastMsgChat(String userId,String friendId){
+        String content="";
+        Cursor cursor = db.query("ChatLog", new String[]{"content","time","recOrsen","max(time)"}, "userId=? and friendId=?"
+                , new String[]{userId, friendId}, null, null,null);
+        if (cursor.moveToFirst()) {
+            do {
+                if(null!=cursor.getString(cursor.getColumnIndex("content")))
+                content=cursor.getString(cursor.getColumnIndex("content"))
+                        +cursor.getString(cursor.getColumnIndex("time"));
+            } while (cursor.moveToNext());
+        }
+        return content;
 
     }
 

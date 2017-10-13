@@ -20,6 +20,7 @@ import java.security.cert.X509Certificate;
 
 public class GetSHA1 {
 
+    //runstartkey:B6:76:01:85:A9:21:3B:70:45:DA:AA:94:B7:ED:B7:32:C6:D4:A9:AD
     //这个是获取SHA1的方法 DB:A2:5A:15:D7:F7:37:6C:D7:A3:1C:D2:67:D7:37:22:79:A3:47:51我的电脑
     //公司电脑80:02:E3:70:C9:E0:9C:58:76:1D:0D:7C:4E:6D:AB:70:91:99:94:06
     public static String getCertificateSHA1Fingerprint(Context context) {

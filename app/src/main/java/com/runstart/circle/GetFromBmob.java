@@ -6,11 +6,11 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.zhouj.viewpagerdemo.BmobBean.ActivityAndMember;
-import com.example.zhouj.viewpagerdemo.BmobBean.ActivityData;
-import com.example.zhouj.viewpagerdemo.BmobBean.Friend;
-import com.example.zhouj.viewpagerdemo.BmobBean.User;
 import com.google.gson.Gson;
+import com.runstart.BmobBean.ActivityAndMember;
+import com.runstart.BmobBean.ActivityData;
+import com.runstart.BmobBean.Friend;
+import com.runstart.BmobBean.User;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
