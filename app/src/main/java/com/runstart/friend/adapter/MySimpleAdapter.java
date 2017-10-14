@@ -60,7 +60,7 @@ public class MySimpleAdapter extends SimpleAdapter {
             if (v != null) {
                 final Object data = dataSet.get(from[i]);
                 /****************/
-                if (data instanceof Integer){
+                if (data != null && data instanceof Integer){
                     if ((Integer)data == R.mipmap.ic_zan){
                         ((TextView)view.findViewById(to[5])).setTextColor(0xffc562ff);
                     }

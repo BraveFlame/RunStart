@@ -22,7 +22,6 @@ final class ViewHolder{
     public TextView topicTitle;
     public ImageView userHeadImage;
     public TextView userName;
-    public ImageView topicProgressbar;
 }
 
 public class ListViewAdapter extends BaseAdapter {
@@ -65,7 +64,6 @@ public class ListViewAdapter extends BaseAdapter {
             viewHolder.topicTitle = (TextView) convertView.findViewById(R.id.topic_title);
             viewHolder.userHeadImage = (ImageView) convertView.findViewById(R.id.topic_user_headImage);
             viewHolder.userName = (TextView) convertView.findViewById(R.id.topic_user_name);
-            viewHolder.topicProgressbar = (ImageView) convertView.findViewById(R.id.topic_progressbar);
             convertView.setTag(viewHolder);
         }else {
             viewHolder=(ViewHolder)convertView.getTag();
@@ -74,7 +72,6 @@ public class ListViewAdapter extends BaseAdapter {
         viewHolder.topicTitle.setText(topicList.get(position).getTopicTitle());
         viewHolder.userHeadImage.setImageResource(Integer.parseInt(topicList.get(position).getUserHeadImage()));
         viewHolder.userName.setText((topicList.get(position).getUserName()));
-        viewHolder.topicProgressbar.setBackgroundResource(Integer.parseInt(topicList.get(position).getTopicProgressbar()));
         return convertView;
     }
 }

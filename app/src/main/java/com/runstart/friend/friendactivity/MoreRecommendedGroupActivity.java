@@ -3,12 +3,12 @@ package com.runstart.friend.friendactivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.runstart.BmobBean.Group;
 import com.runstart.R;
@@ -102,8 +103,7 @@ public class MoreRecommendedGroupActivity extends AppCompatActivity {
                         groupList = bmobQueryResult.getResults();
                         handler.sendEmptyMessage(FINISH_LOADING_GROUP);
                     }else {
-                        Toast.makeText(MoreRecommendedGroupActivity.this, "load groups failed", Toast.LENGTH_SHORT).show();
-                    }
+                        e.printStackTrace();                    }
                 }
             });
     }
@@ -209,10 +209,12 @@ public class MoreRecommendedGroupActivity extends AppCompatActivity {
                 new BmobFile(saveName, "", groupImageUri).download(saveFile, new DownloadFileListener() {
                     @Override
                     public void done(String s, BmobException e) {
-                        synchronized (MoreRecommendedGroupActivity.class) {
-                            bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                            if (bitmapMap.size() == groupList.size()) {
-                                handler.sendEmptyMessage(FINISH_LOADING_BITMAP);
+                        if (e == null){
+                            synchronized (MoreRecommendedGroupActivity.class) {
+                                bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
+                                if (bitmapMap.size() == groupList.size()) {
+                                    handler.sendEmptyMessage(FINISH_LOADING_BITMAP);
+                                }
                             }
                         }
                     }

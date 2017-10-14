@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -118,37 +119,12 @@ public class FriendsDetailsActivity extends AppCompatActivity {
         if ((friend == null || friend.isFriend() == 0) && (!MyApplication.applicationMap.get("userObjectId").equals(user.getObjectId()))) {
             addFriend.setVisibility(View.VISIBLE);
         }
-        final List<Bitmap> bitmapList = (List<Bitmap>) getIntent().getSerializableExtra("headerImage");
+        //final List<Bitmap> bitmapList = (List<Bitmap>) getIntent().getSerializableExtra("headerImage");
         headerImageRect.setImageResource(R.mipmap.ic_shangchuangtupiang);
         headerImageCircle.setImageResource(R.mipmap.ic_shangchuangtupiang);
-        if (bitmapList.get(0) == null) {
-            String saveName = MyUtils.getStringToday() + user.getObjectId() + ".png";
-            String headerImageUri = user.getHeaderImageUri();
-            File saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
-            if (headerImageUri == null || headerImageUri.length() == 0) {
-                headerImageRect.setImageResource(R.mipmap.ic_shangchuangtupiang);
-                headerImageCircle.setImageResource(R.mipmap.ic_shangchuangtupiang);
-            } else {
-                new BmobFile(saveName, "", headerImageUri).download(saveFile, new DownloadFileListener() {
-                    @Override
-                    public void done(String s, BmobException e) {
-                        if (e == null) {
-                            headerImageRect.setImageBitmap(BitmapFactory.decodeFile(s));
-                            headerImageCircle.setImageBitmap(BitmapFactory.decodeFile(s));
-                        } else {
-                            Toast.makeText(FriendsDetailsActivity.this, "load images failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
 
-                    @Override
-                    public void onProgress(Integer integer, long l) {
-                    }
-                });
-            }
-        } else {
-            headerImageRect.setImageBitmap(bitmapList.get(0));
-            headerImageCircle.setImageBitmap(bitmapList.get(0));
-        }
+        queryImage(user.getHeaderImageUri());
+
         onClickRadioButton(user, sportDistance, averageSpeed, timeCost, kCal, "all", 0);
         if (friend == null || friend.getLikeDate() == null || friend.getLikeDate().length() == 0) {
             likeImage.setImageResource(R.mipmap.ic_zan2);
@@ -227,7 +203,18 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                                     Friend friend_update;
                                     if (bmobQueryResult.getResults().size() == 0) {
                                         friend_update = new Friend(userObjectId, friendObjectId, 1, "");
-                                        friend_update.save();
+                                        friend_update.save(new SaveListener<String>() {
+                                            @Override
+                                            public void done(String s, BmobException e) {
+                                                if (e == null){
+                                                    hasAddFriend_0 = true;
+                                                    if (hasAddFriend_1){
+                                                        Toast.makeText(FriendsDetailsActivity.this, "Add friend successfully", Toast.LENGTH_SHORT).show();
+                                                        addFriend.setVisibility(View.GONE);
+                                                    }
+                                                }
+                                            }
+                                        });
                                     } else {
                                         friend_update = bmobQueryResult.getResults().get(0);
                                         friend_update.setFriend(1);
@@ -236,7 +223,7 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                                             public void done(BmobException e) {
                                                 if (e == null){
                                                     hasAddFriend_0 = true;
-                                                    if (hasAddFriend_0 && hasAddFriend_1){
+                                                    if (hasAddFriend_1){
                                                         Toast.makeText(FriendsDetailsActivity.this, "Add friend successfully", Toast.LENGTH_SHORT).show();
                                                         addFriend.setVisibility(View.GONE);
                                                     }
@@ -260,7 +247,18 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                                     Friend friend_update;
                                     if (bmobQueryResult.getResults().size() == 0) {
                                         friend_update = new Friend(userObjectId, friendObjectId, 1, "");
-                                        friend_update.save();
+                                        friend_update.save(new SaveListener<String>() {
+                                            @Override
+                                            public void done(String s, BmobException e) {
+                                                if (e == null){
+                                                    hasAddFriend_1 = true;
+                                                    if (hasAddFriend_0){
+                                                        Toast.makeText(FriendsDetailsActivity.this, "Add friend successfully", Toast.LENGTH_SHORT).show();
+                                                        addFriend.setVisibility(View.GONE);
+                                                    }
+                                                }
+                                            }
+                                        });
                                     } else {
                                         friend_update = bmobQueryResult.getResults().get(0);
                                         friend_update.setFriend(1);
@@ -269,7 +267,7 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                                             public void done(BmobException e) {
                                                 if (e == null){
                                                     hasAddFriend_1 = true;
-                                                    if (hasAddFriend_0 && hasAddFriend_1){
+                                                    if (hasAddFriend_0){
                                                         Toast.makeText(FriendsDetailsActivity.this, "Add friend successfully", Toast.LENGTH_SHORT).show();
                                                         addFriend.setVisibility(View.GONE);
                                                     }
@@ -458,24 +456,53 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                 .doSQLQuery(new SQLQueryListener<MsgChat>() {
                     @Override
                     public void done(BmobQueryResult<MsgChat> bmobQueryResult, BmobException e) {
-                        List<MsgChat> msgChatList = bmobQueryResult.getResults();
-                        if (msgChatList.size() == 0){
-                            msgCountTextView.setVisibility(View.GONE);
-                        } else {
-                            MsgChat msgChat = msgChatList.get(0);
-                            String data = msgChat.getLeaveMsg();
-                            if (data == null || data.equals("0")){
+                        if (e == null){
+                            List<MsgChat> msgChatList = bmobQueryResult.getResults();
+                            if (msgChatList.size() == 0){
                                 msgCountTextView.setVisibility(View.GONE);
                             } else {
-                                int msgCount = data.split("\\.\\*\\.\\|\\*\\|").length - 1;
-                                msgCountTextView.setVisibility(View.VISIBLE);
-                                msgCountTextView.setText(msgCount + "");
-                                if (msgCount > 99){
-                                    msgCountTextView.setText("99+");
+                                MsgChat msgChat = msgChatList.get(0);
+                                String data = msgChat.getLeaveMsg();
+                                if (data == null || data.equals("0")){
+                                    msgCountTextView.setVisibility(View.GONE);
+                                } else {
+                                    int msgCount = data.split("\\.\\*\\.\\|\\*\\|").length - 1;
+                                    msgCountTextView.setVisibility(View.VISIBLE);
+                                    msgCountTextView.setText(msgCount + "");
+                                    if (msgCount > 99){
+                                        msgCountTextView.setText("99+");
+                                    }
                                 }
                             }
                         }
                     }
                 });
+    }
+
+    private void queryImage(String imageUri){
+            String saveName = MyUtils.getStringToday() + user.getObjectId() + ".png";
+            File saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
+            if (imageUri == null || imageUri.length() == 0) {
+                headerImageRect.setImageResource(R.mipmap.ic_shangchuangtupiang);
+                headerImageCircle.setImageResource(R.mipmap.ic_shangchuangtupiang);
+            } else {
+                new BmobFile(saveName, "", imageUri).download(saveFile, new DownloadFileListener() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e == null) {
+                            headerImageRect.setImageBitmap(BitmapFactory.decodeFile(s));
+                            headerImageCircle.setImageBitmap(BitmapFactory.decodeFile(s));
+                        } else {
+                            headerImageRect.setImageResource(R.mipmap.ic_shangchuangtupiang);
+                            headerImageCircle.setImageResource(R.mipmap.ic_shangchuangtupiang);
+                            Toast.makeText(FriendsDetailsActivity.this, "load images failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onProgress(Integer integer, long l) {
+                    }
+                });
+            }
     }
 }

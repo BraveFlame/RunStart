@@ -3,6 +3,7 @@ package com.runstart.mine;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.runstart.R;
 import com.runstart.help.ActivityCollector;
+import com.runstart.slidingpage.LoginPageActivity;
 
 
 /**
@@ -79,9 +81,14 @@ public class MineSetUpActivity extends Activity implements View.OnClickListener{
                 startActivity(aboutusIntent);
                 break;
             case R.id.mine_setup_content_btn_logout:
+                PreferenceManager.getDefaultSharedPreferences(this)
+                        .edit().putBoolean("remember_password", false).commit();
                 ActivityCollector.finishAll();
+                startActivity(new Intent(MineSetUpActivity.this, LoginPageActivity.class));
             default:
                 break;
         }
     }
+
+
 }

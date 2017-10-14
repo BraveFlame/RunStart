@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.runstart.BmobBean.User;
 import com.runstart.R;
 import com.runstart.bean.MessageRecord;
@@ -172,7 +173,7 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
 
                             }
                         } else {
-                            //Toast.makeText(MineMessageRecordActivity.this, "initialing messages failed", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
                         }
                     }
                 });
@@ -196,7 +197,7 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
                                 toFriendMsgChatMap.put(msgChat.getFriendObjectId(), bmobQueryResult.getResults().get(0));
                             }
                         } else {
-                            //Toast.makeText(MineMessageRecordActivity.this, "initialing messages failed", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
                         }
                     }
                 });
@@ -222,7 +223,6 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
                     queryBitMap(user);
                 }else{
                     e.printStackTrace();
-                    //Toast.makeText(MineMessageRecordActivity.this, "loading friends failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -252,7 +252,7 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
                         }
                     }
                 }else {
-                    Toast.makeText(MineMessageRecordActivity.this, "load friends' images failed", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
             }
             @Override

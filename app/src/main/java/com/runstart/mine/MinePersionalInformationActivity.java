@@ -2,12 +2,17 @@ package com.runstart.mine;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Trace;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -18,9 +23,13 @@ import android.widget.TextView;
 
 import com.runstart.BmobBean.User;
 import com.runstart.R;
+import com.runstart.friend.ChatActivity;
 import com.runstart.friend.PhotoUtilsCircle;
+import com.runstart.friend.adapter.PhotoUtils;
 import com.runstart.help.ActivityCollector;
+import com.runstart.help.GetSharedPreferences;
 import com.runstart.help.ToastShow;
+import com.runstart.history.MyApplication;
 
 import java.io.File;
 
@@ -45,32 +54,22 @@ public class MinePersionalInformationActivity extends Activity implements View.O
     private File userImgFile;
     private final int GET_IMG_BMOB = 1;
     private String myName, myHead, myLocation, myMailBox;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-
-            switch (msg.what) {
-                case GET_IMG_BMOB:
-                    PhotoUtilsCircle.showImage(myHeadImg, USER_IMG_PATH);
-                    break;
-                case 2:
-
-                    updateUser();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_mine_personalinformation);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = preferences.edit();
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         ActivityCollector.addActivity(this);
-        USER_IMG_PATH = Environment.getExternalStorageDirectory() + File.separator
-                + getPackageName() + File.separator + "myimages/userHeadImg.png";
         user = (User) getIntent().getSerializableExtra("userInfo");
+        USER_IMG_PATH = Environment.getExternalStorageDirectory() + File.separator
+                + getPackageName() + File.separator + "myimages/" + user.getObjectId() + "userHeadImg.png";
+
         pInformationInitView();
 
 
@@ -133,15 +132,15 @@ public class MinePersionalInformationActivity extends Activity implements View.O
 
             case R.id.mine_personalinformation_content_rl_second:
                 AlertDialog.Builder builder = new AlertDialog.Builder(MinePersionalInformationActivity.this);
-                builder.setTitle("头像")
-                        .setMessage("选择上传头像的方式")
-                        .setPositiveButton("拍照", new DialogInterface.OnClickListener() {
+                builder.setTitle("Head Img")
+                        .setMessage("please choose the way to update")
+                        .setPositiveButton("photo", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 PhotoUtilsCircle.photograph(MinePersionalInformationActivity.this);
                             }
                         })
-                        .setNegativeButton("相册", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("picture", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 PhotoUtilsCircle.selectPictureFromAlbum(MinePersionalInformationActivity.this);
@@ -161,6 +160,9 @@ public class MinePersionalInformationActivity extends Activity implements View.O
 
             case R.id.mine_set_info:
 
+                dialog = new ProgressDialog(this);
+                dialog.setMessage("changing...");
+                dialog.show();
 
                 if (setMyInfo()) {
                     pushHeadImg();
@@ -189,10 +191,30 @@ public class MinePersionalInformationActivity extends Activity implements View.O
 
     }
 
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+
+            switch (msg.what) {
+                case GET_IMG_BMOB:
+                    PhotoUtilsCircle.showImage(myHeadImg, USER_IMG_PATH);
+                    break;
+                case 2:
+                    updateUser();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     public void pushHeadImg() {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                if ("".equals(bxfPath)) {
+                    bxfPath = USER_IMG_PATH;
+                }
                 final BmobFile bmobFile = new BmobFile(new File(bxfPath));
                 bmobFile.uploadblock(new UploadFileListener() {
                     @Override
@@ -200,13 +222,21 @@ public class MinePersionalInformationActivity extends Activity implements View.O
                         if (e == null) {
                             Message message = new Message();
                             message.what = 2;
-                            deleteLastHeadImg(user.getHeaderImageUri());
+                            try {
+                                if (null != user.getHeaderImageUri())
+                                    deleteLastHeadImg(user.getHeaderImageUri());
+                            } catch (Exception ee) {
+                                Log.e("bmob", "删除原来头像失败");
 
-                            user.setHeaderImageUri(bmobFile.getFileUrl());
-                            handler.sendMessage(message);
-                            ToastShow.showToast(MinePersionalInformationActivity.this, "上传图片成功！！");
+                            } finally {
+                                user.setHeaderImageUri(bmobFile.getFileUrl());
+                                handler.sendMessage(message);
+                                // ToastShow.showToast(MinePersionalInformationActivity.this, "上传图片成功！！");
+                            }
+
                         } else {
-                            ToastShow.showToast(MinePersionalInformationActivity.this, "上传图片失败！");
+                            dialog.dismiss();
+                            ToastShow.showToast(MinePersionalInformationActivity.this, "图片未改变！");
                         }
                     }
 
@@ -223,7 +253,7 @@ public class MinePersionalInformationActivity extends Activity implements View.O
         new Thread(new Runnable() {
             @Override
             public void run() {
-                BmobFile bmobFile = new BmobFile("userHeadImg", "", user.getHeaderImageUri());
+                BmobFile bmobFile = new BmobFile(user.getObjectId() + "userHeadImg", "", user.getHeaderImageUri());
                 bmobFile.download(userImgFile, new DownloadFileListener() {
                     @Override
                     public void done(String s, BmobException e) {
@@ -232,7 +262,7 @@ public class MinePersionalInformationActivity extends Activity implements View.O
                             message.what = 1;
                             handler.sendMessage(message);
                         } else {
-                            ToastShow.showToast(MinePersionalInformationActivity.this, "下载头像出错！");
+                            ToastShow.showToast(MinePersionalInformationActivity.this, "download headimg error！");
                         }
                     }
 
@@ -249,17 +279,21 @@ public class MinePersionalInformationActivity extends Activity implements View.O
         user.update(user.getObjectId(), new UpdateListener() {
             @Override
             public void done(BmobException e) {
+                dialog.dismiss();
                 if (e == null) {
-                    ToastShow.showToast(MinePersionalInformationActivity.this, "修改成功！");
+                    ToastShow.showToast(MinePersionalInformationActivity.this, "change successfully！");
+                    editor.putString("lastImg", user.getHeaderImageUri());
+                    editor.commit();
+
                 } else {
-                    ToastShow.showToast(MinePersionalInformationActivity.this, "更新出错！");
+                    ToastShow.showToast(MinePersionalInformationActivity.this, "change error！");
                 }
             }
         });
     }
 
     public void deleteLastHeadImg(String url) {
-        BmobFile bmobFile = new BmobFile("userHeadImg", "", url);
+        BmobFile bmobFile = new BmobFile(user.getObjectId() + "userHeadImg", "", url);
         Log.e("bmob", "之前头像地址" + user.getHeaderImageUri());
         bmobFile.delete(new UpdateListener() {
             @Override
@@ -285,7 +319,7 @@ public class MinePersionalInformationActivity extends Activity implements View.O
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String str = PhotoUtilsCircle.myPictureOnResultOperate(requestCode, resultCode, data, this,"userHeadImg");
+        String str = PhotoUtilsCircle.myPictureOnResultOperate(requestCode, resultCode, data, this, user.getObjectId() + "userHeadImg");
         if (str.length() > 3) {
             if (str.substring(0, 3).equals("bxf"))
                 bxfPath = str.substring(3);

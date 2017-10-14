@@ -2,10 +2,10 @@ package com.runstart.friend.friendactivity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.runstart.BmobBean.Friend;
 import com.runstart.BmobBean.Group;
@@ -78,8 +79,7 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
                     friendList = bmobQueryResult.getResults();
                     queryUser();
                 }else {
-                    Toast.makeText(InviteFriendToGroupActivity.this, "load friends failed", Toast.LENGTH_SHORT).show();
-                }
+                    e.printStackTrace();                }
             }
         });
 
@@ -115,11 +115,9 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
                                     User user = bmobQueryResult.getResults().get(0);
                                     userList.add(user);
                                     queryBitmap(user);
-                                    //Log.e("***********", e + "*************111exception");
                                 }
                             }else {
-                                Toast.makeText(InviteFriendToGroupActivity.this, "load friends failed", Toast.LENGTH_SHORT).show();
-                            }
+                                e.printStackTrace();                            }
                         }
                     });
         }
@@ -149,8 +147,7 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
                         }
                     }
                 }else {
-                    Toast.makeText(InviteFriendToGroupActivity.this, "load friends' images failed", Toast.LENGTH_SHORT).show();
-                }
+                    e.printStackTrace();                }
             }
             @Override
             public void onProgress(Integer integer, long l) {}

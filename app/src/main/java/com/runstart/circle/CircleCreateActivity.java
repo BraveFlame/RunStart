@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -115,9 +115,9 @@ public class CircleCreateActivity extends AppCompatActivity implements View.OnCl
                     GetFromBmob.addAAM(activityDataToUpload.getObjectId(),MyId,handler);
                     break;
                 case 7:
-                    handler.sendEmptyMessage(11);
                     CirclePushCardActivity.jump(activityDataToUpload.getObjectId(),CircleCreateActivity.this);
                     ((MyApplication)getApplicationContext()).isFragmentWalkShouldRefresh=true;
+                    handler.sendEmptyMessage(11);
                     finish();
                     break;
                 case 11:
@@ -370,7 +370,7 @@ public class CircleCreateActivity extends AppCompatActivity implements View.OnCl
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            handler.sendEmptyMessage(13);
+                            handler.sendEmptyMessage(11);
                         }
                     }).start();
                 }

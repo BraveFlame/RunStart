@@ -1,6 +1,8 @@
 package com.runstart.friend;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,7 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.runstart.BmobBean.Friend;
 import com.runstart.R;
 import com.runstart.help.ToastShow;
 
@@ -28,9 +32,12 @@ import java.util.Map;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobRealTimeData;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.SQLQueryListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import cn.bmob.v3.listener.ValueEventListener;
@@ -50,12 +57,13 @@ public class ChatActivity extends Activity implements View.OnClickListener {
     private TextView chatNameText;
     private ListView msgListView;
     private EditText inputText;
-    private Button send;
-    private ImageView cameraImg, pictureImg;
+    private Button send, addFriend;
+    private ImageView cameraImg, pictureImg, goBack;
 
     private MsgAdapter adapter;
     private List<MsgChat> msgList = new ArrayList<>();
 
+    private List<Friend> friendList;
 
     private String chatUserObjectId, chatFriendObjectId;
     private String friendName;
@@ -133,9 +141,128 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                 PhotoUtilsCircle.selectPictureFromAlbum(ChatActivity.this);
                 break;
 
+            case R.id.circle_ib_zuojiantou:
+                finish();
+                break;
+            case R.id.circle_pushcard_popupmenu:
+                if(userMsgChat != null){
+                    addAsMyFriend(userMsgChat.getUserObjectId(), userMsgChat.getFriendObjectId());
+                } else {
+                    Toast.makeText(ChatActivity.this, "Add friend failed", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
             default:
                 break;
         }
+    }
+
+
+    private void addAsMyFriend(final String userObjectId, final String friendObjectId){
+        new AlertDialog.Builder(ChatActivity.this)
+                .setTitle("Add friend").setMessage("Are you sure to add each other to your own friends?")
+                .setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        createFriend_0(friendObjectId, userObjectId);
+                        createFriend_1(userObjectId, friendObjectId);
+                    }
+                }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }).show();
+    }
+    private boolean hasAddFriend_0 = false;
+    private boolean hasAddFriend_1 = false;
+    private MsgChat userMsgChat;
+    private void createFriend_0(final String userObjectId, final String friendObjectId) {
+        new BmobQuery<Friend>().setSQL("select * from Friend where userObjectId=? and friendObjectId=?")
+                .setPreparedParams(new String[]{userObjectId, friendObjectId})
+                .doSQLQuery(new SQLQueryListener<Friend>() {
+                    @Override
+                    public void done(BmobQueryResult<Friend> bmobQueryResult, BmobException e) {
+                        if (e == null) {
+                            Friend friend_update;
+                            if (bmobQueryResult.getResults().size() == 0) {
+                                friend_update = new Friend(userObjectId, friendObjectId, 1, "");
+                                friend_update.save(new SaveListener<String>() {
+                                    @Override
+                                    public void done(String s, BmobException e) {
+                                        if (e == null){
+                                            hasAddFriend_0 = true;
+                                            if (hasAddFriend_1){
+                                                Toast.makeText(ChatActivity.this, "Add friend successfully", Toast.LENGTH_SHORT).show();
+                                                addFriend.setVisibility(View.GONE);
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                friend_update = bmobQueryResult.getResults().get(0);
+                                friend_update.setFriend(1);
+                                friend_update.update(bmobQueryResult.getResults().get(0).getObjectId(), new UpdateListener() {
+                                    @Override
+                                    public void done(BmobException e) {
+                                        if (e == null){
+                                            hasAddFriend_0 = true;
+                                            if (hasAddFriend_1){
+                                                Toast.makeText(ChatActivity.this, "Add friend successfully", Toast.LENGTH_SHORT).show();
+                                                addFriend.setVisibility(View.GONE);
+                                            }
+                                        } else {
+                                            Toast.makeText(ChatActivity.this, "Add friend failed", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+    }
+    private void createFriend_1(final String userObjectId, final String friendObjectId) {
+        new BmobQuery<Friend>().setSQL("select * from Friend where userObjectId=? and friendObjectId=?")
+                .setPreparedParams(new String[]{userObjectId, friendObjectId})
+                .doSQLQuery(new SQLQueryListener<Friend>() {
+                    @Override
+                    public void done(BmobQueryResult<Friend> bmobQueryResult, BmobException e) {
+                        if (e == null) {
+                            Friend friend_update;
+                            if (bmobQueryResult.getResults().size() == 0) {
+                                friend_update = new Friend(userObjectId, friendObjectId, 1, "");
+                                friend_update.save(new SaveListener<String>() {
+                                    @Override
+                                    public void done(String s, BmobException e) {
+                                        if (e == null){
+                                            hasAddFriend_1 = true;
+                                            if (hasAddFriend_0) {
+                                                Toast.makeText(ChatActivity.this, "Add friend successfully", Toast.LENGTH_SHORT).show();
+                                                addFriend.setVisibility(View.GONE);
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                friend_update = bmobQueryResult.getResults().get(0);
+                                friend_update.setFriend(1);
+                                friend_update.update(bmobQueryResult.getResults().get(0).getObjectId(), new UpdateListener() {
+                                    @Override
+                                    public void done(BmobException e) {
+                                        if (e == null) {
+                                            hasAddFriend_1 = true;
+                                            if (hasAddFriend_0) {
+                                                Toast.makeText(ChatActivity.this, "Add friend successfully", Toast.LENGTH_SHORT).show();
+                                                addFriend.setVisibility(View.GONE);
+                                            }
+                                        } else {
+                                            Toast.makeText(ChatActivity.this, "Add friend failed", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
     }
 
     /**
@@ -214,6 +341,10 @@ public class ChatActivity extends Activity implements View.OnClickListener {
             @Override
             public void done(MsgChat msgChat, BmobException e) {
                 if (e == null) {
+                    //判断是否好友
+                    isFriend(msgChat);
+                    userMsgChat = msgChat;
+
                     friendLeaveMsg = msgChat.getLeaveMsg();
                     ToastShow.showToast(ChatActivity.this, "huoqu-chgong");
                     //查看对方给我的离线信息，并清0
@@ -378,12 +509,38 @@ public class ChatActivity extends Activity implements View.OnClickListener {
         inputText = (EditText) findViewById(R.id.friend_chat_input);
         send = (Button) findViewById(R.id.friend_chat_send);
         send.setOnClickListener(this);
+        addFriend = (Button)findViewById(R.id.circle_pushcard_popupmenu);
+        addFriend.setOnClickListener(this);
+        goBack = (ImageView)findViewById(R.id.circle_ib_zuojiantou);
+        goBack.setOnClickListener(this);
         cameraImg = (ImageView) findViewById(R.id.friend_chat_camera);
         cameraImg.setOnClickListener(this);
         msgListView = (ListView) findViewById(R.id.msg_list_view);
         pictureImg = (ImageView) findViewById(R.id.friend_chat_picture);
         pictureImg.setOnClickListener(this);
 
+    }
+
+    private void isFriend(MsgChat msgChat){
+        new BmobQuery<Friend>().setSQL("select from Friend where userObjectId=? and friendObjectId=?")
+                .setPreparedParams(new String[]{msgChat.getUserObjectId(), msgChat.getFriendObjectId()})
+                .doSQLQuery(new SQLQueryListener<Friend>() {
+                    @Override
+                    public void done(BmobQueryResult<Friend> bmobQueryResult, BmobException e) {
+                        if (e == null){
+                            if (bmobQueryResult.getResults().size() > 0){
+                                friendList = bmobQueryResult.getResults();
+                                if (friendList.get(0).isFriend() == 0){
+                                    addFriend.setVisibility(View.VISIBLE);
+                                } else {
+                                    addFriend.setVisibility(View.GONE);
+                                }
+                            } else {
+                                addFriend.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                });
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.runstart.friend;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,12 +54,22 @@ public class MsgAdapter extends ArrayAdapter<MsgChat> implements View.OnClickLis
             viewHolder.leftImg = (ImageView) view.findViewById(R.id.chat_left_img);
             viewHolder.rightImg = (ImageView) view.findViewById(R.id.chat_right_img);
             view.setTag(viewHolder);
-            viewHolder.leftImg.setOnClickListener(this);
-            viewHolder.rightImg.setOnClickListener(this);
+            viewHolder.leftImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setLeftAllScreen(viewHolder);
+                }
+            });
+            viewHolder.rightImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setRightAllScreen(viewHolder);
+                }
+            });
             imgLayParaLeft=viewHolder.leftImg.getLayoutParams();
             imgLayParaRight=viewHolder.rightImg.getLayoutParams();
-             init(viewHolder.leftImg);
-            init(viewHolder.rightImg);
+           //  init(viewHolder.leftImg);
+            //init(viewHolder.rightImg);
 
         } else {
             view = convertView;
@@ -134,16 +143,17 @@ public class MsgAdapter extends ArrayAdapter<MsgChat> implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.chat_left_img:
-                Intent intent = new Intent(context,ScaleChatImgActivity.class);
-                intent.putExtra("imageInfoObj", imageInfoObj);
-                intent.putExtra("imageWidgetInfoObj", imageWidgetInfoObj);
-                context.startActivity(intent);
+//                Intent intent = new Intent(context,ScaleChatImgActivity.class);
+//                intent.putExtra("imageInfoObj", imageInfoObj);
+//                intent.putExtra("imageWidgetInfoObj", imageWidgetInfoObj);
+//                context.startActivity(intent);
+
                 break;
             case R.id.chat_right_img:
-                Intent intent0r= new Intent(context,ScaleChatImgActivity.class);
-                intent0r.putExtra("imageInfoObj", imageInfoObj);
-                intent0r.putExtra("imageWidgetInfoObj", imageWidgetInfoObj);
-                context.startActivity(intent0r);
+//                Intent intent0r= new Intent(context,ScaleChatImgActivity.class);
+//                intent0r.putExtra("imageInfoObj", imageInfoObj);
+//                intent0r.putExtra("imageWidgetInfoObj", imageWidgetInfoObj);
+//                context.startActivity(intent0r);
                 break;
             default:
                 break;

@@ -68,9 +68,9 @@ public class GetMap implements LocationSource, AMapLocationListener, WeatherSear
         TextView walkWt=(TextView)activity.findViewById(R.id.weather_temp);
         TextView runWt=(TextView)activity.findViewById(R.id.run_weather_temp);
         TextView rideWt=(TextView)activity.findViewById(R.id.ride_weather_temp);
-        walkWt.setText("未连接");
-        runWt.setText("未连接");
-        rideWt.setText("未连接");
+        walkWt.setText("error");
+        runWt.setText("error");
+        rideWt.setText("error");
 
 
     }
@@ -80,7 +80,7 @@ public class GetMap implements LocationSource, AMapLocationListener, WeatherSear
     public void getLocation(Context context) {
         this.context=context;
         dialog = new ProgressDialog(context);
-        dialog.setMessage("获取当前位置...");
+        dialog.setMessage("getting location...");
         dialog.setCancelable(true);
         dialog.show();
         View view = View.inflate(context, R.layout.follow, null);
