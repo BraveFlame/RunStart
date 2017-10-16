@@ -1,5 +1,6 @@
 package com.runstart.friend.friendfragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,6 +31,7 @@ import com.runstart.BmobBean.Group;
 import com.runstart.R;
 import com.runstart.friend.adapter.AdapterForShowGroup;
 import com.runstart.friend.adapter.ListViewForScrollView;
+import com.runstart.friend.adapter.MyUtils;
 import com.runstart.friend.friendactivity.GroupDetailActivity;
 import com.runstart.friend.friendactivity.MoreRecommendedGroupActivity;
 import com.runstart.history.MyApplication;
@@ -81,9 +83,13 @@ public class GroupFragment extends Fragment {
         }
     };
 
+    private ProgressDialog progressDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        progressDialog = new ProgressDialog(getActivity());
 
         mFrom = new String[]{"index", "groupImage", "groupName", "groupDetail", "memberCount", "distance"};
         mTo = new int[]{R.id.index, R.id.groupImage, R.id.groupName, R.id.groupDetail, R.id.memberCount, R.id.distance};
@@ -108,7 +114,7 @@ public class GroupFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        MyUtils.showProgressDialog(progressDialog);
         queryGroup();
     }
 
@@ -219,6 +225,7 @@ public class GroupFragment extends Fragment {
         int index = Integer.parseInt(((TextView)view.findViewById(R.id.index)).getText().toString());
         Map<String, Object> itemMap = allGroupList.get(index);
         ArrayList<Map<String, Object>> newArrayList = new ArrayList<>();
+        itemMap.remove("groupImage");
         newArrayList.add(itemMap);
         Bundle data = new Bundle();
         data.putSerializable("groupDetail", newArrayList);
@@ -237,6 +244,7 @@ public class GroupFragment extends Fragment {
                 saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
                 if (groupImageUri == null || groupImageUri.trim().length() == 0) {
                     bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
+                    MyUtils.dismissProgressDialog(progressDialog);
                     showResult();
                     continue;
                 }
@@ -248,6 +256,7 @@ public class GroupFragment extends Fragment {
                         synchronized (Object.class){
                             if (e == null){
                                 bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
+                                MyUtils.dismissProgressDialog(progressDialog);
                                 showResult();
                             }
                         }

@@ -1,5 +1,6 @@
 package com.runstart.friend.friendactivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,6 +27,7 @@ import com.runstart.BmobBean.Group;
 import com.runstart.R;
 import com.runstart.friend.adapter.AdapterForShowGroup;
 import com.runstart.friend.adapter.ListViewForScrollView;
+import com.runstart.friend.adapter.MyUtils;
 import com.runstart.history.MyApplication;
 
 import java.io.File;
@@ -67,15 +69,22 @@ public class MoreRecommendedGroupActivity extends AppCompatActivity {
                 queryBitmap();
             }
             if (msg.what == FINISH_LOADING_BITMAP){
+                if (progressDialog.isShowing()){
+                    MyUtils.dismissProgressDialog(progressDialog);
+                }
                 showResult();
             }
         }
     };
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_recommended_group);
+
+        progressDialog = new ProgressDialog(MoreRecommendedGroupActivity.this);
 
         view = (ScrollView)findViewById(R.id.rootView);
         goBack = (Button)findViewById(R.id.goBack);
@@ -88,6 +97,7 @@ public class MoreRecommendedGroupActivity extends AppCompatActivity {
         mFrom = new String[]{"index", "groupImage", "groupName", "groupDetail", "memberCount", "distance"};
         mTo = new int[]{R.id.index, R.id.groupImage, R.id.groupName, R.id.groupDetail, R.id.memberCount, R.id.distance};
 
+        MyUtils.showProgressDialog(progressDialog);
         queryGroup();
 
         init();

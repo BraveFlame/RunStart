@@ -30,6 +30,8 @@ import com.runstart.help.ActivityCollector;
 import com.runstart.help.GetSharedPreferences;
 import com.runstart.help.ToastShow;
 import com.runstart.history.MyApplication;
+import com.runstart.mine.location.City;
+import com.runstart.mine.location.PInfoLocationActivity;
 
 import java.io.File;
 
@@ -44,7 +46,7 @@ import cn.bmob.v3.listener.UploadFileListener;
  * Created by zhouj on 2017-10-09.
  */
 
-public class MinePersionalInformationActivity extends Activity implements View.OnClickListener {
+public class MinePersonalInformationActivity extends Activity implements View.OnClickListener {
 
     private ImageView myHeadImg;
     private Button mineSetBtn;
@@ -58,6 +60,10 @@ public class MinePersionalInformationActivity extends Activity implements View.O
     private SharedPreferences.Editor editor;
     private ProgressDialog dialog;
 
+    private boolean isChangeImg;
+
+
+    private City city;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +75,7 @@ public class MinePersionalInformationActivity extends Activity implements View.O
         user = (User) getIntent().getSerializableExtra("userInfo");
         USER_IMG_PATH = Environment.getExternalStorageDirectory() + File.separator
                 + getPackageName() + File.separator + "myimages/" + user.getObjectId() + "userHeadImg.png";
-
+        city=new City();
         pInformationInitView();
 
 
@@ -127,37 +133,43 @@ public class MinePersionalInformationActivity extends Activity implements View.O
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_personalinformation_iv_zuojiantou:
-                MinePersionalInformationActivity.this.finish();
+                MinePersonalInformationActivity.this.finish();
                 break;
 
             case R.id.mine_personalinformation_content_rl_second:
-                AlertDialog.Builder builder = new AlertDialog.Builder(MinePersionalInformationActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MinePersonalInformationActivity.this);
                 builder.setTitle("Head Img")
                         .setMessage("please choose the way to update")
-                        .setPositiveButton("photo", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("camera", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                PhotoUtilsCircle.photograph(MinePersionalInformationActivity.this);
+                                PhotoUtilsCircle.photograph(MinePersonalInformationActivity.this);
                             }
                         })
-                        .setNegativeButton("picture", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("album", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                PhotoUtilsCircle.selectPictureFromAlbum(MinePersionalInformationActivity.this);
+                                PhotoUtilsCircle.selectPictureFromAlbum(MinePersonalInformationActivity.this);
                             }
                         })
                         .show();
 
-
                 break;
             case R.id.mine_personalinformation_content_rl_three:
-
+                Intent pInfoSetNameIntent = new Intent(MinePersonalInformationActivity.this, MinePInfoSetNameActivity.class);
+                pInfoSetNameIntent.putExtra("newname", myNameTv.getText().toString());
+                startActivityForResult(pInfoSetNameIntent,11);
                 break;
             case R.id.mine_personalinformation_content_rl_four:
+                Intent locationIntent = new Intent(MinePersonalInformationActivity.this, PInfoLocationActivity.class);
+                locationIntent.putExtra("city", city);
+                startActivityForResult(locationIntent,12);
                 break;
             case R.id.mine_personalinformation_content_rl_five:
+                Intent pInfoMailBoxIntent = new Intent(MinePersonalInformationActivity.this, MinePInfoMailBoxActivity.class);
+                pInfoMailBoxIntent.putExtra("newmailbox", myMailBoxTv.getText().toString());
+                startActivityForResult(pInfoMailBoxIntent,13);
                 break;
-
             case R.id.mine_set_info:
 
                 dialog = new ProgressDialog(this);
@@ -165,7 +177,10 @@ public class MinePersionalInformationActivity extends Activity implements View.O
                 dialog.show();
 
                 if (setMyInfo()) {
+                    //选中才需要换头像
+                    if (isChangeImg)
                     pushHeadImg();
+                    else updateUser();
                 }
 
 
@@ -231,12 +246,12 @@ public class MinePersionalInformationActivity extends Activity implements View.O
                             } finally {
                                 user.setHeaderImageUri(bmobFile.getFileUrl());
                                 handler.sendMessage(message);
-                                // ToastShow.showToast(MinePersionalInformationActivity.this, "上传图片成功！！");
+                                // ToastShow.showToast(MinePersonalInformationActivity.this, "上传图片成功！！");
                             }
 
                         } else {
                             dialog.dismiss();
-                            ToastShow.showToast(MinePersionalInformationActivity.this, "图片未改变！");
+                            ToastShow.showToast(MinePersonalInformationActivity.this, "图片未改变！");
                         }
                     }
 
@@ -262,7 +277,7 @@ public class MinePersionalInformationActivity extends Activity implements View.O
                             message.what = 1;
                             handler.sendMessage(message);
                         } else {
-                            ToastShow.showToast(MinePersionalInformationActivity.this, "download headimg error！");
+                            ToastShow.showToast(MinePersonalInformationActivity.this, "download headimg error！");
                         }
                     }
 
@@ -281,12 +296,21 @@ public class MinePersionalInformationActivity extends Activity implements View.O
             public void done(BmobException e) {
                 dialog.dismiss();
                 if (e == null) {
-                    ToastShow.showToast(MinePersionalInformationActivity.this, "change successfully！");
-                    editor.putString("lastImg", user.getHeaderImageUri());
-                    editor.commit();
+                    ToastShow.showToast(MinePersonalInformationActivity.this, "change successfully！");
 
+                    if(isChangeImg){
+                        editor.putString("lastImg", user.getHeaderImageUri());
+
+                        PhotoUtilsCircle.changeImgName(user.getObjectId() + "userHeadImg",
+                                MinePersonalInformationActivity.this);
+                    }
+                    editor.putString("name",user.getNickName());
+                    editor.putString("location",user.getLocation());
+                    editor.putString("mail",user.getMailBox());
+                    editor.commit();
+                    finish();
                 } else {
-                    ToastShow.showToast(MinePersionalInformationActivity.this, "change error！");
+                    ToastShow.showToast(MinePersonalInformationActivity.this, "change error！");
                 }
             }
         });
@@ -299,6 +323,10 @@ public class MinePersionalInformationActivity extends Activity implements View.O
             @Override
             public void done(BmobException e) {
                 if (e == null) {
+                    editor.putString("name",user.getNickName());
+                    editor.putString("location",user.getLocation());
+                    editor.putString("mail",user.getMailBox());
+                    editor.commit();
                     Log.e("bmob", "bmobFileurl删除成功");
                 } else {
                     Log.e("bmob", "bmobFileurl删除失败");
@@ -318,13 +346,40 @@ public class MinePersionalInformationActivity extends Activity implements View.O
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case 11:
+                if(requestCode==11){
+                    String newname = data.getStringExtra("setname");
+                    myNameTv.setText(newname);
+                }
+                return;
+            case 12:
+                if (data!=null) {
+                    city = data.getParcelableExtra("city");
+                    if (city.getDistrict() != null) {
+                        myLocationTv.setText(city.getProvince() + city.getDistrict());
+                    } else {
+                        myLocationTv.setText(city.getProvince() + city.getCity());
+                    }
+                }
+                return;
+            case 13:
+                if(requestCode==13){
+                    String newmailbox = data.getStringExtra("setmailbox");
+                    myMailBoxTv.setText(newmailbox);
+                }
+                return;
+            default:
+                break;
+        }
         super.onActivityResult(requestCode, resultCode, data);
-        String str = PhotoUtilsCircle.myPictureOnResultOperate(requestCode, resultCode, data, this, user.getObjectId() + "userHeadImg");
+        String str = PhotoUtilsCircle.myPictureOnResultOperate(requestCode, resultCode, data, this, user.getObjectId() + "userHeadImgTemp");
         if (str.length() > 3) {
             if (str.substring(0, 3).equals("bxf"))
                 bxfPath = str.substring(3);
         } else if (str.equals("3")) {
 
+            isChangeImg=true;
             PhotoUtilsCircle.showImage(myHeadImg, bxfPath);
         }
         Log.e("database", "str:" + str);

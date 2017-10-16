@@ -56,6 +56,7 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
     private MeRecordAdapter meRecordAdapter;
     //定义List列表来保存MessageRecord的相应数据信息
     private List<MessageRecord> messageRecordList=null;
+    private MsgCountReceiver msgCountReceiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,22 +66,24 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
         getMessageRecordData();
         initMeRecordView();
         initListView();
-
         localChatLog = LocalChatLog.getLocalChatLog(MineMessageRecordActivity.this);
+        msgCountReceiver=new MsgCountReceiver();
+        IntentFilter filter = new IntentFilter(ListenMsgService.FILTER_STR);
+        registerReceiver(msgCountReceiver, filter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         queryToMeMsgChat();
-        IntentFilter filter = new IntentFilter(ListenMsgService.FILTER_STR);
-        registerReceiver(new MsgCountReceiver(), filter);
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ActivityCollector.removeActivity(this);
+        unregisterReceiver(msgCountReceiver);
     }
 
     /**
@@ -311,6 +314,8 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
                     messageRecord.setUserTime("");
                 } else {
                     if (localMsgChat.contains("http://bmob-cdn-14232.b0.upaiyun.com")){
+                        messageRecord.setUserMessage("[image]");
+                    } else if (localMsgChat.contains("com.runstart/myimages")){
                         messageRecord.setUserMessage("[image]");
                     } else {
                         messageRecord.setUserMessage(localMsgChat.substring(0, localMsgChat.length() - 19));

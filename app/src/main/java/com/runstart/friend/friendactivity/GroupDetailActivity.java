@@ -1,5 +1,6 @@
 package com.runstart.friend.friendactivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -69,10 +70,14 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
 
     private Group group;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_detail);
+
+        progressDialog = new ProgressDialog(GroupDetailActivity.this);
 
         goGroupChatLayout = (LinearLayout)findViewById(R.id.goGroupChatLayout);
         seePeopleOfGroupLayout = (LinearLayout)findViewById(R.id.seePeopleOfGroupLayout);
@@ -127,10 +132,9 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         memberCount.setText(groupMap.get("memberCount").toString());
         distance.setText(groupMap.get("distance").toString());
         groupDetail.setText(groupMap.get("groupDetail").toString());
-        groupImage.setImageBitmap((Bitmap) groupMap.get("groupImage"));
-        if (groupMap.get("groupImage") == null){
-            groupImage.setImageResource(R.mipmap.ic_shangchuangtupiang);
-        }
+
+        MyUtils.showProgressDialog(progressDialog);
+        queryGroupImage();
 
         for (final String memberObjectId: memberObjectIdList){
            new BmobQuery<User>().setSQL("select * from User where objectId=?")
@@ -155,6 +159,39 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         super.onResume();
     }
 
+    private void queryGroupImage(){
+        new BmobQuery<Group>().setSQL("select * from Group where objectId=?").setPreparedParams(new String[]{groupObjectId})
+                .doSQLQuery(new SQLQueryListener<Group>() {
+                    @Override
+                    public void done(BmobQueryResult<Group> bmobQueryResult, BmobException e) {
+                        if (e == null){
+                            if (bmobQueryResult.getResults().size() > 0){
+                                String imageUri = bmobQueryResult.getResults().get(0).getGroupImageUri();
+                                if (imageUri == null || imageUri.length() == 0){
+                                    groupImage.setImageResource(R.mipmap.ic_shangchuangtupiang);
+                                } else {
+                                    String saveName = group.getObjectId() + ".png";
+                                    File saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
+                                    new BmobFile(saveName, "", imageUri).download(saveFile, new DownloadFileListener() {
+                                        @Override
+                                        public void done(String s, BmobException e) {
+                                            if (e == null){
+                                                groupImage.setImageBitmap(BitmapFactory.decodeFile(s));
+                                            } else {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                        @Override
+                                        public void onProgress(Integer integer, long l) {}
+                                    });
+                                }
+
+                            }
+                        }
+                    }
+                });
+    }
+
     private void queryBitmap(User user, final int memberCount){
         final int objectIdLength = user.getObjectId().length();
         String saveName = MyUtils.getStringToday() + user.getObjectId() + ".png";
@@ -163,6 +200,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         if (imageUri == null || imageUri.length() == 0){
             bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
             if (bitmapMap.size() == memberCount){
+                MyUtils.dismissProgressDialog(progressDialog);
                 showOrderedImagesByKcal(memberCount);
             }
             return;
@@ -173,6 +211,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                 if (e == null){
                     bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
                     if (bitmapMap.size() == memberCount){
+                        MyUtils.dismissProgressDialog(progressDialog);
                         showOrderedImagesByKcal(memberCount);
                     }
                 }

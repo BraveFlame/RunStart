@@ -53,7 +53,7 @@
     <application
         android:name=".history.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/ic_launcher_app"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
@@ -143,6 +143,7 @@
         <activity android:name=".friend.friendactivity.ShowMyFriendsActivity" />
         <activity android:name=".friend.friendactivity.GroupDetailActivity" />
         <activity android:name=".friend.friendactivity.PeopleOfGroupActivity"></activity>
+        <activity android:name=".friend.friendactivity.InviteFriendToGroupActivity"/>
 
         <service android:name=".friend.ListenMsgService" />
 
@@ -208,7 +209,10 @@
         <activity android:name=".mine.MineAboutSportActivity" /><!-- “我的”的AboutSportNewsActivity -->
         <activity android:name=".mine.AboutSportNewsActivity" />
         <activity android:name=".mine.MineOurMallActivity" /><!-- “我的”的MineMessageRecordActivity -->
-        <activity android:name=".mine.MinePersionalInformationActivity" /><!-- “Circle”的CirclePushCardActivity -->
+        <activity android:name=".mine.MinePersonalInformationActivity" /><!-- “Circle”的CirclePushCardActivity -->
+        <activity android:name=".mine.MinePInfoSetNameActivity"/>
+        <activity android:name=".mine.location.PInfoLocationActivity"/>
+        <activity android:name=".mine.MinePInfoMailBoxActivity"/>
         <activity android:name=".mine.MineAboutUsActivity" />
         <activity android:name=".mine.MineFeedbackActivity" />
         <activity android:name=".mine.MineRelatedUsActivity" />

@@ -1,5 +1,6 @@
 package com.runstart.friend.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,5 +64,19 @@ public class MyUtils {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String dateString = formatter.format(currentTime);
         return dateString;
+    }
+
+    //显示等待数据加载对话框
+    public static void showProgressDialog(ProgressDialog progressDialog){
+        progressDialog.setTitle("Loading data");
+        progressDialog.setMessage("Data is loading, please waite for a moment.");
+        progressDialog.setCancelable(true);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+    }
+    public static void dismissProgressDialog(ProgressDialog progressDialog){
+        if (progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 }

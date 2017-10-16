@@ -1,5 +1,6 @@
 package com.runstart.friend.friendfragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -58,14 +59,18 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
     private Map<String, Bitmap> forDetailsBitmap = new ArrayMap<>();
     private User[] orderedUserArr;
 
+    private ProgressDialog progressDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressDialog = new ProgressDialog(getActivity());
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        MyUtils.showProgressDialog(progressDialog);
         queryFriend();
     }
 
@@ -115,9 +120,6 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
                 Bundle data = new Bundle();
                 data.putSerializable("friend", friendMap.get(orderedUserArr[index].getObjectId()));
                 data.putSerializable("user", orderedUserArr[index]);
-//                ArrayList<Bitmap> bitmapList = new ArrayList<>();
-//                bitmapList.add(bitmapMap.get(orderedUserArr[index].getObjectId()));
-//                data.putSerializable("headerImage", bitmapList);
                 intent.putExtras(data);
                 MyFriendsFragment.this.startActivity(intent);
             }
@@ -167,6 +169,7 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
                                 User user = bmobQueryResult.getResults().get(0);
                                 userList.add(user);
                                 queryBitmap(user);
+                                MyUtils.dismissProgressDialog(progressDialog);
                             }
                         }
                     }else {
@@ -254,6 +257,9 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
                 imageForNo1.setImageBitmap(bitmapMap.get(user.getObjectId()));
             }
             map.put("likeNumberForHistory", user.getLikeNumberForHistory());
+            if (user.getLikeNumberForHistory() > 99){
+                map.put("likeNumberForHistory", "99+");
+            }
             mapList.add(map);
         }
         return mapList;

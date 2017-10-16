@@ -67,7 +67,7 @@ public class SelectLogin extends AppCompatActivity {
                                     finish();
                                 }
                             }else {
-                                ToastShow.showToast(SelectLogin.this,"连接失败或用户不存在！");
+                                ToastShow.showToast(SelectLogin.this,"连接失败！");
                                 startActivity(new Intent(SelectLogin.this, LoginPageActivity.class));
                                 finish();
                             }

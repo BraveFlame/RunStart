@@ -1,5 +1,6 @@
 package com.runstart.friend.friendactivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,10 +51,14 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
     private User[] orderedUserArr;
     private Friend[] orderedFriendArr;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people_of_group);
+
+        progressDialog = new ProgressDialog(PeopleOfGroupActivity.this);
 
         goBack = (Button)findViewById(R.id.goBack);
         peopleOfGroupListView = (ListViewForScrollView)findViewById(R.id.peopleOfGroupListView);
@@ -66,6 +71,7 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
         });
 
         String groupObjectId = getIntent().getStringExtra("groupObjectId");
+        MyUtils.showProgressDialog(progressDialog);
         new BmobQuery<Group>().setSQL("select * from Group where objectId=?").setPreparedParams(new String[]{groupObjectId})
                 .doSQLQuery(new SQLQueryListener<Group>() {
                     @Override
@@ -135,6 +141,7 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
                         }
                         friendMap.put(user.getObjectId(), friend);
                         if ((friendMap.size() == memberCount) && (bitmapMap.size() == memberCount)){
+                            MyUtils.dismissProgressDialog(progressDialog);
                             showResult();
                         }
                     }
@@ -152,6 +159,7 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
         if (imageUri == null || imageUri.length() == 0){
             bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
             if ((friendMap.size() == memberCount) && (bitmapMap.size() == memberCount)){
+                MyUtils.dismissProgressDialog(progressDialog);
                 showResult();
             }
             return;
@@ -162,6 +170,7 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
                 if (e == null){
                     bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
                     if ((friendMap.size() == memberCount) && (bitmapMap.size() == memberCount)){
+                        MyUtils.dismissProgressDialog(progressDialog);
                         showResult();
                     }
                 }
@@ -187,9 +196,6 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
                 Bundle data = new Bundle();
                 data.putSerializable("friend", friendMap.get(orderedUserArr[index].getObjectId()));
                 data.putSerializable("user", orderedUserArr[index]);
-//                ArrayList<Bitmap> bitmapList = new ArrayList<>();
-//                bitmapList.add(bitmapMap.get(orderedUserArr[index].getObjectId()));
-//                data.putSerializable("headerImage", bitmapList);
                 intent.putExtras(data);
                 startActivity(intent);
             }
@@ -231,6 +237,9 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
                 }
             }
             map.put("likeNumberForHistory", user.getLikeNumberForHistory());
+            if(user.getLikeNumberForHistory() > 99){
+                map.put("likeNumberForHistory", "99+");
+            }
             mapList.add(map);
         }
         return mapList;

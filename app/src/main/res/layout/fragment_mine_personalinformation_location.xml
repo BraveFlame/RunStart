@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1f0f0"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/mine_setup_title_ll_first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        >
+        <include layout="@layout/fragment_mine_personalinformation_location_title" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_setup_title_ll_first"
+        >
+        <include layout="@layout/fragment_mine_personalinformation_location_content" />
+    </LinearLayout>
+
+</RelativeLayout>

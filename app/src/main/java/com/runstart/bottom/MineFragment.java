@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.runstart.BmobBean.User;
 import com.runstart.R;
+import com.runstart.friend.BmobJdonChat;
 import com.runstart.friend.ListenMsgService;
 import com.runstart.friend.MsgChat;
 import com.runstart.friend.PhotoUtilsCircle;
@@ -32,17 +33,22 @@ import com.runstart.mine.MineAboutSportActivity;
 import com.runstart.mine.MineExerciseDiaryActivity;
 import com.runstart.mine.MineMessageRecordActivity;
 import com.runstart.mine.MineOurMallActivity;
-import com.runstart.mine.MinePersionalInformationActivity;
+import com.runstart.mine.MinePersonalInformationActivity;
 import com.runstart.mine.MineSetUpActivity;
 import com.runstart.mine.MyHeaderImageView;
 
+import org.json.JSONObject;
+
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobRealTimeData;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
@@ -50,6 +56,7 @@ import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SQLQueryListener;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.ValueEventListener;
 
 
 /**
@@ -62,23 +69,51 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private ImageView myHeadImg;
     private String USER_IMG_PATH;
     private File userImgFile;
-    private TextView msgCountTextView,userNameTV,myPointGreatTV;
+    private TextView msgCountTextView, userNameTV, myPointGreatTV, joinDatTv;
     private MsgCountReceiver msgCountReceiver;
     private GetSharedPreferences getSharedPreferences;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
 
+    private BmobRealTimeData rtd;
+    private boolean isConnecting;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        preferences=PreferenceManager.getDefaultSharedPreferences(getActivity());
-        editor=preferences.edit();
         getSharedPreferences = GetSharedPreferences.getPref(getActivity());
         user = new User();
         getSharedPreferences.getUser(user);
+        //开始监听
+        rtd = new BmobRealTimeData();
+        //在线时监听对方发信息
+        rtd.start(new ValueEventListener() {
+            @Override
+            public void onDataChange(JSONObject data) {
+                BmobJdonChat.getUser(data, user);
+                myPointGreatTV.setText("" + user.getLikeNumberForHistory());
+
+
+            }
+
+            @Override
+            public void onConnectCompleted(Exception ex) {
+                Log.d("bmob", "连接成功:" + rtd.isConnected());
+                if (rtd.isConnected()) {
+                    isConnecting = true;
+                    // 监听表更新
+                    rtd.subRowUpdate("MsgChat", user.getObjectId());
+                    Log.d("bmob", "监听User表成功:");
+                }
+            }
+        });
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        editor = preferences.edit();
+
         getLocalImg();
+
+
         Log.e("bmob", user.getObjectId());
 
     }
@@ -89,17 +124,16 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.fragment_mine, container, false);
         initMineView();
         if (!userImgFile.exists() && user.getHeaderImageUri() != null) {
-            if(!user.getHeaderImageUri().equals(preferences.getString("lastImg",""))){
+            if (!user.getHeaderImageUri().equals(preferences.getString("lastImg", ""))) {
                 downloadImg();
 
-            }else {
+            } else {
                 downloadImg();
             }
         }
 
         return view;
     }
-
 
 
     private Handler handler = new Handler() {
@@ -127,6 +161,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             }
         }
     };
+
     public void downloadImg() {
         new Thread(new Runnable() {
             @Override
@@ -136,7 +171,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     @Override
                     public void done(String s, BmobException e) {
                         if (USER_IMG_PATH.equals(s)) {
-                            editor.putString("lastImg",user.getHeaderImageUri());
+                            editor.putString("lastImg", user.getHeaderImageUri());
                             editor.commit();
                             Message message = new Message();
                             message.what = 1;
@@ -175,11 +210,26 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         RelativeLayout rl_setup = (RelativeLayout) view.findViewById(R.id.mine_rl_setup);
         rl_setup.setOnClickListener(this);
 
-        //姓名，点赞
-        userNameTV=(TextView)view.findViewById(R.id.mine_user_name);
-        myPointGreatTV=(TextView)view.findViewById(R.id.mine_all_pointgreat);
+        //姓名，点赞，加入天数
+        userNameTV = (TextView) view.findViewById(R.id.mine_user_name);
+        myPointGreatTV = (TextView) view.findViewById(R.id.mine_all_pointgreat);
+        joinDatTv = (TextView) view.findViewById(R.id.join_us_day);
         userNameTV.setText(user.getNickName());
-        myPointGreatTV.setText(""+user.getLikeNumberForHistory());
+        if (user.getLikeNumberForHistory() > 99999)
+            myPointGreatTV.setTextSize(12);
+        myPointGreatTV.setText("" + user.getLikeNumberForHistory());
+
+        try {
+            String creatDay = preferences.getString("joinDay", "2017-10-01");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = simpleDateFormat.parse(creatDay);
+            Date date2 = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+            long days = (date2.getTime() - date1.getTime()) / 3600 / 1000 / 24;
+            joinDatTv.setText("Join us for "+ (int) days+" days");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         //用户头像的ImageView
         myHeadImg = (MyHeaderImageView) view.findViewById(R.id.mine_user_headImage);
@@ -208,6 +258,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         super.onResume();
         if (userImgFile.exists())
             PhotoUtilsCircle.showImage(myHeadImg, USER_IMG_PATH);
+        getSharedPreferences.getUser(user);
+        userNameTV.setText(user.getNickName());
+
+
+
     }
 
     @Override
@@ -217,10 +272,17 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (isConnecting)
+            rtd.unsubRowUpdate("MsgChat", user.getObjectId());
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_user_headImage:
-                Intent personalIntent = new Intent(getActivity(), MinePersionalInformationActivity.class);
+                Intent personalIntent = new Intent(getActivity(), MinePersonalInformationActivity.class);
                 personalIntent.putExtra("userInfo", user);
                 startActivity(personalIntent);
                 break;
