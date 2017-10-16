@@ -109,19 +109,36 @@
         android:background="#ffff"
         >
         <TextView
-            android:id="@+id/mine_set_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             tools:mockup_opacity="0.34"
-
-            android:hint="Set your name"
+            android:text="Name"
             android:textColorHint="#d5d5d5"
             android:textSize="18sp"
             android:textColor="#212121"
             android:background="@null"
+            />
+        <TextView
+            android:id="@+id/mine_set_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginRight="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            tools:mockup_opacity="0.34"
+
+            android:maxLines="1"
+            android:maxEms="8"
+            android:ellipsize="end"
+            android:hint="Set your name"
+            android:textColorHint="#d5d5d5"
+            android:textSize="18sp"
+            android:textColor="#212121"
             />
         <ImageView
             android:layout_width="wrap_content"
@@ -150,7 +167,6 @@
         android:background="#ffff"
         >
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
@@ -159,7 +175,7 @@
 
             android:text="Location"
             android:textSize="18sp"
-            android:textColor="#7b7c7c"
+            android:textColor="#212121"
             />
         <TextView
             android:id="@+id/mine_set_location"
@@ -169,10 +185,12 @@
             android:layout_marginRight="50dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:gravity="right"
 
-            android:text="China"
+            android:hint="China"
+            android:textColorHint="#d5d5d5"
             android:textSize="18sp"
-            android:textColor="#7b7c7c"
+            android:textColor="#212121"
             />
         <ImageView
             android:layout_width="wrap_content"
@@ -201,7 +219,6 @@
         android:background="#ffff"
         >
         <TextView
-            android:id="@+id/mine_set_mailbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
@@ -209,11 +226,30 @@
             android:layout_marginBottom="10dp"
             tools:mockup_opacity="0.34"
 
-            android:hint="Bind the mailbox"
+            android:text="Mailbox"
             android:textColorHint="#d5d5d5"
             android:textSize="18sp"
             android:textColor="#212121"
             android:background="@null"
+            />
+        <TextView
+            android:id="@+id/mine_set_mailbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="right"
+            tools:mockup_opacity="0.34"
+
+            android:maxLines="1"
+            android:maxEms="8"
+            android:ellipsize="end"
+            android:hint="Bind the mailbox"
+            android:textColorHint="#d5d5d5"
+            android:textSize="18sp"
+            android:textColor="#212121"
             />
         <ImageView
             android:layout_width="wrap_content"
@@ -233,12 +269,12 @@
         android:gravity="center"
         android:layout_marginBottom="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+      >
         <Button
             android:id="@+id/mine_set_info"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Create"
+            android:text="Update"
             android:textAllCaps="false"
             android:textSize="18sp"
             android:textColor="#21187f"

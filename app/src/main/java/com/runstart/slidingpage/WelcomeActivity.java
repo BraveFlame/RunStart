@@ -29,7 +29,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private int[] layouts;
-    private Button btnSkip,btnNext;
+    private Button btnSkip,btnNext,loginBtn;
     private PrefManager prefManager;
 
 
@@ -56,6 +56,7 @@ public class WelcomeActivity extends AppCompatActivity {
         dotsLayout = (LinearLayout)findViewById(R.id.layoutDots);
         btnNext = (Button) findViewById(R.id.btn_next);
         btnSkip = (Button) findViewById(R.id.btn_skip);
+
 
         //添加欢迎页面
         layouts = new int[]{
@@ -173,6 +174,14 @@ public class WelcomeActivity extends AppCompatActivity {
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             View view = layoutInflater.inflate(layouts[position],container,false);
+            Button buttonLogin=(Button) view.findViewById(R.id.btn_skip_login);
+            buttonLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(WelcomeActivity.this,LoginPageActivity.class));
+                    finish();
+                }
+            });
             container.addView(view);
             return view;
         }

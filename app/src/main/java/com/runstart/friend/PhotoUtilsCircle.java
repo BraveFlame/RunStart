@@ -37,7 +37,7 @@ public class PhotoUtilsCircle {
     public static final int PICTURE_HEIGHT = 500;
     public static final int PICTURE_WIDTH = 500;
     public static String imageName;
-    public  static String headImgName="";
+    public  static String headImgNameTemp="";
 
     /**
      * 从系统相册中选取照片上传
@@ -130,8 +130,8 @@ public class PhotoUtilsCircle {
         intent.setDataAndType(uri, IMAGE_UNSPECIFIED);
         intent.putExtra("crop", "true");
         // aspectX aspectY 是宽高的比例
-//        intent.putExtra("aspectX", aspectX);
-//        intent.putExtra("aspectY", aspectY);
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
         // outputX outputY 是裁剪图片宽高
         intent.putExtra("outputY", width);
         intent.putExtra("noFaceDetection", true); //关闭人脸检测
@@ -175,8 +175,8 @@ public class PhotoUtilsCircle {
             if("photo".equals(photo)){
                 path=path+File.separator+"photo/";
             }
-            if(!"".equals(headImgName))
-            path = path + headImgName + ".png";
+            if(!"".equals(headImgNameTemp))
+            path = path + headImgNameTemp + ".png";
             else path=path+tag+".png";
         } else {
             path = context.getFilesDir() + File.separator + context.getPackageName() + File.separator+"myimages/";
@@ -187,15 +187,15 @@ public class PhotoUtilsCircle {
             if("photo/".equals(photo)){
                 path=path+photo;
             }
-            if(!"".equals(headImgName))
-                path = path + headImgName + ".png";
+            if(!"".equals(headImgNameTemp))
+                path = path + headImgNameTemp + ".png";
             else path=path+tag+".png";
         }
         return path;
     }
 
     static public String myPictureOnResultOperate(int requestCode, int resultCode, Intent data, Activity context,String headImgNames) {
-        headImgName=headImgNames;
+        headImgNameTemp =headImgNames;
         String BxfPath = "";
         final String TAG = "database";
         if (resultCode == PhotoUtilsCircle.NONE) {
@@ -251,6 +251,7 @@ public class PhotoUtilsCircle {
              * 在这里处理剪辑结果，可以获取缩略图，获取剪辑图片的地址。得到这些信息可以选则用于上传图片等等操作
              * */
 
+
             /**
              * 如，根据path获取剪辑后的图片
              */
@@ -259,13 +260,13 @@ public class PhotoUtilsCircle {
         return "bxf" + BxfPath;
     }
 
-    static public String showImage(ImageView imageView, String path) {
+    static public boolean showImage(ImageView imageView, String path) {
         File file = new File(path);
         if (file.exists()) {
             Bitmap bm = BitmapFactory.decodeFile(path);
             imageView.setImageBitmap(bm);
-            return "1";
-        }else return "0";
+            return true;
+        }else return false;
     }
 
     static public void options(final Activity activity) {
@@ -284,5 +285,31 @@ public class PhotoUtilsCircle {
                         }
                     }
                 }).show();
+    }
+    public static void changeImgName(String headImgName,Context context){
+        String path="";
+        String pathTemp="";
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            path = Environment.getExternalStorageDirectory() + File.separator
+                    + context.getPackageName() + File.separator+"myimages/"+headImgName+".png";
+            pathTemp=Environment.getExternalStorageDirectory() + File.separator
+                    + context.getPackageName() + File.separator+"myimages/"+headImgNameTemp+".png";
+
+        } else {
+            path = context.getFilesDir() + File.separator + context.getPackageName()
+                    + File.separator+"myimages/"+headImgName+".png";
+            pathTemp=context.getFilesDir() + File.separator + context.getPackageName()
+                    + File.separator+"myimages/"+headImgNameTemp+".png";;
+
+        }
+        File file=new  File(path);   //指定文件名及路径
+        if(file.exists()){
+            file.delete();
+        }
+        File filet=new File(pathTemp);
+
+        if (!filet.exists())
+            return;
+        filet.renameTo(new File(path));   //改名
     }
 }

@@ -120,11 +120,11 @@ public class AddFriendActivity extends AppCompatActivity {
                         }
                         listView.setAdapter(new AdapterForSearchFriends(AddFriendActivity.this,
                                 searchResultList, R.layout.item_search_friend, mItemCols, mItemIds));
-                    } else {
-                        search_iv_delete.setVisibility(View.GONE);
-                        listView.setVisibility(View.GONE);
-                        rootView.setBackgroundColor(0x00f2f1f1);
                     }
+                } else {
+                    search_iv_delete.setVisibility(View.GONE);
+                    listView.setVisibility(View.GONE);
+                    rootView.setBackgroundColor(0x00f2f1f1);
                 }
             }
             @Override

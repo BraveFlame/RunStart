@@ -1,5 +1,6 @@
 package com.runstart.friend.friendactivity;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -50,14 +51,19 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
     private List<User> orderedUserList = new ArrayList<>();
     private Map<String, String> selectedUserObjectIdMap = new HashMap();
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite_friend_to_group);
 
+        progressDialog = new ProgressDialog(InviteFriendToGroupActivity.this);
+
         friendsListView = (ListView) findViewById(R.id.friendsListView);
         determine = (Button)findViewById(R.id.determine);
 
+        MyUtils.showProgressDialog(progressDialog);
         final String groupObjectId = getIntent().getStringExtra("groupObjectId");
         new BmobQuery<Group>().setSQL("select * from Group where objectId=?").setPreparedParams(new String[]{groupObjectId})
                 .doSQLQuery(new SQLQueryListener<Group>() {
@@ -131,6 +137,9 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
             synchronized (Object.class){
                 bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
                 if (bitmapMap.size() == friendList.size()){
+                    if (progressDialog.isShowing()){
+                        MyUtils.dismissProgressDialog(progressDialog);
+                    }
                     showResult();
                 }
                 return;
@@ -143,6 +152,9 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
                     synchronized (Object.class){
                         bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
                         if (bitmapMap.size() == friendList.size()){
+                            if (progressDialog.isShowing()){
+                                MyUtils.dismissProgressDialog(progressDialog);
+                            }
                             showResult();
                         }
                     }

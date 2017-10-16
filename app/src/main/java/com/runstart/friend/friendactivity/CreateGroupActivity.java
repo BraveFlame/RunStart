@@ -1,5 +1,6 @@
 package com.runstart.friend.friendactivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -66,20 +67,24 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
     private List<User> orderedUserList = new ArrayList<>();
     private Map<String, String> selectedUserObjectIdMap = new HashMap();
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
 
+        progressDialog = new ProgressDialog(CreateGroupActivity.this);
+        MyUtils.showProgressDialog(progressDialog);
         queryFriend();
 
-        goBack = (Button)findViewById(R.id.goBack);
+        goBack = (Button) findViewById(R.id.goBack);
         createGroup = (FloatingActionButton) findViewById(R.id.createGroup);
-        showHeadPortrait = (MyHeaderImageView)findViewById(R.id.showHeadPortrait);
+        showHeadPortrait = (MyHeaderImageView) findViewById(R.id.showHeadPortrait);
         selectImage = (ImageView) findViewById(R.id.selectImage);
-        groupName = (EditText)findViewById(R.id.groupName);
-        individualSignature = (EditText)findViewById(R.id.individualSignature);
-        friendsListView = (ListViewForScrollView)findViewById(R.id.friendsListView);
+        groupName = (EditText) findViewById(R.id.groupName);
+        individualSignature = (EditText) findViewById(R.id.individualSignature);
+        friendsListView = (ListViewForScrollView) findViewById(R.id.friendsListView);
 
         goBack.setOnClickListener(this);
         selectImage.setOnClickListener(this);
@@ -87,26 +92,27 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
         createGroup.setOnClickListener(this);
     }
 
-    private void queryFriend(){
+    private void queryFriend() {
         new BmobQuery<Friend>().setSQL("select * from Friend where userObjectId=? and isFriend=1")
                 .setPreparedParams(new String[]{MyApplication.applicationMap.get("userObjectId")})
                 .doSQLQuery(new SQLQueryListener<Friend>() {
                     @Override
                     public void done(BmobQueryResult<Friend> bmobQueryResult, BmobException e) {
-                        if (e == null){
+                        if (e == null) {
                             friendList = bmobQueryResult.getResults();
-                            if (friendList.size() != 0){
+                            if (friendList.size() != 0) {
                                 queryUser();
                             }
-                        }else {
-                            e.printStackTrace();                        }
+                        } else {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.goBack:
                 finish();
                 break;
@@ -122,10 +128,10 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
                 final List<String> memberObjectIdList = new ArrayList<>();
                 memberObjectIdList.add(MyApplication.applicationMap.get("userObjectId"));
                 Set<String> keySet = selectedUserObjectIdMap.keySet();
-                for (String memberObjectId: keySet){
+                for (String memberObjectId : keySet) {
                     memberObjectIdList.add(selectedUserObjectIdMap.get(memberObjectId));
                 }
-                if (path != null){
+                if (path != null) {
                     final BmobFile bmobFile = new BmobFile(new File(path));
                     bmobFile.uploadblock(new UploadFileListener() {
                         @Override
@@ -134,11 +140,10 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
                                     memberObjectIdList.size(), 0, groupNameStr, groupDetail, memberObjectIdList).save();
                         }
                     });
-                }else {
+                } else {
                     new Group(MyApplication.applicationMap.get("userObjectId"), null,
                             memberObjectIdList.size(), 0, groupNameStr, groupDetail, memberObjectIdList).save();
                 }
-
                 Toast.makeText(this, "创建群成功！", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
@@ -147,7 +152,7 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == PhotoUtils.NONE){
+        if (resultCode == PhotoUtils.NONE) {
             return;
         }
         if (requestCode == PhotoUtils.PHOTOGRAPH) {
@@ -184,41 +189,47 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
         }
         if (requestCode == PhotoUtils.PHOTORESOULT) {
             Bitmap bitmap = PhotoUtils.convertToBitmap(path, PhotoUtils.PICTURE_HEIGHT, PhotoUtils.PICTURE_WIDTH);
-            if(bitmap != null){
+            if (bitmap != null) {
                 showHeadPortrait.setImageBitmap(bitmap);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void queryUser(){
+    private void queryUser() {
         String sql = "select * from User where objectId=?";
-        for (int i = 0; i < friendList.size(); i++){
+        for (int i = 0; i < friendList.size(); i++) {
             new BmobQuery<User>().setSQL(sql).setPreparedParams(new String[]{friendList.get(i).getFriendObjectId()})
                     .doSQLQuery(new SQLQueryListener<User>() {
                         @Override
                         public void done(BmobQueryResult<User> bmobQueryResult, BmobException e) {
-                            if (e == null){
+                            if (e == null) {
                                 synchronized (InviteFriendToGroupActivity.class) {
                                     User user = bmobQueryResult.getResults().get(0);
                                     userList.add(user);
                                     queryBitmap(user);
                                 }
-                            }else {
-                                e.printStackTrace();                            }
+                            } else {
+                                e.printStackTrace();
+                            }
                         }
                     });
         }
     }
-    private void queryBitmap(User user){
+
+    private void queryBitmap(User user) {
         final int objectIdLength = user.getObjectId().length();
         String saveName = MyUtils.getStringToday() + user.getObjectId() + ".png";
         String headerImageUri = user.getHeaderImageUri();
         File saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
-        if (headerImageUri == null || headerImageUri.length() == 0){
-            synchronized (Object.class){
+        if (headerImageUri == null || headerImageUri.length() == 0) {
+            synchronized (Object.class) {
                 bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
-                if (bitmapMap.size() == friendList.size()){
+                if (bitmapMap.size() == friendList.size()) {
+                    progressDialog = new ProgressDialog(CreateGroupActivity.this);
+                    if (progressDialog.isShowing()){
+                        MyUtils.dismissProgressDialog(progressDialog);
+                    }
                     showResult();
                 }
                 return;
@@ -227,21 +238,28 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
         new BmobFile(saveName, "", headerImageUri).download(saveFile, new DownloadFileListener() {
             @Override
             public void done(String s, BmobException e) {
-                if (e == null){
-                    synchronized (Object.class){
+                if (e == null) {
+                    synchronized (Object.class) {
                         bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                        if (bitmapMap.size() == friendList.size()){
+                        if (bitmapMap.size() == friendList.size()) {
+                            if (progressDialog.isShowing()){
+                                MyUtils.dismissProgressDialog(progressDialog);
+                            }
                             showResult();
                         }
                     }
-                }else {
-                    e.printStackTrace();                }
+                } else {
+                    e.printStackTrace();
+                }
             }
+
             @Override
-            public void onProgress(Integer integer, long l) {}
+            public void onProgress(Integer integer, long l) {
+            }
         });
     }
-    private void showResult(){
+
+    private void showResult() {
         String[] mItemCols = new String[]{"rankings", "headerImage", "nickName", "sportDistance", "addFriendToMyGroup"};
         int[] mItemIds = new int[]{R.id.rankings, R.id.headerImage, R.id.nickName, R.id.sportDistance, R.id.addFriendToMyGroup};
 
@@ -249,12 +267,13 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
                 R.layout.item_adding_friend, mItemCols, mItemIds, this);
         friendsListView.setAdapter(adapter);
     }
-    private ArrayList<Map<String, Object>> orderedByDistance(){
+
+    private ArrayList<Map<String, Object>> orderedByDistance() {
         User[] orderedUsers = getOrderedUsers();
         orderedUserList = Arrays.asList(orderedUsers);
 
         ArrayList<Map<String, Object>> mapList = new ArrayList<>();
-        for (int i = 0; i < userList.size(); i++){
+        for (int i = 0; i < userList.size(); i++) {
             User user = orderedUsers[i];
             Map<String, Object> map = new HashMap<>();
             map.put("rankings", i + 1);
@@ -266,12 +285,13 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
         }
         return mapList;
     }
-    private User[] getOrderedUsers(){
+
+    private User[] getOrderedUsers() {
         User[] orderedUsers = new User[userList.size()];
         userList.toArray(orderedUsers);
-        for (int i = 0; i < userList.size() - 1; i++){
-            for (int j = i + 1; j < userList.size(); j++){
-                if (getSportDistance(orderedUsers[i]) < getSportDistance(orderedUsers[j])){
+        for (int i = 0; i < userList.size() - 1; i++) {
+            for (int j = i + 1; j < userList.size(); j++) {
+                if (getSportDistance(orderedUsers[i]) < getSportDistance(orderedUsers[j])) {
                     User tempUser = orderedUsers[i];
                     orderedUsers[i] = orderedUsers[j];
                     orderedUsers[j] = tempUser;
@@ -280,39 +300,40 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
         }
         return orderedUsers;
     }
-    private int getSportDistance(User user){
+
+    private int getSportDistance(User user) {
         return user.getWalkDistance() + user.getRunDistance() + user.getRideDistance();
     }
 
     @Override
     public void click(View view) {
-        LinearLayout parent = (LinearLayout)view.getParent();
-        int index = Integer.parseInt(((TextView)parent.findViewById(R.id.rankings)).getText().toString()) - 1;
+        LinearLayout parent = (LinearLayout) view.getParent();
+        int index = Integer.parseInt(((TextView) parent.findViewById(R.id.rankings)).getText().toString()) - 1;
 
-        int tag = Integer.parseInt((String)view.getTag());
-        if (tag == 0){
-            ((ImageView)view).setImageResource(R.mipmap.rectangle_39copy_2);
+        int tag = Integer.parseInt((String) view.getTag());
+        if (tag == 0) {
+            ((ImageView) view).setImageResource(R.mipmap.rectangle_39copy_2);
             view.setTag(1 + "");
             selectedUserObjectIdMap.put(orderedUserList.get(index).getObjectId(), orderedUserList.get(index).getObjectId());
-        }else {
-            ((ImageView)view).setImageResource(R.mipmap.add);
+        } else {
+            ((ImageView) view).setImageResource(R.mipmap.add);
             view.setTag(0 + "");
             selectedUserObjectIdMap.remove(orderedUserList.get(index).getObjectId());
         }
     }
 
-    private void options(){
+    private void options() {
         new AlertDialog.Builder(this).setTitle("请选择图片来源").setCancelable(true)
                 .setItems(new String[]{"拍照", "相册"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0){
+                        if (which == 0) {
                             try {
                                 PhotoUtils.photograph(CreateGroupActivity.this);
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                        }else {
+                        } else {
                             PhotoUtils.selectPictureFromAlbum(CreateGroupActivity.this);
                         }
                     }

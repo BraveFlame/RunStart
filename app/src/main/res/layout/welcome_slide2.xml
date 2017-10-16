@@ -1,61 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="ContentDescription"
-    android:background="@color/bg_screen2">
+    android:background="@color/bg_screen2"
+    tools:ignore="ContentDescription">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
         android:src="@mipmap/yingdaoye2"
         app:layout_heightPercent="100%"
-        app:layout_widthPercent="100%"
-        />
+        app:layout_widthPercent="100%" />
 
     <TextView
         android:id="@+id/tv_content01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
         android:text="@string/slide_2_title"
         android:textColor="@android:color/white"
         android:textSize="@dimen/slide_title"
         android:textStyle="bold"
-        android:gravity="center"
-        android:layout_alignParentBottom="true"
         app:layout_heightPercent="15%"
         app:layout_marginBottomPercent="30%"
-        android:layout_marginLeft="10dp"
         app:layout_widthPercent="95%" />
+
     <TextView
         android:id="@+id/tv_content02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+
+
         android:text="@string/slide_2_title02"
         android:textColor="@android:color/white"
         android:textSize="@dimen/slide_title"
-
-
-        android:gravity="center"
-        android:layout_alignParentBottom="true"
         app:layout_heightPercent="15%"
         app:layout_marginBottomPercent="25%"
-        android:layout_marginLeft="10dp"
         app:layout_widthPercent="95%" />
+
     <Button
+        android:id="@+id/btn_skip_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/btn_shape"
         android:text="@string/log_in"
         android:textColor="@android:color/white"
-
-        android:background="@drawable/btn_shape"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
         app:layout_marginBottomPercent="15%"
-        android:layout_marginLeft="10dp"
 
         />
 </android.support.percent.PercentRelativeLayout>

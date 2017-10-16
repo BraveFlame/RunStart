@@ -1,5 +1,7 @@
 package com.runstart.friend;
 
+import android.graphics.Bitmap;
+
 import cn.bmob.v3.BmobObject;
 
 /**
@@ -14,6 +16,15 @@ public class MsgChat extends BmobObject {
     private String leaveMsg;
     private String time;
     private int type;
+    private Bitmap bitmap;
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
 
     public MsgChat(String userObjectId, String friendObjectId, String content, String leaveMsg, int type) {
         this.userObjectId = userObjectId;

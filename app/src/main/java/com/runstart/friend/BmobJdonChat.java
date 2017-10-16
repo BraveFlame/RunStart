@@ -5,6 +5,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.runstart.BmobBean.User;
+
 import org.json.JSONObject;
 
 import java.io.File;
@@ -40,6 +42,17 @@ public class BmobJdonChat {
         return content;
     }
 
+
+    public static void getUser(JSONObject data,User user){
+        if (user==null)
+            return;
+        try {
+            JSONObject jsonObject=data.getJSONObject("data");
+            user.setLikeNumberForHistory(Integer.valueOf(jsonObject.getString("likeNumberForHistory")));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     /**
      * 留言以.*.|*|为间隔
      *

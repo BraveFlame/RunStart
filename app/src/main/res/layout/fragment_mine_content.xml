@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/mine_zan"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="4dp"
                 android:layout_toRightOf="@+id/mine_zan"
                 android:text="10000"
                 android:textColor="#c562ff"
@@ -92,6 +92,7 @@
                 android:background="#ffff">
 
                 <TextView
+                    android:id="@+id/join_us_day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -139,7 +140,6 @@
                 android:layout_below="@+id/mine_three_totalwalk"
                 android:layout_marginTop="10dp"
                 android:drawableTop="@mipmap/ic_buxing"
-
                 android:text="36458km"
                 android:textColor="#212121"
                 android:textSize="16sp" />
@@ -165,7 +165,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/mine_three_walkImage"
                 android:drawableTop="@mipmap/ic_paobu"
-
                 android:text="36458km"
                 android:textColor="#212121"
                 android:textSize="16sp" />

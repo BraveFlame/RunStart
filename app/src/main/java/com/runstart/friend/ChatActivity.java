@@ -2,6 +2,7 @@ package com.runstart.friend;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.runstart.BmobBean.Friend;
 import com.runstart.R;
 import com.runstart.help.ToastShow;
+import com.runstart.history.MyApplication;
 
 import org.json.JSONObject;
 
@@ -31,6 +33,7 @@ import java.util.Map;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobRealTimeData;
+import cn.bmob.v3.b.V;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
@@ -61,7 +64,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
     private ImageView cameraImg, pictureImg, goBack;
 
     private MsgAdapter adapter;
-    private List<MsgChat> msgList = new ArrayList<>();
+    private ArrayList<MsgChat> msgList = new ArrayList<>();
 
     private List<Friend> friendList;
 
@@ -71,6 +74,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
     private String userLeaveMsg, friendLeaveMsg;
     private StringBuilder myToHimLeave = new StringBuilder("0");
     private BmobRealTimeData rtd;
+    private boolean isConnecting;
     private String content;
     private String lastRecContent;
 
@@ -98,7 +102,6 @@ public class ChatActivity extends Activity implements View.OnClickListener {
         msgListView.setAdapter(adapter);
         msgListView.setSelection(msgList.size());
         //获取离线信息--留言
-        getMsgData();
 
         //开始监听
         rtd = new BmobRealTimeData();
@@ -114,13 +117,14 @@ public class ChatActivity extends Activity implements View.OnClickListener {
             public void onConnectCompleted(Exception ex) {
                 Log.d("bmob", "连接成功:" + rtd.isConnected());
                 if (rtd.isConnected()) {
+                    isConnecting=true;
                     // 监听表更新
                     rtd.subRowUpdate("MsgChat", chatFriendObjectId);
                     Log.d("bmob", "监听DaySport表成功:");
                 }
             }
         });
-
+        getMsgData();
     }
 
     @Override
@@ -309,6 +313,9 @@ public class ChatActivity extends Activity implements View.OnClickListener {
      * @param path
      */
     public void sendImg(final String path) {
+       final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("sending...");
+        dialog.show();
         final BmobFile bmobFile = new BmobFile(new File(path));
         bmobFile.uploadblock(new UploadFileListener() {
             @Override
@@ -320,10 +327,12 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                 } else {
                     ToastShow.showToast(ChatActivity.this, "发送图片失败！");
                 }
+                dialog.dismiss();
             }
 
             @Override
             public void onProgress(Integer value) {
+
 
             }
         });
@@ -503,6 +512,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
      */
     public void initView() {
         //initMsgs(); // 初始化消息数据
+        msgListView = (ListView) findViewById(R.id.msg_list_view);
         adapter = new MsgAdapter(this, R.layout.freind_chat_item, msgList);
         chatNameText = (TextView) findViewById(R.id.friend_chat_name);
         chatNameText.setText(getIntent().getStringExtra("name"));
@@ -515,7 +525,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
         goBack.setOnClickListener(this);
         cameraImg = (ImageView) findViewById(R.id.friend_chat_camera);
         cameraImg.setOnClickListener(this);
-        msgListView = (ListView) findViewById(R.id.msg_list_view);
+
         pictureImg = (ImageView) findViewById(R.id.friend_chat_picture);
         pictureImg.setOnClickListener(this);
 
@@ -593,6 +603,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
         msgChat1.setContent("");
         msgChat1.setObjectId(chatUserObjectId);
         msgChat1.update();
+        if(isConnecting)
         rtd.unsubRowUpdate("MsgChat", chatFriendObjectId);
 
     }

@@ -3,15 +3,11 @@ package com.runstart.slidingpage;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
 
 import com.runstart.BmobBean.User;
 import com.runstart.MainActivity;
@@ -67,7 +63,7 @@ public class SelectLogin extends AppCompatActivity {
                                     finish();
                                 }
                             }else {
-                                ToastShow.showToast(SelectLogin.this,"连接失败或用户不存在！");
+                                ToastShow.showToast(SelectLogin.this,"连接失败！");
                                 startActivity(new Intent(SelectLogin.this, LoginPageActivity.class));
                                 finish();
                             }

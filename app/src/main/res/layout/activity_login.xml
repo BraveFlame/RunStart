@@ -131,20 +131,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <CheckBox
+            android:id="@+id/remember_password_chbok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp" />
         <TextView
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:text="remember password"
             android:textColor="#acacac"
             android:textSize="14sp" />
 
-        <CheckBox
-            android:id="@+id/remember_password_chbok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp" />
 
         <TextView
             android:id="@+id/forgetPassword"

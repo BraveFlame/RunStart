@@ -64,6 +64,7 @@ public class FriendsDetailsActivity extends AppCompatActivity {
 
     private Friend friend;
     private User user;
+    private MsgCountReceiver msgCountReceiver;
 
     public static void jump(Activity activity, User friendUser, Friend friend, Bitmap headerImage) {
         Intent intent = new Intent(activity, FriendsDetailsActivity.class);
@@ -119,7 +120,6 @@ public class FriendsDetailsActivity extends AppCompatActivity {
         if ((friend == null || friend.isFriend() == 0) && (!MyApplication.applicationMap.get("userObjectId").equals(user.getObjectId()))) {
             addFriend.setVisibility(View.VISIBLE);
         }
-        //final List<Bitmap> bitmapList = (List<Bitmap>) getIntent().getSerializableExtra("headerImage");
         headerImageRect.setImageResource(R.mipmap.ic_shangchuangtupiang);
         headerImageCircle.setImageResource(R.mipmap.ic_shangchuangtupiang);
 
@@ -299,14 +299,16 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                 }).show();
             }
         });
+
+        IntentFilter filter = new IntentFilter(ListenMsgService.FILTER_STR);
+        registerReceiver(msgCountReceiver, filter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         initMsgCount();
-        IntentFilter filter = new IntentFilter(ListenMsgService.FILTER_STR);
-        registerReceiver(new MsgCountReceiver(), filter);
+
     }
 
     private void onClickRadioButton(User user, TextView sportDistanceTextView, TextView averageSpeedTextView,
@@ -504,5 +506,11 @@ public class FriendsDetailsActivity extends AppCompatActivity {
                     }
                 });
             }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(msgCountReceiver);
     }
 }

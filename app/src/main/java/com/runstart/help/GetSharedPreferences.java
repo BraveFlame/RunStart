@@ -52,6 +52,7 @@ public class GetSharedPreferences {
         editor.putString("headImg",user.getHeaderImageUri());
         editor.putString("mail",user.getMailBox());
         editor.putInt("allpointgreat",user.getLikeNumberForHistory());
+        editor.putString("joinDay",user.getCreatedAt());
         editor.commit();
 
     }
