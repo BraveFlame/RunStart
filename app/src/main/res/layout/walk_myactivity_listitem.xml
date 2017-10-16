@@ -29,10 +29,10 @@
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 
-    <ImageView
+    <com.runstart.friend.friendactivity.MyHeaderImageView
         android:id="@+id/topic_user_headImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
         android:layout_marginTop="25dp"
@@ -51,25 +51,4 @@
         android:textColor="@android:color/white"
         android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/tv_degree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/topic_title"
-        android:layout_below="@+id/topic_title"
-        android:layout_marginTop="60dp"
-
-
-        android:text="Degree of completion"
-        android:textColor="@android:color/white"
-        android:textSize="12sp" />
-
-    <ImageView
-        android:id="@+id/topic_progressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv_degree"
-        android:layout_below="@+id/tv_degree"
-
-        android:src="@mipmap/progressbar" />
 </RelativeLayout>

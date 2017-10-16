@@ -103,8 +103,7 @@ public class MoreRecommendedGroupActivity extends AppCompatActivity {
                         groupList = bmobQueryResult.getResults();
                         handler.sendEmptyMessage(FINISH_LOADING_GROUP);
                     }else {
-                        Toast.makeText(MoreRecommendedGroupActivity.this, "load groups failed", Toast.LENGTH_SHORT).show();
-                    }
+                        e.printStackTrace();                    }
                 }
             });
     }
@@ -210,10 +209,12 @@ public class MoreRecommendedGroupActivity extends AppCompatActivity {
                 new BmobFile(saveName, "", groupImageUri).download(saveFile, new DownloadFileListener() {
                     @Override
                     public void done(String s, BmobException e) {
-                        synchronized (MoreRecommendedGroupActivity.class) {
-                            bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                            if (bitmapMap.size() == groupList.size()) {
-                                handler.sendEmptyMessage(FINISH_LOADING_BITMAP);
+                        if (e == null){
+                            synchronized (MoreRecommendedGroupActivity.class) {
+                                bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
+                                if (bitmapMap.size() == groupList.size()) {
+                                    handler.sendEmptyMessage(FINISH_LOADING_BITMAP);
+                                }
                             }
                         }
                     }

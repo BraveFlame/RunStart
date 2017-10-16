@@ -115,9 +115,9 @@ public class CircleCreateActivity extends AppCompatActivity implements View.OnCl
                     GetFromBmob.addAAM(activityDataToUpload.getObjectId(),MyId,handler);
                     break;
                 case 7:
-                    handler.sendEmptyMessage(11);
                     CirclePushCardActivity.jump(activityDataToUpload.getObjectId(),CircleCreateActivity.this);
                     ((MyApplication)getApplicationContext()).isFragmentWalkShouldRefresh=true;
+                    handler.sendEmptyMessage(11);
                     finish();
                     break;
                 case 11:
@@ -370,7 +370,7 @@ public class CircleCreateActivity extends AppCompatActivity implements View.OnCl
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            handler.sendEmptyMessage(13);
+                            handler.sendEmptyMessage(11);
                         }
                     }).start();
                 }

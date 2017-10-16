@@ -79,8 +79,7 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
                     friendList = bmobQueryResult.getResults();
                     queryUser();
                 }else {
-                    Toast.makeText(InviteFriendToGroupActivity.this, "load friends failed", Toast.LENGTH_SHORT).show();
-                }
+                    e.printStackTrace();                }
             }
         });
 
@@ -116,11 +115,9 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
                                     User user = bmobQueryResult.getResults().get(0);
                                     userList.add(user);
                                     queryBitmap(user);
-                                    //Log.e("***********", e + "*************111exception");
                                 }
                             }else {
-                                Toast.makeText(InviteFriendToGroupActivity.this, "load friends failed", Toast.LENGTH_SHORT).show();
-                            }
+                                e.printStackTrace();                            }
                         }
                     });
         }
@@ -150,8 +147,7 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
                         }
                     }
                 }else {
-                    Toast.makeText(InviteFriendToGroupActivity.this, "load friends' images failed", Toast.LENGTH_SHORT).show();
-                }
+                    e.printStackTrace();                }
             }
             @Override
             public void onProgress(Integer integer, long l) {}

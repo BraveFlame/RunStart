@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".friend.friendactivity.GroupDetailActivity">
@@ -274,22 +275,20 @@
             </com.runstart.friend.adapter.ListViewForScrollView>
         </LinearLayout>
     </ScrollView>
-    <LinearLayout
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/joinGroup"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:gravity="bottom">
-        <Button
-            android:id="@+id/joinGroup"
-            android:layout_width="170dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="10dp"
-            android:text="Join"
-            android:textAllCaps="false"
-            android:textColor="#ffffff"
-            android:textSize="20dp"
-            android:background="@drawable/my_button"
-            android:visibility="gone"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="11dp"
+        android:backgroundTint="#ffff"
+        apps:fabSize="normal"
+        apps:borderWidth="0dp"
+        android:visibility="gone"
+        android:elevation="10dp"
+        apps:pressedTranslationZ="5dp"
+        android:src="@mipmap/ic_floatbutton"
+
+        />
 </FrameLayout>

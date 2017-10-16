@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -52,7 +53,8 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
 
     private LinearLayout goGroupChatLayout, seePeopleOfGroupLayout;
     private TextView titleGroupName, groupName, memberCount, distance, groupDetail;
-    private Button goBack, menuButton, goGroupChat, seePeopleOfGroup, joinGroup;
+    private Button goBack, menuButton, goGroupChat, seePeopleOfGroup;
+    private FloatingActionButton joinGroup;
     private MyHeaderImageView groupImage, latestTalkerImage, imageByKcal0, imageByKcal1,
             imageByKcal2, imageByKcal3, imageByKcal4, imageByKcal5;
     private MyHeaderImageView[] headerImageViews;
@@ -83,7 +85,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         menuButton = (Button)findViewById(R.id.menuButton);
         goGroupChat = (Button)findViewById(R.id.goGroupChat);
         seePeopleOfGroup = (Button)findViewById(R.id.seePeopleOfGroup);
-        joinGroup = (Button)findViewById(R.id.joinGroup);
+        joinGroup = (FloatingActionButton)findViewById(R.id.joinGroup);
         groupImage = (MyHeaderImageView) findViewById(R.id.groupImage);
         latestTalkerImage = (MyHeaderImageView) findViewById(R.id.latestTalkerImage);
 
@@ -142,8 +144,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                            queryBitmap(user, memberObjectIdList.size());
                        }
                    }else {
-                       Toast.makeText(GroupDetailActivity.this, "load group member images failed", Toast.LENGTH_SHORT).show();
-                   }
+                       e.printStackTrace();                   }
                }
            });
         }
@@ -169,9 +170,11 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         new BmobFile(saveName, "", imageUri).download(saveFile, new DownloadFileListener() {
             @Override
             public void done(String s, BmobException e) {
-                bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                if (bitmapMap.size() == memberCount){
-                    showOrderedImagesByKcal(memberCount);
+                if (e == null){
+                    bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
+                    if (bitmapMap.size() == memberCount){
+                        showOrderedImagesByKcal(memberCount);
+                    }
                 }
             }
             @Override

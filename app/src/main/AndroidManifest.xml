@@ -44,8 +44,12 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-
+    <!--推送所需的权限-->
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- ***************************************************************** -->
+
+
     <application
         android:name=".history.MyApplication"
         android:allowBackup="true"
@@ -57,9 +61,12 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="97fd5065f0b5de76489826c5a93c7c14" />
+        <meta-data
+            android:name="Bmob_APP_KEY"
+            android:value="6bbf7fb6372e29f54eead6a98a204621" />
 
         <!-- ***************************************************************** -->
-        <!-- 首次安装的引导页 -->
+        <!-- 首次安装的引导页,注册，忘记密码，登陆，主页 -->
         <activity
             android:name=".slidingpage.WelcomeActivity"
             android:screenOrientation="portrait">
@@ -68,14 +75,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".slidingpage.SelectLogin" />
+        <activity
+            android:name=".slidingpage.LoginPageActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".slidingpage.ForgetPasswordActivity" />
+        <activity android:name=".slidingpage.RegisterActivity" />
+        <!-- ***************************************************************** -->
         <!-- 主页Activity，包括底部导航栏的4个fragment -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustResize">
-        </activity>
+            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
         <!-- ***************************************************************** -->
 
 
@@ -101,7 +113,6 @@
             android:name=".sport_map.RidingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".help.LockScreenActivity"
             android:excludeFromRecents="true"
@@ -111,7 +122,6 @@
             android:screenOrientation="portrait"
             android:taskAffinity="com.package.name.lockscreen"> <!--android:theme="@style/LockScreenBase"-->
         </activity>
-
         <!-- 历史记录chart-->
         <activity
             android:name=".history.HistoryChartActivity"
@@ -125,32 +135,35 @@
             android:name=".friend.ChatActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity android:name=".slidingpage.SelectLogin" />
-        <activity android:name=".slidingpage.LoginPageActivity" />
-        <activity android:name=".slidingpage.ForgetPasswordActivity" />
-        <activity android:name=".slidingpage.RegisterActivity" />
-        <activity android:name=".friend.friendactivity.AddFriendActivity"/>
+
+        <activity android:name=".friend.friendactivity.AddFriendActivity" />
         <activity android:name=".friend.friendactivity.FriendsDetailsActivity" />
         <activity android:name=".friend.friendactivity.MoreRecommendedGroupActivity" />
         <activity android:name=".friend.friendactivity.CreateGroupActivity" />
         <activity android:name=".friend.friendactivity.ShowMyFriendsActivity" />
         <activity android:name=".friend.friendactivity.GroupDetailActivity" />
         <activity android:name=".friend.friendactivity.PeopleOfGroupActivity"></activity>
-        <service android:name=".friend.ListenMsgService"/>
-        <receiver android:name=".bottom.FriendsFragment$MsgCountReceiver"
+
+        <service android:name=".friend.ListenMsgService" />
+
+        <receiver
+            android:name=".bottom.FriendsFragment$MsgCountReceiver"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
 
-        <receiver android:name=".friend.friendactivity.FriendsDetailsActivity$MsgCountReceiver"
+        <receiver
+            android:name=".friend.friendactivity.FriendsDetailsActivity$MsgCountReceiver"
             android:enabled="true"
-            android:exported="true"/>
-        <receiver android:name=".mine.MineMessageRecordActivity$MsgCountReceiver"
+            android:exported="true" />
+        <receiver
+            android:name=".mine.MineMessageRecordActivity$MsgCountReceiver"
             android:enabled="true"
-            android:exported="true"/>
-        <receiver android:name=".bottom.MineFragment$MsgCountReceiver"
+            android:exported="true" />
+        <receiver
+            android:name=".bottom.MineFragment$MsgCountReceiver"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <!-- ***************************************************************** -->
 
@@ -196,13 +209,10 @@
         <activity android:name=".mine.AboutSportNewsActivity" />
         <activity android:name=".mine.MineOurMallActivity" /><!-- “我的”的MineMessageRecordActivity -->
         <activity android:name=".mine.MinePersionalInformationActivity" /><!-- “Circle”的CirclePushCardActivity -->
-        <activity android:name=".mine.MineAboutUsActivity"/>
-        <activity android:name=".mine.MineFeedbackActivity"/>
-        <activity android:name=".mine.MineRelatedUsActivity"/>
+        <activity android:name=".mine.MineAboutUsActivity" />
+        <activity android:name=".mine.MineFeedbackActivity" />
+        <activity android:name=".mine.MineRelatedUsActivity" />
         <!-- ***************************************************************** -->
-
-
-
 
 
         <!-- ***************************************************************** -->
@@ -243,9 +253,54 @@
         <service android:name=".sport_map.WalkService" />
         <!-- ***************************************************************** -->
 
-        <meta-data
-            android:name="Bmob_APP_KEY"
-            android:value="6bbf7fb6372e29f54eead6a98a204621" />
+
+        <!-- ***************************************************************** -->
+        <!--bmob控制台消息推送-->
+        <activity android:name=".help.GetPushFromBmob"
+            android:launchMode="singleTask"/>
+        <service
+            android:name="cn.bmob.push.lib.service.PushService"
+            android:exported="true"
+            android:label="PushService"
+            android:process=":bmobpush">
+            <intent-filter>
+                <action android:name="cn.bmob.push.lib.service.PushService" />
+            </intent-filter>
+        </service>
+        <!-- 用于进程保活 -->
+        <service
+            android:name="cn.bmob.push.lib.service.PushNotifyService"
+            android:process=":bmobpush">
+        </service>
+        <receiver android:name="cn.bmob.push.PushReceiver">
+            <intent-filter>
+                <!-- 系统启动完成后会调用 -->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!-- 解锁完成后会调用 -->
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <!-- 监听网络连通性 -->
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <!-- 第四部中创建的消息接收器，在这里进行注册 -->
+        <receiver android:name=".help.MyPushMessageReceiver">
+            <intent-filter>
+                <action android:name="cn.bmob.push.action.MESSAGE" />
+            </intent-filter>
+        </receiver>
+        <!-- 接收心跳和唤醒的广播，要和PushService运行在同个进程 -->
+        <receiver
+            android:name="cn.bmob.push.PushNotifyReceiver"
+            android:process=":bmobpush">
+            <intent-filter>
+                <!-- 接收心跳广播的action -->
+                <action android:name="cn.bmob.push.action.HEARTBEAT" />
+                <!-- 接收唤醒广播的action -->
+                <action android:name="cn.bmob.push.action.NOTIFY" />
+            </intent-filter>
+        </receiver>
+        <!-- ***************************************************************** -->
+
 
     </application>
 

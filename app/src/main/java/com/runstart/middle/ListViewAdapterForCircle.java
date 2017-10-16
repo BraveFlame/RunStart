@@ -1,6 +1,7 @@
 package com.runstart.middle;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ final class ViewHolderForCircle {
     public TextView topicTitle;
     public ImageView userHeadImage;
     public TextView userName;
-    public ImageView topicProgressbar;
 }
 
 public class ListViewAdapterForCircle extends BaseAdapter {
@@ -61,12 +61,11 @@ public class ListViewAdapterForCircle extends BaseAdapter {
         ViewHolderForCircle viewHolderForCircle =null;
         if (convertView == null) {
             viewHolderForCircle =new ViewHolderForCircle();
-            convertView = mLayoutInflater.inflate(R.layout.walk_secondpage_listitem, null);
+            convertView = mLayoutInflater.inflate(R.layout.walk_myactivity_listitem, null);
             viewHolderForCircle.topicImage = (ImageView) convertView.findViewById(R.id.topic_image);
             viewHolderForCircle.topicTitle = (TextView) convertView.findViewById(R.id.topic_title);
             viewHolderForCircle.userHeadImage = (ImageView) convertView.findViewById(R.id.topic_user_headImage);
             viewHolderForCircle.userName = (TextView) convertView.findViewById(R.id.topic_user_name);
-            viewHolderForCircle.topicProgressbar = (ImageView) convertView.findViewById(R.id.topic_progressbar);
             convertView.setTag(viewHolderForCircle);
         }else {
             viewHolderForCircle =(ViewHolderForCircle)convertView.getTag();
@@ -75,7 +74,6 @@ public class ListViewAdapterForCircle extends BaseAdapter {
         Picasso.with(context).load(topicList.get(position).getTopicImage()).fit().noFade().into(viewHolderForCircle.topicImage);
         viewHolderForCircle.topicTitle.setText(topicList.get(position).getTopicTitle());
         viewHolderForCircle.userName.setText((topicList.get(position).getUserName()));
-        viewHolderForCircle.topicProgressbar.setBackgroundResource(Integer.parseInt(topicList.get(position).getTopicProgressbar()));
         return convertView;
     }
 }

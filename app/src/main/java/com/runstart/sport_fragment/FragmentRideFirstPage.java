@@ -8,16 +8,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.runstart.R;
 import com.runstart.bean.ActivityTopic;
+import com.runstart.bean.ActivityTopicForCircle;
+import com.runstart.circle.CirclePushCardActivity;
+import com.runstart.friend.adapter.ListViewForScrollView;
 import com.runstart.help.CountDown;
 import com.runstart.help.GetMap;
 import com.runstart.help.ToastShow;
+import com.runstart.history.MyApplication;
 import com.runstart.middle.ListViewAdapter;
+import com.runstart.middle.ListViewAdapterForCircle;
 import com.runstart.sport_map.SportingActivity;
 import com.runstart.view.LinearCircles;
 
@@ -36,7 +42,7 @@ public class FragmentRideFirstPage extends Fragment implements View.OnClickListe
     private SharedPreferences preferences;
     GetMap getMap;
     Button startBtn;
-    ListView myListView;
+    private ListView myListView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,11 +53,14 @@ public class FragmentRideFirstPage extends Fragment implements View.OnClickListe
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_ride_firstpage, container, false);
+        ((MyApplication)getContext().getApplicationContext()).fragmentRideFirstPage=FragmentRideFirstPage.this;
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         initView(view);
         setView();
         initView();
-        useAdapter();
+//        useAdapter();
+        useAdapter_new(((MyApplication)getContext().getApplicationContext()).listToShow);
+
         getMap = GetMap.getMap();
         return view;
     }
@@ -61,39 +70,39 @@ public class FragmentRideFirstPage extends Fragment implements View.OnClickListe
     public void initView(){
         myListView = (ListView) view.findViewById(R.id.lv_walk_myactivity);
     }
-    /**
-     * 初始化数据
-     */
-    public List<ActivityTopic> getActivityTopicData(){
-        List<ActivityTopic> topicList = new ArrayList<>();
-
-        ActivityTopic activityTopic=new ActivityTopic();
-        activityTopic.setTopicImage(String.valueOf(R.mipmap.bitmap_walk));
-        activityTopic.setTopicTitle("every day");
-        activityTopic.setUserHeadImage(String.valueOf(R.mipmap.arvin_febry_302935_copy3));
-        activityTopic.setUserName("alien");
-        activityTopic.setTopicProgressbar(String.valueOf(R.mipmap.progressbar));
-        topicList.add(activityTopic);
-        ActivityTopic activityTopic2=new ActivityTopic();
-        activityTopic2.setTopicImage(String.valueOf(R.mipmap.bitmap_walk));
-        activityTopic2.setTopicTitle("every day");
-        activityTopic2.setUserHeadImage(String.valueOf(R.mipmap.arvin_febry_302935_copy3));
-        activityTopic2.setUserName("alien");
-        activityTopic2.setTopicProgressbar(String.valueOf(R.mipmap.progressbar));
-        topicList.add(activityTopic2);
-
-        return topicList;
-    }
-    /**
-     * 使用ListViewAdapter
-     */
-    public  void useAdapter(){
-        List<ActivityTopic> topicList=getActivityTopicData();
-        ListViewAdapter listViewAdapter=new ListViewAdapter(getContext());
-        listViewAdapter.setTopicList(topicList);
-        myListView.setAdapter(listViewAdapter);
-
-    }
+//    /**
+//     * 初始化数据
+//     */
+//    public List<ActivityTopic> getActivityTopicData(){
+//        List<ActivityTopic> topicList = new ArrayList<>();
+//
+//        ActivityTopic activityTopic=new ActivityTopic();
+//        activityTopic.setTopicImage(String.valueOf(R.mipmap.bitmap_walk));
+//        activityTopic.setTopicTitle("every day");
+//        activityTopic.setUserHeadImage(String.valueOf(R.mipmap.arvin_febry_302935_copy3));
+//        activityTopic.setUserName("alien");
+//        activityTopic.setTopicProgressbar(String.valueOf(R.mipmap.progressbar));
+//        topicList.add(activityTopic);
+//        ActivityTopic activityTopic2=new ActivityTopic();
+//        activityTopic2.setTopicImage(String.valueOf(R.mipmap.bitmap_walk));
+//        activityTopic2.setTopicTitle("every day");
+//        activityTopic2.setUserHeadImage(String.valueOf(R.mipmap.arvin_febry_302935_copy3));
+//        activityTopic2.setUserName("alien");
+//        activityTopic2.setTopicProgressbar(String.valueOf(R.mipmap.progressbar));
+//        topicList.add(activityTopic2);
+//
+//        return topicList;
+//    }
+//    /**
+//     * 使用ListViewAdapter
+//     */
+//    public  void useAdapter(){
+//        List<ActivityTopic> topicList=getActivityTopicData();
+//        ListViewAdapter listViewAdapter=new ListViewAdapter(getContext());
+//        listViewAdapter.setTopicList(topicList);
+//        myListView.setAdapter(listViewAdapter);
+//
+//    }
 
     public void initView(View view) {
 
@@ -157,5 +166,20 @@ public class FragmentRideFirstPage extends Fragment implements View.OnClickListe
         setView();
 
 
+    }
+
+    //////////////////////新做的useAdapter，之后网上获取的activity就能显示了///////////////////////////
+    public void useAdapter_new(List list){
+        final List<ActivityTopicForCircle> topicList = list;
+        ListViewAdapterForCircle listViewAdapterForCircle = new ListViewAdapterForCircle(getContext());
+        listViewAdapterForCircle.setTopicList(topicList);
+        myListView.setAdapter(listViewAdapterForCircle);
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String ADid=topicList.get(position).getADid();
+                CirclePushCardActivity.jump(ADid,getActivity());
+            }
+        });
     }
 }

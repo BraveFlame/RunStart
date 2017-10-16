@@ -8,18 +8,30 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
+import android.util.Log;
 
 
+import com.runstart.sport_fragment.FragmentRideFirstPage;
+import com.runstart.sport_fragment.FragmentRunFirstPage;
+import com.runstart.sport_fragment.FragmentWalkFirstPage;
 import com.runstart.sport_fragment.FragmentWalkSecondPage;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
+import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobInstallation;
+import cn.bmob.v3.BmobInstallationManager;
+import cn.bmob.v3.BmobSMS;
+import cn.bmob.v3.InstallationListener;
+import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by 10605 on 2017/9/8.
@@ -42,12 +54,33 @@ public class MyApplication extends Application {
             StrictMode.setVmPolicy(builder.build());
         }
 
+        //注册bmob key
 
-        if (getApplicationInfo().packageName.equals(getMyProcessName())) {
-            Bmob.initialize(this, applicationID);        }
+        Bmob.initialize(this, applicationID);
 
+        //bmob推送
+        BmobInstallationManager.getInstance().initialize(new InstallationListener<BmobInstallation>() {
+            @Override
+            public void done(BmobInstallation bmobInstallation, BmobException e) {
+
+                if(e==null){
+                    Log.e("bmob",bmobInstallation.getObjectId()+"-"+bmobInstallation.getInstallationId());
+                }else {
+                    Log.e("bmob",e.getMessage());
+                }
+            }
+        });
+        try {
+            BmobPush.startWork(this);
+
+        }catch (Exception e){
+            Log.e("bmob","推送异常"+e.getMessage());
+        }
+
+
+        //存放bmob活动，好友照片
         File imageCacheFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage");
-        if (! imageCacheFile.exists()){
+        if (!imageCacheFile.exists()) {
             imageCacheFile.mkdir();
         }
         nowDB = new NowDB("exerciseData", getFilesDir().getPath() + "stu.db",
@@ -67,7 +100,8 @@ public class MyApplication extends Application {
         }
     }
 
-//////////////////////毕小福//////////////////////////////////
+
+    //////////////////////毕小福//////////////////////////////////
     private ProgressDialog progressDialog;
     public void showProgressDialog(Activity activity){
         progressDialog=new ProgressDialog(activity);
@@ -100,5 +134,8 @@ public class MyApplication extends Application {
     };
 
     public boolean isFragmentWalkShouldRefresh=false;
-    public FragmentWalkSecondPage fragmentWalkSecondPage;
+    public FragmentWalkFirstPage fragmentWalkFirstPage;
+    public FragmentRunFirstPage fragmentRunFirstPage;
+    public FragmentRideFirstPage fragmentRideFirstPage;
+    public List listToShow=new ArrayList();
 }

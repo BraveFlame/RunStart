@@ -48,19 +48,18 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignBottom="@+id/mine_user_name"
-                android:layout_marginLeft="100dp"
-                android:layout_toRightOf="@+id/mine_user_name"
-
+                android:layout_marginLeft="160dp"
+                android:layout_toRightOf="@+id/mine_user_headImage"
                 android:src="@mipmap/ic_zan" />
 
             <TextView
+                android:id="@+id/mine_all_pointgreat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/mine_zan"
                 android:layout_marginBottom="5dp"
                 android:layout_toRightOf="@+id/mine_zan"
-
-                android:text="112"
+                android:text="10000"
                 android:textColor="#c562ff"
                 android:textSize="14sp" />
         </RelativeLayout>

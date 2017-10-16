@@ -64,11 +64,10 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.github.promeg:tinypinyin:1.0.0'
     //
-
-
     compile files('libs/library-2.2-sources.jar')
     compile files('libs/picasso-2.3.2-sources.jar')
     compile files('libs/classes.jar')
     compile files('libs/androidasync-2.1.6.jar')
     compile files('libs/BmobNewIM_2.0.9_20170731.jar')
+    compile files('libs/BmobPush_v1.0.0_0627.jar')
 }

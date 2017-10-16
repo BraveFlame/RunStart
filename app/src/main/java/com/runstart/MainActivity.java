@@ -23,8 +23,11 @@ import com.runstart.bottom.FriendsFragment;
 import com.runstart.bottom.HeadPageFragment;
 import com.runstart.bottom.MineFragment;
 import com.runstart.friend.ListenMsgService;
+import com.runstart.friend.LocalChatLog;
+import com.runstart.help.ActivityCollector;
 import com.runstart.help.GetSHA1;
 import com.runstart.help.ToastShow;
+import com.runstart.history.MyApplication;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
@@ -37,7 +40,7 @@ import cn.bmob.v3.listener.QueryListener;
  * @version 1.0
  */
 public class MainActivity extends FragmentActivity {
-
+    MyApplication myApplication;
     //定义FragmentLayout布局
     private FrameLayout frameLayout;
     //定义存放fragment的数组
@@ -47,7 +50,7 @@ public class MainActivity extends FragmentActivity {
     //定义选项index
     int mIndex;
     public static String activityKeep;
-    public User user;
+
 
 
     //声明需要使用的运行时权限
@@ -64,6 +67,8 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myApplication=(MyApplication)getApplicationContext();
+        ActivityCollector.addActivity(this);
         //监听消息
         Intent intent = new Intent(this, ListenMsgService.class);
         startService(intent);
@@ -72,7 +77,7 @@ public class MainActivity extends FragmentActivity {
         //底部状态栏切换fragment
         setRadioGroup();
         getPermission(PERMISSION);
-        getUser();
+        LocalChatLog localChatLog=LocalChatLog.getLocalChatLog(this);
 
 
     }
@@ -108,7 +113,10 @@ public class MainActivity extends FragmentActivity {
         if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-
+        if((mIndex==0)&(myApplication.isFragmentWalkShouldRefresh)) {
+            myApplication.fragmentWalkFirstPage.refreshUI();
+            myApplication.isFragmentWalkShouldRefresh=false;
+        }
         super.onResume();
         GetSHA1.getCertificateSHA1Fingerprint(this);
     }
@@ -169,6 +177,10 @@ public class MainActivity extends FragmentActivity {
                 switch (checkId){
                     case R.id.rb_headPage:
                         setIndexSelected(0);
+                        if(myApplication.isFragmentWalkShouldRefresh) {
+                            myApplication.fragmentWalkFirstPage.refreshUI();
+                            myApplication.isFragmentWalkShouldRefresh=false;
+                        }
                         break;
                     case R.id.rb_friends:
                         setIndexSelected(1);
@@ -186,18 +198,17 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
-    public void getUser(){
-        BmobQuery<User> userBmobQuery = new BmobQuery<>();
-        userBmobQuery.getObject("3bdaf08b1e", new QueryListener<User>() {
-            @Override
-            public void done(User user_, BmobException e) {
-                if(e==null){
-                    user=user_;
-                }else {
-                    ToastShow.showToast(MainActivity.this,"用户获取不成功！");
-                }
-            }
-        });
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent home=new Intent(Intent.ACTION_MAIN);
+        home.addCategory(Intent.CATEGORY_HOME);
+        startActivity(home);
+    }
 }

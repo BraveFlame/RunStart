@@ -99,8 +99,7 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
                                 queryUser();
                             }
                         }else {
-                            Toast.makeText(CreateGroupActivity.this, "load friends failed", Toast.LENGTH_SHORT).show();
-                        }
+                            e.printStackTrace();                        }
                     }
                 });
     }
@@ -206,8 +205,7 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
                                     queryBitmap(user);
                                 }
                             }else {
-                                Toast.makeText(CreateGroupActivity.this, "load friends failed", Toast.LENGTH_SHORT).show();
-                            }
+                                e.printStackTrace();                            }
                         }
                     });
         }
@@ -237,8 +235,7 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
                         }
                     }
                 }else {
-                    Toast.makeText(CreateGroupActivity.this, "load friends' images failed", Toast.LENGTH_SHORT).show();
-                }
+                    e.printStackTrace();                }
             }
             @Override
             public void onProgress(Integer integer, long l) {}

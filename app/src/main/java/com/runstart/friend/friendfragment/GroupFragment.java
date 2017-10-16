@@ -124,8 +124,7 @@ public class GroupFragment extends Fragment {
                             groupList = bmobQueryResult.getResults();
                             handler.sendEmptyMessage(FINISH_LOADING_GROUP);
                         }else {
-                            Toast.makeText(getActivity(), "load groups failed", Toast.LENGTH_SHORT).show();
-                        }
+                            e.printStackTrace();                        }
                     }
         });
     }
@@ -238,9 +237,6 @@ public class GroupFragment extends Fragment {
                 saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
                 if (groupImageUri == null || groupImageUri.trim().length() == 0) {
                     bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
-                    //if (bitmapMap.size() == groupList.size()) {
-                        //handler.sendEmptyMessage(FINISH_LOADING_BITMAP);
-                    //}
                     showResult();
                     continue;
                 }
@@ -250,15 +246,13 @@ public class GroupFragment extends Fragment {
                 public void done(String s, BmobException e) {
                     if (e == null){
                         synchronized (Object.class){
-                            bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                            //if (bitmapMap.size() == groupList.size()){
-                                //handler.sendEmptyMessage(FINISH_LOADING_BITMAP);
-                            //}
-                            showResult();
+                            if (e == null){
+                                bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
+                                showResult();
+                            }
                         }
                     } else {
-                        Toast.makeText(getActivity(), "loading group images failed", Toast.LENGTH_SHORT).show();
-                    }
+                        e.printStackTrace();                    }
                 }
                 @Override
                 public void onProgress(Integer integer, long l) {}
@@ -271,6 +265,7 @@ public class GroupFragment extends Fragment {
         List<Map<String, Object>> joinedGroupList = new ArrayList<>();
         List<Map<String, Object>> recommendedGroupList2 = new ArrayList<>();
         int index = 0;
+        allGroupList.clear();
         for (Group group:groupList){
             Map<String, Object> map = new HashMap<>();
             map.put("index", index++);

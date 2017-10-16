@@ -4,10 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +24,8 @@ import com.runstart.R;
 import com.runstart.friend.ListenMsgService;
 import com.runstart.friend.MsgChat;
 import com.runstart.friend.PhotoUtilsCircle;
+import com.runstart.help.GetLocationData;
+import com.runstart.help.GetSharedPreferences;
 import com.runstart.help.ToastShow;
 import com.runstart.history.MyApplication;
 import com.runstart.mine.MineAboutSportActivity;
@@ -52,13 +56,50 @@ import cn.bmob.v3.listener.UpdateListener;
  * Created by zhouj on 2017-09-08.
  */
 
-public class MineFragment extends BaseFragment implements View.OnClickListener{
+public class MineFragment extends BaseFragment implements View.OnClickListener {
     User user;
     View view;
     private ImageView myHeadImg;
     private String USER_IMG_PATH;
     private File userImgFile;
-    private TextView msgCountTextView;
+    private TextView msgCountTextView,userNameTV,myPointGreatTV;
+    private MsgCountReceiver msgCountReceiver;
+    private GetSharedPreferences getSharedPreferences;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        preferences=PreferenceManager.getDefaultSharedPreferences(getActivity());
+        editor=preferences.edit();
+        getSharedPreferences = GetSharedPreferences.getPref(getActivity());
+        user = new User();
+        getSharedPreferences.getUser(user);
+        getLocalImg();
+        Log.e("bmob", user.getObjectId());
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_mine, container, false);
+        initMineView();
+        if (!userImgFile.exists() && user.getHeaderImageUri() != null) {
+            if(!user.getHeaderImageUri().equals(preferences.getString("lastImg",""))){
+                downloadImg();
+
+            }else {
+                downloadImg();
+            }
+        }
+
+        return view;
+    }
+
 
 
     private Handler handler = new Handler() {
@@ -67,16 +108,16 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
 
             switch (msg.what) {
                 case 1:
-                    PhotoUtilsCircle.showImage(myHeadImg,USER_IMG_PATH);
+                    PhotoUtilsCircle.showImage(myHeadImg, USER_IMG_PATH);
                     break;
                 case 2:
                     user.update(MyApplication.userObjectIdKey, new UpdateListener() {
                         @Override
                         public void done(BmobException e) {
-                            if(e==null){
-                                ToastShow.showToast(getContext(),"修改成功！");
-                            }else {
-                                ToastShow.showToast(getContext(),"更新出错！");
+                            if (e == null) {
+                                ToastShow.showToast(getContext(), "修改成功！");
+                            } else {
+                                ToastShow.showToast(getContext(), "更新出错！");
                             }
                         }
                     });
@@ -86,67 +127,38 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
             }
         }
     };
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        user=new User();
-        user.setObjectId(MyApplication.applicationMap.get(MyApplication.userObjectIdKey));
-        USER_IMG_PATH= Environment.getExternalStorageDirectory() + File.separator
-                + getContext().getPackageName() + File.separator+"myimages/userHeadImg.png";
-        userImgFile=new File(USER_IMG_PATH);
-        Log.e("bmob",user.getObjectId());
-
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       view = inflater.inflate(R.layout.fragment_mine, container, false);
-        initMineView();
-        BmobQuery<User>userBmobQuery=new BmobQuery<>();
-        userBmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
+    public void downloadImg() {
+        new Thread(new Runnable() {
             @Override
-            public void done(User users, BmobException e) {
-                if(e==null){
-                    user=users;
-                    if(!userImgFile.exists()) {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                BmobFile bmobFile=new BmobFile("userHeadImg","",user.getHeaderImageUri());
-                                bmobFile.download(userImgFile, new DownloadFileListener() {
-                                    @Override
-                                    public void done(String s, BmobException e) {
-                                        if(USER_IMG_PATH.equals(s)){
-                                            Message message = new Message();
-                                            message.what = 1;
-                                            handler.sendMessage(message);
-                                        }else {
-                                            ToastShow.showToast(getContext(),"头像出错！");
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onProgress(Integer integer, long l) {
-
-                                    }
-                                });
-                            }
-                        }).start();
+            public void run() {
+                BmobFile bmobFile = new BmobFile(user.getObjectId() + "userHeadImg", "", user.getHeaderImageUri());
+                bmobFile.download(userImgFile, new DownloadFileListener() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (USER_IMG_PATH.equals(s)) {
+                            editor.putString("lastImg",user.getHeaderImageUri());
+                            editor.commit();
+                            Message message = new Message();
+                            message.what = 1;
+                            handler.sendMessage(message);
+                        } else {
+                            ToastShow.showToast(getContext(), "头像出错！");
+                        }
                     }
 
-                }else {
-                    ToastShow.showToast(getContext(),"Failed");
-                }
+                    @Override
+                    public void onProgress(Integer integer, long l) {
+
+                    }
+                });
             }
-        });
-        return view;
+        }).start();
     }
+
     /**
      * 初始化组件
      */
-    public void initMineView(){
+    public void initMineView() {
         //pushCard的RelativeLayout
         RelativeLayout rl_exercisediary = (RelativeLayout) view.findViewById(R.id.mine_rl_exercisediary);
         rl_exercisediary.setOnClickListener(this);
@@ -160,43 +172,64 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
         RelativeLayout rl_messagerecord = (RelativeLayout) view.findViewById(R.id.mine_rl_messagerecord);
         rl_messagerecord.setOnClickListener(this);
         //setUp的RelativeLayout
-        RelativeLayout rl_setup= (RelativeLayout) view.findViewById(R.id.mine_rl_setup);
+        RelativeLayout rl_setup = (RelativeLayout) view.findViewById(R.id.mine_rl_setup);
         rl_setup.setOnClickListener(this);
+
+        //姓名，点赞
+        userNameTV=(TextView)view.findViewById(R.id.mine_user_name);
+        myPointGreatTV=(TextView)view.findViewById(R.id.mine_all_pointgreat);
+        userNameTV.setText(user.getNickName());
+        myPointGreatTV.setText(""+user.getLikeNumberForHistory());
 
         //用户头像的ImageView
         myHeadImg = (MyHeaderImageView) view.findViewById(R.id.mine_user_headImage);
         myHeadImg.setOnClickListener(this);
-        if(userImgFile.exists())
-            PhotoUtilsCircle.showImage(myHeadImg,USER_IMG_PATH);
+        if (userImgFile.exists())
+            PhotoUtilsCircle.showImage(myHeadImg, USER_IMG_PATH);
 
-        msgCountTextView = (TextView)view.findViewById(R.id.msgCount);
+        //消息列表
+        msgCountTextView = (TextView) view.findViewById(R.id.msgCount);
         initMsgCount();
+        msgCountReceiver = new MsgCountReceiver();
         IntentFilter filter = new IntentFilter(ListenMsgService.FILTER_STR);
-        getActivity().registerReceiver(new MsgCountReceiver(), filter);
+        getActivity().registerReceiver(msgCountReceiver, filter);
 
     }
+
+    public void getLocalImg() {
+        USER_IMG_PATH = Environment.getExternalStorageDirectory() + File.separator
+                + getContext().getPackageName() + File.separator + "myimages/" + user.getObjectId() + "userHeadImg.png";
+        userImgFile = new File(USER_IMG_PATH);
+    }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        if(userImgFile.exists())
-            PhotoUtilsCircle.showImage(myHeadImg,USER_IMG_PATH);
+        if (userImgFile.exists())
+            PhotoUtilsCircle.showImage(myHeadImg, USER_IMG_PATH);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(msgCountReceiver);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.mine_user_headImage:
                 Intent personalIntent = new Intent(getActivity(), MinePersionalInformationActivity.class);
-                personalIntent.putExtra("userInfo",user);
+                personalIntent.putExtra("userInfo", user);
                 startActivity(personalIntent);
                 break;
             case R.id.mine_rl_exercisediary:
-                Intent exDairyIntent=new Intent(getActivity(),MineExerciseDiaryActivity.class);
+                Intent exDairyIntent = new Intent(getActivity(), MineExerciseDiaryActivity.class);
                 startActivity(exDairyIntent);
                 break;
             case R.id.mine_rl_aboutsport:
-                Intent aboutSportIntent = new Intent(getActivity(),MineAboutSportActivity.class);
+                Intent aboutSportIntent = new Intent(getActivity(), MineAboutSportActivity.class);
                 startActivity(aboutSportIntent);
                 break;
             case R.id.mine_rl_ourmall:
@@ -218,25 +251,25 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
 
 
     public class MsgCountReceiver extends BroadcastReceiver {
-        public MsgCountReceiver(){
+        public MsgCountReceiver() {
             super();
         }
 
         @Override
         public void onReceive(Context context, Intent intent) {
             Map<String, Integer> msgCountMap =
-                    ((ArrayList<Map<String, Integer>>)intent.getSerializableExtra("msgCountMapLoader")).get(0);
+                    ((ArrayList<Map<String, Integer>>) intent.getSerializableExtra("msgCountMapLoader")).get(0);
             int msgCount = 0;
-            for (Map.Entry<String, Integer> entry:msgCountMap.entrySet()){
+            for (Map.Entry<String, Integer> entry : msgCountMap.entrySet()) {
                 int data = entry.getValue();
                 msgCount += data;
             }
             msgCountTextView.setVisibility(View.VISIBLE);
             msgCountTextView.setText(msgCount + "");
-            if (msgCount > 99){
+            if (msgCount > 99) {
                 msgCountTextView.setText("99+");
             }
-            if (msgCount == 0){
+            if (msgCount == 0) {
                 msgCountTextView.setVisibility(View.GONE);
             }
         }
@@ -244,36 +277,39 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
 
     private Map<String, MsgChat> msgChatMap = new HashMap<>();
     private Map<String, Integer> msgCountMap = new HashMap<>();
-    private void initMsgCount(){
+
+    private void initMsgCount() {
         new BmobQuery<MsgChat>().setSQL("select * from MsgChat where friendObjectId=?")
                 .setPreparedParams(new String[]{MyApplication.applicationMap.get(MyApplication.userObjectIdKey)})
                 .doSQLQuery(new SQLQueryListener<MsgChat>() {
                     @Override
                     public void done(BmobQueryResult<MsgChat> bmobQueryResult, BmobException e) {
-                        List<MsgChat> msgChatList = bmobQueryResult.getResults();
-                        for (MsgChat msgChat: msgChatList){
-                            msgChatMap.put(msgChat.getUserObjectId(), msgChat);
-                        }
-                        int msgCount = 0;
-                        for (Map.Entry<String, MsgChat> entry:msgChatMap.entrySet()) {
-                            String key = entry.getKey();
-                            String data = entry.getValue().toString();
-                            if (data == null || data.equals("0")) {
-                                msgCountMap.put(key, 0);
-                                continue;
-                            } else {
-                                int count = data.split("\\.\\*\\.\\|\\*\\|").length - 1;
-                                msgCountMap.put(key, count);
-                                msgCount += count;
+                        if (e == null) {
+                            List<MsgChat> msgChatList = bmobQueryResult.getResults();
+                            for (MsgChat msgChat : msgChatList) {
+                                msgChatMap.put(msgChat.getUserObjectId(), msgChat);
                             }
-                        }
-                        if (msgCount == 0){
-                            msgCountTextView.setVisibility(View.GONE);
-                        } else {
-                            msgCountTextView.setVisibility(View.VISIBLE);
-                            msgCountTextView.setText(msgCount + "");
-                            if (msgCount > 99){
-                                msgCountTextView.setText("99+");
+                            int msgCount = 0;
+                            for (Map.Entry<String, MsgChat> entry : msgChatMap.entrySet()) {
+                                String key = entry.getKey();
+                                String data = entry.getValue().toString();
+                                if (data == null || data.equals("0")) {
+                                    msgCountMap.put(key, 0);
+                                    continue;
+                                } else {
+                                    int count = data.split("\\.\\*\\.\\|\\*\\|").length - 1;
+                                    msgCountMap.put(key, count);
+                                    msgCount += count;
+                                }
+                            }
+                            if (msgCount == 0) {
+                                msgCountTextView.setVisibility(View.GONE);
+                            } else {
+                                msgCountTextView.setVisibility(View.VISIBLE);
+                                msgCountTextView.setText(msgCount + "");
+                                if (msgCount > 99) {
+                                    msgCountTextView.setText("99+");
+                                }
                             }
                         }
                     }

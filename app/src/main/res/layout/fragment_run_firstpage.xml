@@ -18,6 +18,8 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:id="@+id/run_iv_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

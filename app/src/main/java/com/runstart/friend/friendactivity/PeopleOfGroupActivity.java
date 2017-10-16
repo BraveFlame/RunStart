@@ -7,14 +7,12 @@ import android.os.Environment;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.runstart.BmobBean.Friend;
@@ -78,8 +76,7 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
                                 queryUser(memberObjectIdList);
                             }
                         } else {
-                            Toast.makeText(PeopleOfGroupActivity.this, "load group failed", Toast.LENGTH_SHORT).show();
-                        }
+                            e.printStackTrace();                        }
                     }
                 });
     }
@@ -106,8 +103,7 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
                                     queryFriend(user, memberObjectIdList.size());
                                 }
                             }else {
-                                Toast.makeText(PeopleOfGroupActivity.this, "load group member failed", Toast.LENGTH_SHORT).show();
-                            }
+                                e.printStackTrace();                            }
                         }
                     });
         }
@@ -143,8 +139,7 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
                         }
                     }
                 }else {
-                    Toast.makeText(PeopleOfGroupActivity.this, "load group friend failed", Toast.LENGTH_SHORT).show();
-                }
+                    e.printStackTrace();                }
             }
         });
     }
@@ -164,9 +159,11 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
         new BmobFile(saveName, "", imageUri).download(saveFile, new DownloadFileListener() {
             @Override
             public void done(String s, BmobException e) {
-                bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                if ((friendMap.size() == memberCount) && (bitmapMap.size() == memberCount)){
-                    showResult();
+                if (e == null){
+                    bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
+                    if ((friendMap.size() == memberCount) && (bitmapMap.size() == memberCount)){
+                        showResult();
+                    }
                 }
             }
             @Override
@@ -190,9 +187,9 @@ public class PeopleOfGroupActivity extends AppCompatActivity implements MySimple
                 Bundle data = new Bundle();
                 data.putSerializable("friend", friendMap.get(orderedUserArr[index].getObjectId()));
                 data.putSerializable("user", orderedUserArr[index]);
-                ArrayList<Bitmap> bitmapList = new ArrayList<>();
-                bitmapList.add(bitmapMap.get(orderedUserArr[index].getObjectId()));
-                data.putSerializable("headerImage", bitmapList);
+//                ArrayList<Bitmap> bitmapList = new ArrayList<>();
+//                bitmapList.add(bitmapMap.get(orderedUserArr[index].getObjectId()));
+//                data.putSerializable("headerImage", bitmapList);
                 intent.putExtras(data);
                 startActivity(intent);
             }

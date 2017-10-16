@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,6 +34,9 @@ public class LocalChatLog {
     public synchronized static LocalChatLog getLocalChatLog(Context context) {
         if (localChatLog == null) {
             localChatLog = new LocalChatLog(context);
+            Log.e("chatDb",""+context+"创建打印");
+        }else {
+            Log.e("chatDb",""+context+"调用打印");
         }
         return localChatLog;
     }

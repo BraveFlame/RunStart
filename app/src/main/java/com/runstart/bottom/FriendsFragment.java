@@ -1,5 +1,8 @@
 package com.runstart.bottom;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -45,6 +48,8 @@ import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SQLQueryListener;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 /**
  * Created by User on 17-9-1.
  */
@@ -64,11 +69,16 @@ public class FriendsFragment extends Fragment{
     //消息数
     private FrameLayout goChattingList;
     private TextView msgCountTextView;
+    private MsgCountReceiver msgCountReceiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        notificationManager = (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
+        IntentFilter filter = new IntentFilter(ListenMsgService.FILTER_STR);
+        msgCountReceiver=new MsgCountReceiver();
+        getActivity().registerReceiver(msgCountReceiver, filter);
         int[] menuIons = new int[]{R.mipmap.ic_jiahaoyou, R.mipmap.group_10};
         String[] menuNames = new String[]{"add friend", "create a group"};
         final String[] from = new String[]{"menuIcon", "menuName"};
@@ -130,8 +140,14 @@ public class FriendsFragment extends Fragment{
     public void onResume() {
         super.onResume();
         initMsgCount();
-        IntentFilter filter = new IntentFilter(ListenMsgService.FILTER_STR);
-        getActivity().registerReceiver(new MsgCountReceiver(), filter);
+
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(msgCountReceiver);
     }
 
     @Override
@@ -287,6 +303,8 @@ public class FriendsFragment extends Fragment{
                             if (msgCount == 0){
                                 msgCountTextView.setVisibility(View.GONE);
                             } else {
+                                notifyNewMsg(MineMessageRecordActivity.class,
+                                        R.mipmap.ic_xiaoxi, "you have " + msgCount + " new messages to read");
                                 msgCountTextView.setVisibility(View.VISIBLE);
                                 msgCountTextView.setText(msgCount + "");
                                 if (msgCount > 99){
@@ -297,5 +315,18 @@ public class FriendsFragment extends Fragment{
                     }
 
                 });
+    }
+
+    private NotificationManager notificationManager;
+    private void notifyNewMsg(Class clazz, int iconId, String content){
+        Intent intent = new Intent(getActivity(), clazz);
+        PendingIntent pi = PendingIntent.getActivity(getActivity(), 0, intent, 0);
+
+        Notification notification = new Notification.Builder(getActivity())
+                .setAutoCancel(true).setTicker("New messages").setContentTitle("New messages").setSmallIcon(iconId)
+                .setContentText(content).setDefaults(Notification.DEFAULT_VIBRATE)
+                .setWhen(System.currentTimeMillis()).setContentIntent(pi)
+                .build();
+        notificationManager.notify(NotificationManager.IMPORTANCE_NONE, notification);
     }
 }
