@@ -2,6 +2,8 @@ package com.runstart.circle.JianjiansListView;
 
 import com.runstart.BmobBean.Friend;
 
+import java.util.Comparator;
+
 /**
  * Created by 10605 on 2017/10/9.
  */

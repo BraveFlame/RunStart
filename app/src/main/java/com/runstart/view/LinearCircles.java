@@ -56,7 +56,7 @@ public class LinearCircles extends View {
     private RectF iInnerRectF;
 
     private int count = 50;//画count根线
-    private float systemX = 1;//getContext().getResources().getDisplayMetrics().xdpi/480;
+    private float systemX =1;//getContext().getResources().getDisplayMetrics().xdpi/480;
     private int outerR = (int) (300 * systemX);//外部圆环的半径
     private int innerR = (int) (outerR * 0.77f);//内部圆环的半径
 
@@ -142,6 +142,8 @@ public class LinearCircles extends View {
 
 
     }
+
+
 
     /**
      * 外层圆圈
@@ -437,8 +439,9 @@ public class LinearCircles extends View {
         if (nowPaint == null) {
             nowPaint = new Paint();
             nowPaint.setStyle(Paint.Style.STROKE);
+            nowPaint.setAntiAlias(true);//抗锯齿功能
             nowPaint.setStrokeWidth(3);
-            nowPaint.setTextSize(28);
+            nowPaint.setTextSize(27);
             nowPaint.setColor(getContext().getColor(R.color.calor_now_circle));
         }
         if (vTextPaint == null) {

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/circle_pushcard_menu_newactivity"
+        android:icon="@mipmap/ic_fabu"
+        android:title="New activity"/>
+
+    <item
+        android:id="@+id/circle_pushcard_menu_exitactivity"
+        android:icon="@mipmap/ic_tuichu"
+        android:title="Exit activity"/>
+    <item
+        android:id="@+id/circle_pushcard_menu_news"
+        android:icon="@mipmap/ic_xiaoxi"
+        android:title="news"/>
+    </menu>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

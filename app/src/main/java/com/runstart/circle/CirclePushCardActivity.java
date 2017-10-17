@@ -1,11 +1,15 @@
 package com.runstart.circle;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Bundle;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +26,7 @@ import com.runstart.BmobBean.User;
 import com.runstart.R;
 import com.runstart.history.MyApplication;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +48,7 @@ public class CirclePushCardActivity extends AppCompatActivity {
 
     Handler handler=new Handler(){
         int k=0;
+        int m=0;
 
         @Override
         public void handleMessage(Message msg) {
@@ -59,6 +65,10 @@ public class CirclePushCardActivity extends AppCompatActivity {
                     k++;
                     //取出，用于判断是否完成任务，与上方无关
                     CirclePushCardActivity.this.activityData=activityData;
+                    m++;
+                    if(m>=2){
+                        handler.sendEmptyMessage(8);
+                    }
                     break;
                 //获取成员信息，并设置到布局
                 case 2:
@@ -67,6 +77,10 @@ public class CirclePushCardActivity extends AppCompatActivity {
                     CirclePushCardActivity.this.activityAndMember = activityAndMember;
                     setMTAview(activityAndMember);
                     k++;
+                    m++;
+                    if(m>=2){
+                        handler.sendEmptyMessage(8);
+                    }
                     break;
                 //获取成员的用户信息，并设置到布局
                 case 3:
@@ -84,7 +98,6 @@ public class CirclePushCardActivity extends AppCompatActivity {
                             .duration(700)
                             .repeat(2)
                             .playOn(signInTimes);
-                    handler.sendEmptyMessage(8);
                     YoYo.with(Techniques.Wobble)
                             .duration(700)
                             .repeat(2)
@@ -98,7 +111,6 @@ public class CirclePushCardActivity extends AppCompatActivity {
                     break;
                 //有图片加载完了才进行，这个时候算比较晚了，故三种数据都取好了，下面交叉调用的才不会出错
                 case 6:
-                    handler.sendEmptyMessage(8);
                     ((MyApplication)getApplicationContext()).stopProgressDialog();
                     break;
                 //按钮抖一下然后消失的动画
@@ -199,6 +211,26 @@ public class CirclePushCardActivity extends AppCompatActivity {
         frequency.setText(CommonUtils.frequencyString[activityData.getFrequency()]);
         exerciseAmount.setText(""+activityData.getExerciseAmount()+"m");
         Picasso.with(this).load(activityData.getBackgroundURL()).fit().noFade().into(activityBackground);
+//        Target target = new Target() {
+//            @Override
+//            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
+//                //替换背景
+////                activityBackground.setBackgroundDrawable(new BitmapDrawable(getResources(), bitmap));
+//                activityBackground.setBackground(new BitmapDrawable(getResources(), bitmap));
+//            }
+//
+//            @Override
+//            public void onBitmapFailed(Drawable drawable) {
+//
+//            }
+//
+//            @Override
+//            public void onPrepareLoad(Drawable drawable) {
+//
+//            }
+//        };
+//
+//        Picasso.with(this).load(activityData.getBackgroundURL()).noFade().into(target);
     }
 
     private long getCompletionRate(){
@@ -353,10 +385,10 @@ public class CirclePushCardActivity extends AppCompatActivity {
         }
         if(ifInCompletedState()&ifCanPush()){
             punchCard.setEnabled(true);
-            punchCard.setBackgroundResource(R.mipmap.dakaanniu2);
+            punchCard.setBackgroundResource(R.mipmap.b2);
         } else {
             punchCard.setEnabled(false);
-            punchCard.setBackgroundResource(R.mipmap.dakaanniu1);
+            punchCard.setBackgroundResource(R.mipmap.b3);
         }
     }
 }

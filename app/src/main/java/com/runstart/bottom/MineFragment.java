@@ -25,7 +25,6 @@ import com.runstart.friend.BmobJdonChat;
 import com.runstart.friend.ListenMsgService;
 import com.runstart.friend.MsgChat;
 import com.runstart.friend.PhotoUtilsCircle;
-import com.runstart.help.GetLocationData;
 import com.runstart.help.GetSharedPreferences;
 import com.runstart.help.ToastShow;
 import com.runstart.history.MyApplication;
@@ -53,7 +52,6 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
-import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SQLQueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.ValueEventListener;
@@ -124,10 +122,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.fragment_mine, container, false);
         initMineView();
         if (!userImgFile.exists() && user.getHeaderImageUri() != null) {
-            if (!user.getHeaderImageUri().equals(preferences.getString("lastImg", ""))) {
                 downloadImg();
-
-            } else {
+        }else if (userImgFile.exists()&& user.getHeaderImageUri() != null){
+            if (!user.getHeaderImageUri().equals(preferences.getString("lastImg", ""))) {
                 downloadImg();
             }
         }

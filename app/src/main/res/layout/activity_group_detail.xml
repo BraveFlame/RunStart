@@ -280,7 +280,7 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         android:gravity="bottom">
-        <Button
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/joinGroup"
             android:layout_width="170dp"
             android:layout_height="40dp"

@@ -3,14 +3,15 @@ package com.runstart.circle;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -21,11 +22,14 @@ import com.runstart.BmobBean.User;
 import com.runstart.R;
 import com.runstart.circle.JianjiansListView.CircleActivityTopic;
 import com.runstart.circle.JianjiansListView.NowJianjiansListView;
+import com.runstart.friend.friendactivity.FriendsDetailsActivity;
+import com.runstart.friend.friendfragment.MyFriendsFragment;
 import com.runstart.history.MyApplication;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,9 +37,10 @@ import java.util.Map;
 public class CircleFriendListActivity extends AppCompatActivity {
 
     ListView listView;
-    ProgressDialog progressDialog;
     String userId;
     Map<String,Object> isTodayLikedMap;
+    List<CircleActivityTopic> topicList;
+    Map<String, User> userMap;
 
     Handler handler=new Handler(){
         @Override
@@ -66,7 +71,7 @@ public class CircleFriendListActivity extends AppCompatActivity {
                     handler.sendEmptyMessage(13);
                     break;
                 case 13:
-                    progressDialog.cancel();
+                    ((MyApplication)getApplicationContext()).stopProgressDialog();
                     break;
                 default:break;
             }
@@ -98,10 +103,10 @@ public class CircleFriendListActivity extends AppCompatActivity {
     private void putTheTable(String str){
         Gson gson=new Gson();
         Type type = new TypeToken<Map<String, User>>() {}.getType();
-        Map<String, User> userMap = gson.fromJson(str, type);
+        userMap = gson.fromJson(str, type);
         User user;
         int i=1;
-        List<CircleActivityTopic> topicList = new ArrayList<>();
+        topicList = new ArrayList<>();
         for (Map.Entry entry : userMap.entrySet()) {
             user=(User)entry.getValue();
 
@@ -123,7 +128,22 @@ public class CircleFriendListActivity extends AppCompatActivity {
             i++;
         }
         Collections.sort(topicList);
+        for(int j=0;j<topicList.size();j++){
+            topicList.get(j).setNumber(j+1);
+        }
         NowJianjiansListView.useAdapter(this,listView,topicList,isTodayLikedMap);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String memberId=topicList.get(position).getMemberId();
+                Intent intent = new Intent(CircleFriendListActivity.this, FriendsDetailsActivity.class);
+                Bundle data = new Bundle();
+                data.putSerializable("friend", (Friend)(isTodayLikedMap.get(memberId+"friendId")));
+                data.putSerializable("user", userMap.get(memberId));
+                intent.putExtras(data);
+                CircleFriendListActivity.this.startActivity(intent);
+            }
+        });
     }
 
     public static void jump(String activityId,Activity activity){
@@ -142,17 +162,14 @@ public class CircleFriendListActivity extends AppCompatActivity {
     }
 
     private void init_view(){
-        listView=(ListView)findViewById(R.id.lv);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        findViewById(R.id.circle_friend_list_iv_zuojiantou).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(CircleFriendListActivity.this,"点击了整条listview，位置是："+position,Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                CircleFriendListActivity.this.finish();
             }
         });
-        progressDialog=new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("正在获取数据...");
-        progressDialog.show();
+        listView=(ListView)findViewById(R.id.lv);
+        ((MyApplication)getApplicationContext()).showProgressDialog(this);
         new Thread(new Runnable() {
             @Override
             public void run() {

@@ -17,7 +17,7 @@
         android:textColor="#000000"
         android:text="8" />
 
-    <ImageView
+    <com.runstart.friend.friendactivity.MyHeaderImageView
         android:id="@+id/friend_list_header"
         android:layout_width="0dp"
         android:layout_height="match_parent"

@@ -34,6 +34,7 @@
             android:textSize="20sp" />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/circle_join_popupmenu"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="60dp"

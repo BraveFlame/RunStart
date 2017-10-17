@@ -2,7 +2,6 @@ package com.runstart.mine;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Trace;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -23,13 +21,9 @@ import android.widget.TextView;
 
 import com.runstart.BmobBean.User;
 import com.runstart.R;
-import com.runstart.friend.ChatActivity;
 import com.runstart.friend.PhotoUtilsCircle;
-import com.runstart.friend.adapter.PhotoUtils;
 import com.runstart.help.ActivityCollector;
-import com.runstart.help.GetSharedPreferences;
 import com.runstart.help.ToastShow;
-import com.runstart.history.MyApplication;
 import com.runstart.mine.location.City;
 import com.runstart.mine.location.PInfoLocationActivity;
 
@@ -348,22 +342,27 @@ public class MinePersonalInformationActivity extends Activity implements View.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
             case 11:
+                if (data==null)
+                    return;
                 if(requestCode==11){
                     String newname = data.getStringExtra("setname");
                     myNameTv.setText(newname);
                 }
                 return;
             case 12:
-                if (data!=null) {
+                if (data==null)
+                    return;
                     city = data.getParcelableExtra("city");
                     if (city.getDistrict() != null) {
                         myLocationTv.setText(city.getProvince() + city.getDistrict());
                     } else {
                         myLocationTv.setText(city.getProvince() + city.getCity());
                     }
-                }
+
                 return;
             case 13:
+                if (data==null)
+                    return;
                 if(requestCode==13){
                     String newmailbox = data.getStringExtra("setmailbox");
                     myMailBoxTv.setText(newmailbox);
