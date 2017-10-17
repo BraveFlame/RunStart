@@ -56,7 +56,7 @@ public class LinearCircles extends View {
     private RectF iInnerRectF;
 
     private int count = 50;//画count根线
-    private float systemX =getContext().getResources().getDisplayMetrics().xdpi/480;
+    private float systemX =1;//getContext().getResources().getDisplayMetrics().xdpi/480;
     private int outerR = (int) (300 * systemX);//外部圆环的半径
     private int innerR = (int) (outerR * 0.77f);//内部圆环的半径
 

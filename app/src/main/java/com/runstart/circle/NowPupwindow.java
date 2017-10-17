@@ -1,6 +1,7 @@
 package com.runstart.circle;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +19,7 @@ import com.runstart.BmobBean.ActivityAndMember;
 import com.runstart.BmobBean.ActivityData;
 import com.runstart.R;
 import com.runstart.history.MyApplication;
+import com.runstart.mine.MineMessageRecordActivity;
 
 import java.util.List;
 
@@ -114,7 +116,8 @@ public class NowPupwindow implements PopupMenu.OnMenuItemClickListener{
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
             case R.id.circle_pushcard_menu_newactivity:
-                Toast.makeText(activity, "您点击了“未知“按钮", Toast.LENGTH_SHORT).show();
+                CircleCreateActivity.jump(activity);
+                activity.finish();
                 break;
             case R.id.circle_pushcard_menu_exitactivity:
                 if(!activity.activityData.getCreatorId().equals(activity.initMyId)) {
@@ -139,10 +142,7 @@ public class NowPupwindow implements PopupMenu.OnMenuItemClickListener{
                 }
                 break;
             case R.id.circle_pushcard_menu_news:
-                Toast.makeText(activity, "您点击了“sdfg“按钮", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.circle_pushcard_menu_invitefriends:
-                Toast.makeText(activity, "您点击了“未ssdf“按钮", Toast.LENGTH_SHORT).show();
+                activity.startActivity(new Intent(activity, MineMessageRecordActivity.class));
                 break;
             default:
                 break;

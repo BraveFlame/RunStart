@@ -14,20 +14,26 @@
             android:background="#ffff"
             android:orientation="vertical"
             >
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:layout_below="@+id/circle_rl_pushcard_title"
                 >
+
                 <ImageView
                     android:id="@+id/activityBackground"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:src="@mipmap/bitmap_walk"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@mipmap/bitmap_walk"
                     />
 
-            </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@mipmap/mask_image"
+                    />
+
+            </FrameLayout>
             <TextView
                 android:id="@+id/activityName"
                 android:layout_width="wrap_content"
@@ -130,7 +136,7 @@
                 android:orientation="horizontal"
                 android:background="#ffff"
                 >
-                <ImageView
+                <com.runstart.friend.friendactivity.MyHeaderImageView
                     android:id="@+id/circle_pushcard_iv_userimage_first"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -139,7 +145,7 @@
                     android:layout_weight="1"
 
                     />
-                <ImageView
+                <com.runstart.friend.friendactivity.MyHeaderImageView
                     android:id="@+id/circle_pushcard_iv_userimage_second"
                     android:layout_width="0dp"
                     android:paddingLeft="@dimen/my_padding"
@@ -149,7 +155,7 @@
 
                     />
                 />
-                <ImageView
+                <com.runstart.friend.friendactivity.MyHeaderImageView
                     android:id="@+id/circle_pushcard_iv_userimage_three"
                     android:layout_weight="1"
                     android:paddingLeft="@dimen/my_padding"
@@ -158,7 +164,7 @@
                     android:layout_height="match_parent"
 
                     />
-                <ImageView
+                <com.runstart.friend.friendactivity.MyHeaderImageView
                     android:id="@+id/circle_pushcard_iv_userimage_four"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -167,7 +173,7 @@
                     android:layout_height="match_parent"
 
                     />
-                <ImageView
+                <com.runstart.friend.friendactivity.MyHeaderImageView
                     android:id="@+id/circle_pushcard_iv_userimage_five"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -176,7 +182,7 @@
                     android:layout_weight="1"
 
                     />
-                <ImageView
+                <com.runstart.friend.friendactivity.MyHeaderImageView
                     android:id="@+id/circle_pushcard_iv_userimage_six"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -471,13 +477,13 @@
             >
             <Button
                 android:id="@+id/punchCard"
-                android:layout_width="160dp"
-                android:layout_height="50dp"
+                android:layout_width="165dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
 
                 android:textAllCaps="false"
-                android:background="@mipmap/dakaanniu1"
+                android:background="@mipmap/b3"
                 android:text="Punch card"
                 android:textSize="18dp"
                 android:textColor="#ffff"

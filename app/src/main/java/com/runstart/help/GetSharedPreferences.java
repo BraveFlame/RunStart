@@ -34,7 +34,7 @@ public class GetSharedPreferences {
         user.setNickName(preferences.getString("name","no"));
         user.setMailBox(preferences.getString("mail","12345@qq.com"));
         user.setLocation(preferences.getString("location","no"));
-        user.setHeaderImageUri(preferences.getString("headImg",""));
+        user.setHeaderImageUri(preferences.getString("headImg",null));
         user.setPhoneNumber(preferences.getString("phone","12345"));
         user.setPassword(preferences.getString("password","12345"));
         user.setObjectId(preferences.getString("userObjectId","12345"));

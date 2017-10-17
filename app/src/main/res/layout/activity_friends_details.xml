@@ -313,16 +313,13 @@
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
-            <ImageView
-                android:id="@+id/activity"
+            <com.runstart.friend.adapter.ListViewForScrollView
+                android:id="@+id/friend_details_activity_listview"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/friends_details_tv_activity"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/bitmap_ride" />
+                android:layout_marginBottom="10dp"
+                />
         </RelativeLayout>
     </ScrollView>
     <android.support.design.widget.FloatingActionButton

@@ -5,6 +5,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +30,7 @@ import com.runstart.BmobBean.ActivityData;
 import com.runstart.R;
 import com.runstart.history.MyApplication;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,10 +92,12 @@ public class CircleJoinActivity extends Activity implements View.OnClickListener
                 case 7:
                     CirclePushCardActivity.jump(activityId,CircleJoinActivity.this);
                     ((MyApplication)getApplicationContext()).isFragmentWalkShouldRefresh=true;
+                    ((MyApplication)getApplicationContext()).stopProgressDialog();
                     finish();
                     break;
                 case 8:
                     joinButton.setEnabled(false);
+                    joinButton.setBackgroundResource(R.mipmap.b3);
                     break;
                 case 9:
                     joinButton.setEnabled(true);
@@ -113,7 +119,7 @@ public class CircleJoinActivity extends Activity implements View.OnClickListener
         setContentView(R.layout.fragment_circle_join);
         init_data();
         initView();
-        initPopMenu();
+//        initPopMenu();
     }
 
     private void init_data(){
@@ -160,53 +166,53 @@ public class CircleJoinActivity extends Activity implements View.OnClickListener
     /**
      * 初始化popWindow菜单
      */
-    private void initPopMenu(){
-
-        //装载mine.layout.popup对应的界面布局
-        View view = this.getLayoutInflater().inflate(R.layout.circle_join_popupmenu, null);
-
-        //创建PopupWindow对象
-        final PopupWindow popupWindow=new PopupWindow(view,550,250);
-        popupWindow.setOutsideTouchable(true);
-        Button btn_popupmenu = (Button) findViewById(R.id.circle_join_popupmenu);
-
-        btn_popupmenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!flag) {
-                    //以下拉的方式来显示
-//                popupWindow.showAsDropDown(v,20,30);
-                    //将PopupWindow显示在指定的位置
-                    popupWindow.showAtLocation(findViewById(R.id.circle_join_popupmenu), Gravity.RELATIVE_LAYOUT_DIRECTION, 210, -590);
-                    flag = true;
-                }else {
-                    popupWindow.dismiss();
-                    flag=false;
-                }
-            }
-        });
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        flag=false;
-                    }
-                }).start();
-            }
-        });
-        //初始化circle_join_popupmenu.xml布局的组件
-        rl_menu_first = (RelativeLayout) view.findViewById(R.id.circle_join_popupmenu_rl_first);
-        rl_menu_first.setOnClickListener(this);
-        rl_menu_second = (RelativeLayout) view.findViewById(R.id.circle_join_popupmenu_rl_second);
-        rl_menu_second.setOnClickListener(this);
-    }
+//    private void initPopMenu(){
+//
+//        //装载mine.layout.popup对应的界面布局
+//        View view = this.getLayoutInflater().inflate(R.layout.circle_join_popupmenu, null);
+//
+//        //创建PopupWindow对象
+//        final PopupWindow popupWindow=new PopupWindow(view,550,250);
+//        popupWindow.setOutsideTouchable(true);
+//        Button btn_popupmenu = (Button) findViewById(R.id.circle_join_popupmenu);
+//
+//        btn_popupmenu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(!flag) {
+//                    //以下拉的方式来显示
+////                popupWindow.showAsDropDown(v,20,30);
+//                    //将PopupWindow显示在指定的位置
+//                    popupWindow.showAtLocation(findViewById(R.id.circle_join_popupmenu), Gravity.RELATIVE_LAYOUT_DIRECTION, 210, -590);
+//                    flag = true;
+//                }else {
+//                    popupWindow.dismiss();
+//                    flag=false;
+//                }
+//            }
+//        });
+//        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            Thread.sleep(500);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                        flag=false;
+//                    }
+//                }).start();
+//            }
+//        });
+//        //初始化circle_join_popupmenu.xml布局的组件
+//        rl_menu_first = (RelativeLayout) view.findViewById(R.id.circle_join_popupmenu_rl_first);
+//        rl_menu_first.setOnClickListener(this);
+//        rl_menu_second = (RelativeLayout) view.findViewById(R.id.circle_join_popupmenu_rl_second);
+//        rl_menu_second.setOnClickListener(this);
+//    }
 
     @Override
     public void onClick(View v) {
@@ -214,6 +220,7 @@ public class CircleJoinActivity extends Activity implements View.OnClickListener
             //点击后改动数据库，加入activity
             case R.id.circle_join_button:
                 GetFromBmob.addAAM(activityId,userId,handler);
+                ((MyApplication)getApplication()).showProgressDialog(this);
                 break;
             case R.id.circle_join_iv_zuojiantou:        //点击回退到前一个activity
                 CircleJoinActivity.this.finish();
@@ -254,6 +261,24 @@ public class CircleJoinActivity extends Activity implements View.OnClickListener
         frequency.setText(CommonUtils.frequencyString[activityData.getFrequency()]);
         exerciseAmount.setText(""+activityData.getExerciseAmount()+"m");
         Picasso.with(this).load(activityData.getBackgroundURL()).fit().noFade().into(activityBackground);
+
+//        Target target = new Target() {
+//            @Override
+//            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
+//                //替换背景
+////                activityBackground.setBackgroundDrawable(new BitmapDrawable(getResources(), bitmap));
+//                activityBackground.setBackground(new BitmapDrawable(getResources(), bitmap));
+//            }
+//
+//            @Override
+//            public void onBitmapFailed(Drawable drawable) {
+//            }
+//
+//            @Override
+//            public void onPrepareLoad(Drawable drawable) {
+//            }
+//        };
+//        Picasso.with(this).load(activityData.getBackgroundURL()).noFade().into(target);
     }
 
     private void setMemberHeaderImage(List<ActivityAndMember> list){

@@ -90,6 +90,7 @@
             android:layout_below="@+id/circle_createactivity_line_first"
             android:background="#ffff"
             android:paddingLeft="20dp"
+            android:textSize="18sp"
             android:hint="Give you activity a name"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
@@ -110,6 +111,7 @@
             android:background="#ffff"
             android:paddingLeft="20dp"
             android:gravity="top"
+            android:textSize="16sp"
             android:minHeight="130dp"
             android:hint="Introduce your activity"
             android:layout_marginTop="5dp"
@@ -272,14 +274,14 @@
             >
             <Button
                 android:id="@+id/create_activity_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="165dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="20dp"
                 android:clickable="true"
 
                 android:textAllCaps="false"
-                android:background="@drawable/circle_createactivity_btn_selector"
+                android:background="@mipmap/b4"
                 android:text="Create"
                 android:textSize="18dp"
                 android:textColor="#21187f"

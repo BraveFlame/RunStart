@@ -124,10 +124,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.fragment_mine, container, false);
         initMineView();
         if (!userImgFile.exists() && user.getHeaderImageUri() != null) {
-            if (!user.getHeaderImageUri().equals(preferences.getString("lastImg", ""))) {
                 downloadImg();
-
-            } else {
+        }else if (userImgFile.exists()&& user.getHeaderImageUri() != null){
+            if (!user.getHeaderImageUri().equals(preferences.getString("lastImg", ""))) {
                 downloadImg();
             }
         }

@@ -167,7 +167,7 @@ public class CircleListViewAdapter extends BaseAdapter {
                 topicList.get(position).setLiked(true);
                 updateLiked(position);
             } else {
-                Toast.makeText(context,"亲，一天只能点一次",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"can't click twice today...",Toast.LENGTH_SHORT).show();
             }
         }
     }

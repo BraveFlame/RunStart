@@ -24,6 +24,7 @@ import com.runstart.BmobBean.User;
 import com.runstart.MainActivity;
 import com.runstart.R;
 import com.runstart.help.GetSharedPreferences;
+import com.runstart.help.ToastShow;
 import com.runstart.history.MyApplication;
 
 import java.util.List;
@@ -131,18 +132,18 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
                         if (e == null) {
                             List<User> users = bmobQueryResult.getResults();
                             if (users.size() == 0) {
-                                Toast.makeText(LoginPageActivity.this, "The phoneNumber or password is wrong", Toast.LENGTH_SHORT).show();
+                                ToastShow.showToast(LoginPageActivity.this, "The phoneNumber or password is wrong");
                             } else {
                                 remenberPassword();
                                 getSharedPreferences.saveUser(users.get(0));
                                 MyApplication.applicationMap.put("userObjectId", users.get(0).getObjectId());
                                 startActivity(new Intent(LoginPageActivity.this, MainActivity.class));
-                                Toast.makeText(LoginPageActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+                                ToastShow.showToast(LoginPageActivity.this, "Login successfully");
                                 finish();
                             }
                         } else {
-                            //Log.e("*********", e.getMessage() + "****************exception");
-                            Toast.makeText(LoginPageActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                            Log.e("*********", e.getMessage() + "****************exception");
+                            ToastShow.showToast(LoginPageActivity.this, "Login failed");
                         }
                     }
                 });

@@ -348,22 +348,27 @@ public class MinePersonalInformationActivity extends Activity implements View.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
             case 11:
+                if (data==null)
+                    return;
                 if(requestCode==11){
                     String newname = data.getStringExtra("setname");
                     myNameTv.setText(newname);
                 }
                 return;
             case 12:
-                if (data!=null) {
+                if (data==null)
+                    return;
                     city = data.getParcelableExtra("city");
                     if (city.getDistrict() != null) {
                         myLocationTv.setText(city.getProvince() + city.getDistrict());
                     } else {
                         myLocationTv.setText(city.getProvince() + city.getCity());
                     }
-                }
+
                 return;
             case 13:
+                if (data==null)
+                    return;
                 if(requestCode==13){
                     String newmailbox = data.getStringExtra("setmailbox");
                     myMailBoxTv.setText(newmailbox);
