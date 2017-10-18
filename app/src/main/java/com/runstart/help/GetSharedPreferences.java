@@ -53,7 +53,25 @@ public class GetSharedPreferences {
         editor.putString("mail",user.getMailBox());
         editor.putInt("allpointgreat",user.getLikeNumberForHistory());
         editor.putString("joinDay",user.getCreatedAt());
+
+
+        editor.putInt("ride_day_kcal",user.getRideKcal());
+        editor.putInt("ride_day_distance",user.getRideDistance());
+        editor.putInt("ride_day_time",user.getRideTime());
+
+
+        editor.putInt("run_day_kcal",user.getRunKcal());
+        editor.putInt("run_day_distance",user.getRunDistance());
+        editor.putInt("run_day_time",user.getRunTime());
+
+
+        editor.putInt("walk_day_kcal",user.getWalkKcal());
+        editor.putInt("walk_day_distance",user.getWalkDistance());
+        editor.putInt("walk_day_time",user.getWalkTime());
         editor.commit();
+
+
+
 
     }
 }

@@ -10,7 +10,8 @@ public class AboutSport extends BmobObject{
     /**
      * AboutSport字段属性
      */
-    private String newsImage;
+    private String newsImage;       //源图片
+    private String newsBgImage;     //背景图片
     private String newsTitle;
     private String newsContent;
     /**
@@ -22,6 +23,14 @@ public class AboutSport extends BmobObject{
 
     public void setNewsImage(String newsImage) {
         this.newsImage = newsImage;
+    }
+
+    public String getNewsBgImage() {
+        return newsBgImage;
+    }
+
+    public void setNewsBgImage(String newsBgImage) {
+        this.newsBgImage = newsBgImage;
     }
 
     public String getNewsTitle() {

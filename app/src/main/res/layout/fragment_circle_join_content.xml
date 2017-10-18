@@ -236,7 +236,7 @@
                     android:layout_weight="2"
                     android:layout_height="25dp"
                     android:layout_alignParentRight="true"
-
+                    android:paddingLeft="25dp"
                     android:src="@mipmap/ic_youjiantou"
                     />
             </LinearLayout>

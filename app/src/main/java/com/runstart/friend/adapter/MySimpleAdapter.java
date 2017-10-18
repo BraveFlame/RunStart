@@ -25,7 +25,7 @@ public class MySimpleAdapter extends SimpleAdapter {
     private String[] mFrom;
     private int[] mTo;
     public MySimpleAdapter(Context context, List<Map<String, Object>> data, int resource, String[] from, int[] to, Callback callback) {
-        super(context, data, resource, from, to);
+         super(context, data, resource, from, to);
         mList = data;
         mInflater = LayoutInflater.from(context);
         mCallback = callback;

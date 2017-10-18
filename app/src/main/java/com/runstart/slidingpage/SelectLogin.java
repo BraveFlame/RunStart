@@ -8,9 +8,6 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 
 import com.runstart.BmobBean.User;
@@ -18,7 +15,7 @@ import com.runstart.MainActivity;
 import com.runstart.R;
 import com.runstart.help.GetSharedPreferences;
 import com.runstart.help.ToastShow;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
@@ -41,9 +38,9 @@ public class SelectLogin extends AppCompatActivity {
         getSharedPreferences=GetSharedPreferences.getPref(this);
 
         final boolean isRemember = pref.getBoolean("remember_password", false);
-        final String userObjectId=pref.getString("userObjectId","12345");
-        final String userPhone=pref.getString("phone","12345");
-        final String userPassword=pref.getString("password","12345");
+        final String userObjectId=pref.getString("userObjectId","0");
+        final String userPhone=pref.getString("phone","");
+        final String userPassword=pref.getString("password","");
 
         Handler handler =new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {

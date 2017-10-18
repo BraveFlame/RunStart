@@ -43,7 +43,7 @@ import com.runstart.BmobBean.Friend;
 import com.runstart.BmobBean.User;
 import com.runstart.R;
 import com.runstart.friend.adapter.ListViewForScrollView;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -360,7 +360,7 @@ public class CircleCreateActivity extends AppCompatActivity implements View.OnCl
                     GetFromBmob.upload_picture(bxfPath, handler);
                     progressDialog=new ProgressDialog(this);
                     progressDialog.setCancelable(false);
-                    progressDialog.setMessage("正在上传数据...");
+                    progressDialog.setMessage("Uploading the data...");
                     progressDialog.show();
                     new Thread(new Runnable() {
                         @Override
@@ -375,7 +375,7 @@ public class CircleCreateActivity extends AppCompatActivity implements View.OnCl
                     }).start();
                 }
                 else
-                    Toast.makeText(this,"必须填写所有信息",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"Please complete the data",Toast.LENGTH_LONG).show();
                 break;
             default:break;
         }

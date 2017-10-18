@@ -86,6 +86,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/activityIntroduction"
                 android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
 
                 android:text="2017-09-09"
                 android:textSize="16sp"
@@ -198,7 +199,7 @@
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-
+                    android:paddingLeft="45dp"
                     android:src="@mipmap/ic_youjiantou"
                     />
             </LinearLayout>

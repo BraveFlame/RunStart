@@ -108,7 +108,7 @@
                     <com.runstart.friend.friendactivity.MyHeaderImageView
                         android:id="@+id/showHeadPortrait"
                         android:layout_width="35dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="35dp"
                         android:layout_marginRight="15dp"
                         android:layout_toLeftOf="@id/selectImage"
                         android:src="@mipmap/ic_shangchuangtupiang" />

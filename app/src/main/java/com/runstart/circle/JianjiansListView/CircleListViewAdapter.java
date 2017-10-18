@@ -1,7 +1,6 @@
 package com.runstart.circle.JianjiansListView;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,15 +19,11 @@ import com.runstart.BmobBean.Friend;
 import com.runstart.BmobBean.User;
 import com.runstart.R;
 import com.runstart.circle.GetFromBmob;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UpdateListener;
 
 final class CircleViewHolder {
     public TextView number,name,distance,like_times;

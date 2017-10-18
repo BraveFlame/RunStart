@@ -28,7 +28,7 @@ import com.runstart.R;
 import com.runstart.friend.adapter.AdapterForShowGroup;
 import com.runstart.friend.adapter.ListViewForScrollView;
 import com.runstart.friend.adapter.MyUtils;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -69,9 +69,7 @@ public class MoreRecommendedGroupActivity extends AppCompatActivity {
                 queryBitmap();
             }
             if (msg.what == FINISH_LOADING_BITMAP){
-                if (progressDialog.isShowing()){
-                    MyUtils.dismissProgressDialog(progressDialog);
-                }
+                MyUtils.dismissProgressDialog(MoreRecommendedGroupActivity.this);
                 showResult();
             }
         }
@@ -97,7 +95,7 @@ public class MoreRecommendedGroupActivity extends AppCompatActivity {
         mFrom = new String[]{"index", "groupImage", "groupName", "groupDetail", "memberCount", "distance"};
         mTo = new int[]{R.id.index, R.id.groupImage, R.id.groupName, R.id.groupDetail, R.id.memberCount, R.id.distance};
 
-        MyUtils.showProgressDialog(progressDialog);
+        MyUtils.showProgressDialog(this);
         queryGroup();
 
         init();
@@ -111,6 +109,9 @@ public class MoreRecommendedGroupActivity extends AppCompatActivity {
                 public void done(BmobQueryResult<Group> bmobQueryResult, BmobException e) {
                     if (e == null){
                         groupList = bmobQueryResult.getResults();
+                        if (groupList.size() == 0){
+                            MyUtils.dismissProgressDialog(MoreRecommendedGroupActivity.this);
+                        }
                         handler.sendEmptyMessage(FINISH_LOADING_GROUP);
                     }else {
                         e.printStackTrace();                    }
@@ -194,6 +195,7 @@ public class MoreRecommendedGroupActivity extends AppCompatActivity {
         int index = Integer.parseInt(((TextView)view.findViewById(R.id.index)).getText().toString());
         Map<String, Object> itemMap = recommendedGroupList.get(index);
         ArrayList<Map<String, Object>> newArrayList = new ArrayList<>();
+        itemMap.remove("groupImage");
         newArrayList.add(itemMap);
         Bundle data = new Bundle();
         data.putSerializable("groupDetail", newArrayList);
@@ -241,22 +243,22 @@ public class MoreRecommendedGroupActivity extends AppCompatActivity {
     private void showResult(){
         int index = 0;
         for (Group group:groupList){
-            Map<String, Object> map = new HashMap<>();
-            map.put("index", index++);
-            map.put("objectId", group.getObjectId());
-            map.put("groupImage", bitmapMap.get(group.getObjectId()));
-            map.put("groupName", group.getGroupName());
-            String groupDetail = group.getGroupDetail();
-            if (groupDetail.length() > 43){
-                groupDetail = groupDetail.substring(0, 40) + "...";
-            }
-            map.put("groupDetail", groupDetail);
-            map.put("memberCount", group.getMemberObjectIdList().size() + " people");
-            map.put("memberObjectIdList", group.getMemberObjectIdList());
-            map.put("creatorId", group.getCreatorId());
-            map.put("distance", group.getDistance() + "km");
-
             if (! group.getMemberObjectIdList().contains(MyApplication.applicationMap.get("userObjectId"))){
+                Map<String, Object> map = new HashMap<>();
+                map.put("index", index++);
+                map.put("objectId", group.getObjectId());
+                map.put("groupImage", bitmapMap.get(group.getObjectId()));
+                map.put("groupName", group.getGroupName());
+                String groupDetail = group.getGroupDetail();
+                if (groupDetail.length() > 43){
+                    groupDetail = groupDetail.substring(0, 40) + "...";
+                }
+                map.put("groupDetail", groupDetail);
+                map.put("memberCount", group.getMemberObjectIdList().size() + " people");
+                map.put("memberObjectIdList", group.getMemberObjectIdList());
+                map.put("creatorId", group.getCreatorId());
+                map.put("distance", group.getDistance() + "km");
+
                 recommendedGroupList.add(map);
             }
         }

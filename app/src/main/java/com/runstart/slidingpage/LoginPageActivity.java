@@ -17,24 +17,33 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.runstart.BmobBean.DaySport;
 import com.runstart.BmobBean.User;
 import com.runstart.MainActivity;
 import com.runstart.R;
+import com.runstart.friend.LocalChatLog;
+import com.runstart.friend.adapter.PhotoUtils;
 import com.runstart.help.GetSharedPreferences;
 import com.runstart.help.ToastShow;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.bmob.v3.BmobBatch;
+import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
 
+import cn.bmob.v3.datatype.BatchResult;
 import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListListener;
 import cn.bmob.v3.listener.SQLQueryListener;
 
 
@@ -54,17 +63,18 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
     private String userPhone;
     private String userPassword, userObjectId;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
-        getSharedPreferences=GetSharedPreferences.getPref(this);
+        getSharedPreferences = GetSharedPreferences.getPref(this);
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = pref.edit();
         isRemember = pref.getBoolean("remember_password", false);
-        userPhone = pref.getString("phone", "12345");
-        userPassword = pref.getString("password", "12345");
+        userPhone = pref.getString("phone", "");
+        userPassword = pref.getString("password", "");
         userObjectId = pref.getString("userObjectId", "12345");
         if (isRemember) {
             phoneNumber.setText(userPhone);
@@ -126,24 +136,29 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
                 BmobQuery<User> query = new BmobQuery<>();
                 query.setSQL(sql);
                 query.setPreparedParams(new String[]{phoneNumberStr, passwordStr});
+                final MyApplication myApplication = (MyApplication) getApplication();
+                myApplication.showProgressDialog(LoginPageActivity.this);
                 query.doSQLQuery(new SQLQueryListener<User>() {
                     @Override
                     public void done(BmobQueryResult<User> bmobQueryResult, BmobException e) {
                         if (e == null) {
                             List<User> users = bmobQueryResult.getResults();
                             if (users.size() == 0) {
+                                myApplication.stopProgressDialog();
                                 ToastShow.showToast(LoginPageActivity.this, "The phoneNumber or password is wrong");
                             } else {
+                                judgeUserData(users.get(0));
+                                // getData(users.get(0));
+                                // saveData();
+                                MyApplication.applicationMap.put("userObjectId", users.get(0).getObjectId());
                                 remenberPassword();
                                 getSharedPreferences.saveUser(users.get(0));
-                                MyApplication.applicationMap.put("userObjectId", users.get(0).getObjectId());
-                                startActivity(new Intent(LoginPageActivity.this, MainActivity.class));
-                                ToastShow.showToast(LoginPageActivity.this, "Login successfully");
-                                finish();
+
                             }
                         } else {
                             Log.e("*********", e.getMessage() + "****************exception");
                             ToastShow.showToast(LoginPageActivity.this, "Login failed");
+                            myApplication.stopProgressDialog();
                         }
                     }
                 });
@@ -202,5 +217,78 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
+
+    public void judgeUserData(User user) {
+        final MyApplication myApplication = (MyApplication) getApplication();
+        if (user.getObjectId().equals(pref.getString("userObjectId", "12345"))) {
+            myApplication.stopProgressDialog();
+            startActivity(new Intent(LoginPageActivity.this, MainActivity.class));
+            ToastShow.showToast(LoginPageActivity.this, "Login successfully");
+            finish();
+            return;
+        }
+
+        myApplication.nowDB.dropSport();
+        BmobQuery<DaySport> daySportBmobQuery = new BmobQuery<>();
+        daySportBmobQuery.addWhereEqualTo("userID", user.getPhoneNumber());
+        final String phoneNumber = user.getPhoneNumber();
+        daySportBmobQuery.findObjects(new FindListener<DaySport>() {
+            @Override
+            public void done(List<DaySport> list, BmobException e) {
+
+                if (e == null) {
+                    if (list.size() > 0)
+                    myApplication.nowDB.insertDaySport(list, phoneNumber);
+                }
+                myApplication.stopProgressDialog();
+                startActivity(new Intent(LoginPageActivity.this, MainActivity.class));
+                ToastShow.showToast(LoginPageActivity.this, "Login successfully");
+                finish();
+            }
+        });
+    }
+//        //转移数据表之取
+//
+//    public void getData(User user){
+//
+//        if(user.getObjectId().equals(pref.getString("userObjectId","12345"))) {
+//            saveData();
+//            return;
+//        }
+//        final MyApplication myApplication=(MyApplication)getApplication();
+//        BmobQuery<tempData>bmobQuery=new BmobQuery<>();
+//        bmobQuery.addWhereEqualTo("userID",1820272768);
+//        bmobQuery.findObjects(new FindListener<tempData>() {
+//            @Override
+//            public void done(List<tempData> list, BmobException e) {
+//                if(e==null){
+//                    if (list.size()==0)
+//                        return;
+//                    String []phone=new String[]{"18814126594"};
+//                    for (int i=0;i<list.size();i++){
+//                        tempData daySport=list.get(i);
+//                        myApplication.nowDB.insert(phone,new double[]{daySport.getMonth(),daySport.getWeek() ,
+//                                daySport.getDay(),daySport.getDistance(),daySport.getTime(),
+//                                daySport.getCal(),daySport.getType()});
+//                    }
+//                }
+//            }
+//        });
+//    }
+//    //转移数据表之存
+//    public void saveData(){
+//        List<BmobObject>daySportList=new ArrayList<>();
+//        final MyApplication myApplication=(MyApplication)getApplication();
+//        myApplication.nowDB.query(daySportList);
+//        new BmobBatch().insertBatch(daySportList).doBatch(new QueryListListener<BatchResult>() {
+//            @Override
+//            public void done(List<BatchResult> list, BmobException e) {
+//                if(e==null){
+//                    Log.e("bmob","SAVE"+list.size());
+//                    ToastShow.showToast(LoginPageActivity.this,"CHG");
+//                }
+//            }
+//        });
+//    }
 
 }

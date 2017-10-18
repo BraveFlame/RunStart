@@ -24,7 +24,7 @@ import com.runstart.friend.adapter.AdapterForSearchFriends;
 import com.runstart.friend.adapter.ListViewForScrollView;
 import com.runstart.friend.adapter.MyLock;
 import com.runstart.friend.adapter.MyUtils;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -231,7 +231,9 @@ public class AddFriendActivity extends AppCompatActivity {
             if (friend != null) {
                 if (friend.isFriend() == 1) {
                     map.put("isFriend", "（You are friends）");
-                } else {
+                } else if(user.getObjectId().equals(myUserObjectId)){
+                    map.put("isFriend", "  ");
+                }else {
                     map.put("isFriend", "（You are not friends）");
                 }
             } else if (myUserObjectId.equals(user.getObjectId())){

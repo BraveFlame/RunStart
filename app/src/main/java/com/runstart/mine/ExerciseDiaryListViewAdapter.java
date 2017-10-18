@@ -18,12 +18,7 @@ import java.util.List;
  * Created by zhouj on 2017-09-28.
  */
 
-class ViewHolder {
-    public TextView exDiaryTitle;
-    public TextView exDiaryContent;
-    public TextView exDiaryDate;
-    public static CheckBox checkBox;
-}
+
 
 public class ExerciseDiaryListViewAdapter extends BaseAdapter {
     LayoutInflater mLayoutInflater;
@@ -66,7 +61,7 @@ public class ExerciseDiaryListViewAdapter extends BaseAdapter {
             viewHolder.exDiaryTitle = (TextView) convertView.findViewById(R.id.mine_exercisediary_listitem_exdiarytitle);
             viewHolder.exDiaryContent = (TextView) convertView.findViewById(R.id.mine_exercisediary_listitem_exdiarycontent);
             viewHolder.exDiaryDate = (TextView) convertView.findViewById(R.id.mine_exercisediary_listitem_exdiarydate);
-            ViewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.mine_exercisediary_listitem_checkbox);
+            viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.mine_exercisediary_listitem_checkbox);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -85,5 +80,11 @@ public class ExerciseDiaryListViewAdapter extends BaseAdapter {
         viewHolder.checkBox.setChecked(exerciseDiaryList.get(position).isCheck());
 
         return convertView;
+    }
+    class ViewHolder {
+        public TextView exDiaryTitle;
+        public TextView exDiaryContent;
+        public TextView exDiaryDate;
+        public  CheckBox checkBox;
     }
 }

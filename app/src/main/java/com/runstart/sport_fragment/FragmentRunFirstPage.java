@@ -10,24 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.runstart.R;
-import com.runstart.bean.ActivityTopic;
 import com.runstart.bean.ActivityTopicForCircle;
 import com.runstart.circle.CirclePushCardActivity;
-import com.runstart.friend.adapter.ListViewForScrollView;
 import com.runstart.help.CountDown;
 import com.runstart.help.GetMap;
 import com.runstart.help.ToastShow;
-import com.runstart.history.MyApplication;
-import com.runstart.middle.ListViewAdapter;
+import com.runstart.MyApplication;
+import com.runstart.history.HistoryChartActivity;
 import com.runstart.middle.ListViewAdapterForCircle;
 import com.runstart.sport_map.SportingActivity;
 import com.runstart.view.LinearCircles;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,8 +38,9 @@ public class FragmentRunFirstPage extends Fragment implements View.OnClickListen
     private ListView myListView;
     private View view;
 
-    private TextView allDistanceText, weatherText, averageSpeedText;
+    private TextView allDistanceText, weatherText, averageSpeedText,sportAllData;
     private Button startRunnigBtn;
+    private ImageView historyData;
 
 
     private LinearCircles linearCircles;
@@ -55,16 +55,20 @@ public class FragmentRunFirstPage extends Fragment implements View.OnClickListen
         weatherText = (TextView) view.findViewById(R.id.run_weather_temp);
 
         linearCircles = (LinearCircles) view.findViewById(R.id.pace_compass);
-
-
         averageSpeedText = (TextView) view.findViewById(R.id.average_running_speed);
 
 
-        weatherText.setOnClickListener(this);
+        sportAllData=(TextView)view.findViewById(R.id.sport_all_data);
+        sportAllData.setText(preferences.getInt("all_distance",0)/1000+"km");
 
+
+
+        weatherText.setOnClickListener(this);
         startRunnigBtn = (Button) view.findViewById(R.id.start_running);
         startRunnigBtn.setOnClickListener(this);
 
+        historyData = (ImageView) view.findViewById(R.id.iv_run_data);
+        historyData.setOnClickListener(this);
 
     }
 
@@ -80,11 +84,11 @@ public class FragmentRunFirstPage extends Fragment implements View.OnClickListen
         view = inflater.inflate(R.layout.fragment_run_firstpage, container, false);
         ((MyApplication)getContext().getApplicationContext()).fragmentRunFirstPage=FragmentRunFirstPage.this;
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
         initView(view);
         getMap = GetMap.getMap();
         setView();
         initView();
-//        useAdapter();
         useAdapter_new(((MyApplication)getContext().getApplicationContext()).listToShow);
 
         return view;
@@ -95,48 +99,18 @@ public class FragmentRunFirstPage extends Fragment implements View.OnClickListen
      */
     public void initView(){
         myListView = (ListView) view.findViewById(R.id.lv_walk_myactivity);
+        linearLayout=(LinearLayout)view.findViewById(R.id.ll_main_page_no_activity);
     }
-//    /**
-//     * 初始化数据
-//     */
-//    public List<ActivityTopic> getActivityTopicData(){
-//        List<ActivityTopic> topicList = new ArrayList<>();
-//
-//        ActivityTopic activityTopic=new ActivityTopic();
-//        activityTopic.setTopicImage(String.valueOf(R.mipmap.bitmap_walk));
-//        activityTopic.setTopicTitle("every day");
-//        activityTopic.setUserHeadImage(String.valueOf(R.mipmap.arvin_febry_302935_copy3));
-//        activityTopic.setUserName("alien");
-//        activityTopic.setTopicProgressbar(String.valueOf(R.mipmap.progressbar));
-//        topicList.add(activityTopic);
-//        ActivityTopic activityTopic2=new ActivityTopic();
-//        activityTopic2.setTopicImage(String.valueOf(R.mipmap.bitmap_walk));
-//        activityTopic2.setTopicTitle("every day");
-//        activityTopic2.setUserHeadImage(String.valueOf(R.mipmap.arvin_febry_302935_copy3));
-//        activityTopic2.setUserName("alien");
-//        activityTopic2.setTopicProgressbar(String.valueOf(R.mipmap.progressbar));
-//        topicList.add(activityTopic2);
-//
-//        return topicList;
-//    }
-//    /**
-//     * 使用ListViewAdapter
-//     */
-//    public  void useAdapter(){
-//        List<ActivityTopic> topicList=getActivityTopicData();
-//        ListViewAdapter listViewAdapter=new ListViewAdapter(getContext());
-//        listViewAdapter.setTopicList(topicList);
-//        myListView.setAdapter(listViewAdapter);
-//
-//    }
 
     public void setView() {
 
+
         linearCircles.isNeedDraw=true;
         averageSpeedText.setText(preferences.getString("last_run_speed", "0") + "km/h");
-        allDistanceText.setText(preferences.getString("all_run_distance", "0") + "km");
+        allDistanceText.setText(preferences.getInt("all_run_distance", 0)/1000 + "km");
         float pace = Float.valueOf(preferences.getString("last_run_distance", "0"));
         linearCircles.show(pace * 1000, "run");
+
 
     }
 
@@ -146,7 +120,7 @@ public class FragmentRunFirstPage extends Fragment implements View.OnClickListen
 
             case R.id.run_weather_temp:
                 //getMap.getLocation(weatherText,weatherImg,getContext());
-                getMap.getLocation(getContext());
+                getMap.getLocation(getContext(),true);
                 break;
 
             case R.id.start_running:
@@ -157,7 +131,9 @@ public class FragmentRunFirstPage extends Fragment implements View.OnClickListen
                 } else ToastShow.showToast(getContext(), "请先结束本次运动！");
 
                 break;
-
+            case R.id.iv_run_data:
+                startActivity(new Intent(getActivity(), HistoryChartActivity.class));
+                break;
 
             default:
                 break;
@@ -180,17 +156,26 @@ public class FragmentRunFirstPage extends Fragment implements View.OnClickListen
     }
 
     //////////////////////新做的useAdapter，之后网上获取的activity就能显示了///////////////////////////
+    LinearLayout linearLayout;
+
     public void useAdapter_new(List list){
-        final List<ActivityTopicForCircle> topicList = list;
-        ListViewAdapterForCircle listViewAdapterForCircle = new ListViewAdapterForCircle(getContext());
-        listViewAdapterForCircle.setTopicList(topicList);
-        myListView.setAdapter(listViewAdapterForCircle);
-        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String ADid=topicList.get(position).getADid();
-                CirclePushCardActivity.jump(ADid,getActivity());
-            }
-        });
+        if(list.size()!=0) {
+            myListView.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.GONE);
+            final List<ActivityTopicForCircle> topicList = list;
+            ListViewAdapterForCircle listViewAdapterForCircle = new ListViewAdapterForCircle(getContext());
+            listViewAdapterForCircle.setTopicList(topicList);
+            myListView.setAdapter(listViewAdapterForCircle);
+            myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String ADid = topicList.get(position).getADid();
+                    CirclePushCardActivity.jump(ADid, getActivity());
+                }
+            });
+        } else {
+            linearLayout.setVisibility(View.VISIBLE);
+            myListView.setVisibility(View.GONE);
+        }
     }
 }

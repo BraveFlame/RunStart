@@ -50,9 +50,6 @@
                 android:id="@+id/mine_aboutsport_content_news_iv_newsImage"
                 android:layout_width="match_parent"
                 android:layout_height="143dp"
-
-
-                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:src="@mipmap/annie_spratt_133872" />
             <!--news的标题title-->

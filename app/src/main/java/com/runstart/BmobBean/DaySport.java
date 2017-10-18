@@ -7,11 +7,11 @@ import cn.bmob.v3.BmobObject;
  */
 
 public class DaySport extends BmobObject {
-    public double getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(double userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
@@ -71,6 +71,7 @@ public class DaySport extends BmobObject {
         this.type = type;
     }
 
-    private double userID,month,week,day,distance,time,cal,type;
+    private double month,week,day,distance,time,cal,type;
+    private String userID;
 
 }

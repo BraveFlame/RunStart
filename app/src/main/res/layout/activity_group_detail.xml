@@ -268,11 +268,32 @@
             </RelativeLayout>
             <com.runstart.friend.adapter.ListViewForScrollView
                 android:id="@+id/activityListView"
+                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:divider="#eaeaea"
-                android:dividerHeight="1dp">
+                android:layout_height="wrap_content">
             </com.runstart.friend.adapter.ListViewForScrollView>
+
+            <LinearLayout
+                android:id="@+id/ll_group_detail_no_activity"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_marginTop="-20dp"
+                    android:src="@mipmap/kongzhuangtai"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+                <TextView
+                    android:text="No activity"
+                    android:textColor="#c0c0c0"
+                    android:layout_width="wrap_content"
+                    android:textSize="17sp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
     <android.support.design.widget.FloatingActionButton

@@ -51,7 +51,7 @@
 
 
     <application
-        android:name=".history.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_app"
         android:label="@string/app_name"
@@ -140,7 +140,6 @@
         <activity android:name=".friend.friendactivity.FriendsDetailsActivity" />
         <activity android:name=".friend.friendactivity.MoreRecommendedGroupActivity" />
         <activity android:name=".friend.friendactivity.CreateGroupActivity" />
-        <activity android:name=".friend.friendactivity.ShowMyFriendsActivity" />
         <activity android:name=".friend.friendactivity.GroupDetailActivity" />
         <activity android:name=".friend.friendactivity.PeopleOfGroupActivity"></activity>
         <activity android:name=".friend.friendactivity.InviteFriendToGroupActivity"/>
@@ -156,7 +155,11 @@
         <receiver
             android:name=".friend.friendactivity.FriendsDetailsActivity$MsgCountReceiver"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.runstart.FD_RECEIVER"/>
+            </intent-filter>
+            </receiver>
         <receiver
             android:name=".mine.MineMessageRecordActivity$MsgCountReceiver"
             android:enabled="true"
@@ -179,16 +182,16 @@
         <!--"circle"的CircleJoinActivity-->
         <activity
             android:name=".circle.CircleJoinActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <!--"circle"的CirclePushCardActivity-->
         <activity
             android:name=".circle.CirclePushCardActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".circle.CircleFriendListActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- ***************************************************************** -->

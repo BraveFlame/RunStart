@@ -70,6 +70,7 @@ public class AboutSportAdapter extends BaseAdapter {
             aboutSportViewHolder=(AboutSportViewHolder)convertView.getTag();
         }
         aboutSportViewHolder.newsImage.setImageResource(Integer.parseInt(aboutSportList.get(position).getNewsImage()));
+        aboutSportViewHolder.newsImage.setBackgroundResource(Integer.parseInt(aboutSportList.get(position).getNewsBgImage()));
         aboutSportViewHolder.newsTitle.setText(aboutSportList.get(position).getNewsTitle());
         aboutSportViewHolder.newsContent.setText(aboutSportList.get(position).getNewsContent());
         return convertView;

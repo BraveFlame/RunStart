@@ -1,6 +1,5 @@
 package com.runstart.friend.friendactivity;
 
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -22,7 +21,7 @@ import com.runstart.BmobBean.User;
 import com.runstart.R;
 import com.runstart.friend.adapter.AdapterForAddFriends;
 import com.runstart.friend.adapter.MyUtils;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,19 +50,15 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
     private List<User> orderedUserList = new ArrayList<>();
     private Map<String, String> selectedUserObjectIdMap = new HashMap();
 
-    private ProgressDialog progressDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite_friend_to_group);
 
-        progressDialog = new ProgressDialog(InviteFriendToGroupActivity.this);
-
         friendsListView = (ListView) findViewById(R.id.friendsListView);
         determine = (Button)findViewById(R.id.determine);
 
-        MyUtils.showProgressDialog(progressDialog);
+        MyUtils.showProgressDialog(this);
         final String groupObjectId = getIntent().getStringExtra("groupObjectId");
         new BmobQuery<Group>().setSQL("select * from Group where objectId=?").setPreparedParams(new String[]{groupObjectId})
                 .doSQLQuery(new SQLQueryListener<Group>() {
@@ -83,6 +78,9 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
             public void done(BmobQueryResult<Friend> bmobQueryResult, BmobException e) {
                 if (e == null){
                     friendList = bmobQueryResult.getResults();
+                    if (friendList.size() == 0){
+                        MyUtils.dismissProgressDialog(InviteFriendToGroupActivity.this);
+                    }
                     queryUser();
                 }else {
                     e.printStackTrace();                }
@@ -137,9 +135,7 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
             synchronized (Object.class){
                 bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
                 if (bitmapMap.size() == friendList.size()){
-                    if (progressDialog.isShowing()){
-                        MyUtils.dismissProgressDialog(progressDialog);
-                    }
+                    MyUtils.dismissProgressDialog(InviteFriendToGroupActivity.this);
                     showResult();
                 }
                 return;
@@ -152,9 +148,7 @@ public class InviteFriendToGroupActivity extends AppCompatActivity implements Ad
                     synchronized (Object.class){
                         bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
                         if (bitmapMap.size() == friendList.size()){
-                            if (progressDialog.isShowing()){
-                                MyUtils.dismissProgressDialog(progressDialog);
-                            }
+                            MyUtils.dismissProgressDialog(InviteFriendToGroupActivity.this);
                             showResult();
                         }
                     }

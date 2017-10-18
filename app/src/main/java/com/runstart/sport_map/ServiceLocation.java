@@ -98,7 +98,7 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
         //isActivityLive=true;
         RidingActivity.isEnd=false;
         init();
-      initBroadcastReceiver();
+       initBroadcastReceiver();
         initNotification();
         startTimeCount();
     }

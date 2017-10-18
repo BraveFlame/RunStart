@@ -1,5 +1,6 @@
 package com.runstart.bottom;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,10 +26,9 @@ import com.runstart.friend.BmobJdonChat;
 import com.runstart.friend.ListenMsgService;
 import com.runstart.friend.MsgChat;
 import com.runstart.friend.PhotoUtilsCircle;
-import com.runstart.help.GetLocationData;
 import com.runstart.help.GetSharedPreferences;
 import com.runstart.help.ToastShow;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 import com.runstart.mine.MineAboutSportActivity;
 import com.runstart.mine.MineExerciseDiaryActivity;
 import com.runstart.mine.MineMessageRecordActivity;
@@ -53,7 +53,6 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
-import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SQLQueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.ValueEventListener;
@@ -64,12 +63,13 @@ import cn.bmob.v3.listener.ValueEventListener;
  */
 
 public class MineFragment extends BaseFragment implements View.OnClickListener {
-    User user;
-    View view;
+    private User user;
+    private View view;
     private ImageView myHeadImg;
     private String USER_IMG_PATH;
     private File userImgFile;
     private TextView msgCountTextView, userNameTV, myPointGreatTV, joinDatTv;
+    private TextView myTotalWalk, myTotalRun, myTotalRide;
     private MsgCountReceiver msgCountReceiver;
     private GetSharedPreferences getSharedPreferences;
     private SharedPreferences preferences;
@@ -124,8 +124,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.fragment_mine, container, false);
         initMineView();
         if (!userImgFile.exists() && user.getHeaderImageUri() != null) {
-                downloadImg();
-        }else if (userImgFile.exists()&& user.getHeaderImageUri() != null){
+            downloadImg();
+        } else if (userImgFile.exists() && user.getHeaderImageUri() != null) {
             if (!user.getHeaderImageUri().equals(preferences.getString("lastImg", ""))) {
                 downloadImg();
             }
@@ -224,7 +224,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             Date date1 = simpleDateFormat.parse(creatDay);
             Date date2 = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
             long days = (date2.getTime() - date1.getTime()) / 3600 / 1000 / 24;
-            joinDatTv.setText("Join us for "+ (int) days+" days");
+            joinDatTv.setText("Join us for " + (int) days + " days");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -243,12 +243,46 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         IntentFilter filter = new IntentFilter(ListenMsgService.FILTER_STR);
         getActivity().registerReceiver(msgCountReceiver, filter);
 
+        //运动总数
+        myTotalWalk = (TextView) view.findViewById(R.id.mine_three_walkImage);
+        myTotalRun = (TextView) view.findViewById(R.id.mine_three_runImage);
+        myTotalRide = (TextView) view.findViewById(R.id.mine_three_rideImage);
+        setSportTotalShow();
+
+    }
+
+
+    public void setSportTotalShow() {
+
+        int walk = preferences.getInt("all_walk_distance", 0);
+        int run = preferences.getInt("all_run_distance", 0);
+        int ride = preferences.getInt("all_ride_distance", 0);
+
+
+        if (("" + walk).length() < 3)
+            myTotalWalk.setText("  " + walk / 1000 + "km");
+        else
+            myTotalWalk.setText(walk/ 1000 + "km");
+
+
+        if (("" + run).length() < 3)
+            myTotalRun.setText("  " + run / 1000 + "km");
+        else
+            myTotalRun.setText(run/ 1000 + "km");
+
+
+        if (("" + ride).length() < 3)
+            myTotalRide.setText("  " + ride / 1000 + "km");
+        else
+            myTotalRide.setText(ride / 1000 + "km");
     }
 
     public void getLocalImg() {
         USER_IMG_PATH = Environment.getExternalStorageDirectory() + File.separator
                 + getContext().getPackageName() + File.separator + "myimages/" + user.getObjectId() + "userHeadImg.png";
         userImgFile = new File(USER_IMG_PATH);
+
+
     }
 
 
@@ -259,7 +293,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             PhotoUtilsCircle.showImage(myHeadImg, USER_IMG_PATH);
         getSharedPreferences.getUser(user);
         userNameTV.setText(user.getNickName());
-
 
 
     }

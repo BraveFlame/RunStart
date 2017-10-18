@@ -2,7 +2,6 @@ package com.runstart.mine;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Trace;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -23,13 +21,9 @@ import android.widget.TextView;
 
 import com.runstart.BmobBean.User;
 import com.runstart.R;
-import com.runstart.friend.ChatActivity;
 import com.runstart.friend.PhotoUtilsCircle;
-import com.runstart.friend.adapter.PhotoUtils;
 import com.runstart.help.ActivityCollector;
-import com.runstart.help.GetSharedPreferences;
 import com.runstart.help.ToastShow;
-import com.runstart.history.MyApplication;
 import com.runstart.mine.location.City;
 import com.runstart.mine.location.PInfoLocationActivity;
 
@@ -111,9 +105,12 @@ public class MinePersonalInformationActivity extends Activity implements View.On
         if (userImgFile.exists()) {
             PhotoUtilsCircle.showImage(myHeadImg, USER_IMG_PATH);
             Log.e("bmob", "之前头像地址" + USER_IMG_PATH);
-        } else {
+        }
+        if(!userImgFile.exists()&&user.getHeaderImageUri()!=null){
             pullHeadImg();
         }
+
+
         myNameTv.setText(user.getNickName());
         myLocationTv.setText(user.getLocation());
         myMailBoxTv.setText(user.getMailBox());

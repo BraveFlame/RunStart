@@ -1,6 +1,6 @@
 package com.runstart.friend.adapter;
 
-import android.app.ProgressDialog;
+import android.app.Activity;
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.runstart.BmobBean.Friend;
 import com.runstart.BmobBean.User;
 import com.runstart.R;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -67,16 +67,24 @@ public class MyUtils {
     }
 
     //显示等待数据加载对话框
-    public static void showProgressDialog(ProgressDialog progressDialog){
-        progressDialog.setTitle("Loading data");
-        progressDialog.setMessage("Data is loading, please waite for a moment.");
-        progressDialog.setCancelable(true);
-        progressDialog.setIndeterminate(true);
-        progressDialog.show();
+//    public static void showProgressDialog(ProgressDialog progressDialog){
+//        progressDialog.setTitle("Loading data");
+//        progressDialog.setMessage("Data is loading, please waite for a moment.");
+//        progressDialog.setCancelable(true);
+//        progressDialog.setIndeterminate(true);
+//        progressDialog.show();
+//    }
+    public static void showProgressDialog(Activity activity){
+        MyApplication myApplication=(MyApplication)activity.getApplicationContext();
+        myApplication.showProgressDialog(activity);
     }
-    public static void dismissProgressDialog(ProgressDialog progressDialog){
-        if (progressDialog.isShowing()){
-            progressDialog.dismiss();
-        }
+    public static void dismissProgressDialog(Activity activity){
+        MyApplication myApplication=(MyApplication)activity.getApplicationContext();
+        myApplication.stopProgressDialog();
     }
+//    public static void dismissProgressDialog(ProgressDialog progressDialog){
+//        if (progressDialog.isShowing()){
+//            progressDialog.dismiss();
+//        }
+//    }
 }

@@ -1,11 +1,7 @@
 package com.runstart.circle;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -24,9 +20,8 @@ import com.runstart.BmobBean.ActivityAndMember;
 import com.runstart.BmobBean.ActivityData;
 import com.runstart.BmobBean.User;
 import com.runstart.R;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -19,9 +19,9 @@ public class User extends BmobObject implements Serializable {
     private int walkKcal;
     private int runKcal;
     private int rideKcal;
-    private long walkTime;
-    private long runTime;
-    private long rideTime;
+    private int walkTime;
+    private int runTime;
+    private int rideTime;
 
     private String location,mailBox;
 
@@ -44,8 +44,8 @@ public class User extends BmobObject implements Serializable {
     public User(){}
 
     public User(String phoneNumber, String password, String nickName, String headerImageUri, int likeNumberForHistory,
-                int walkDistance, int runDistance, int rideDistance, int walkKcal, int runKcal, int rideKcal, long walkTime,
-                long runTime, long rideTime) {
+                int walkDistance, int runDistance, int rideDistance, int walkKcal, int runKcal, int rideKcal, int walkTime,
+                int runTime, int rideTime) {
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.nickName = nickName;
@@ -150,27 +150,27 @@ public class User extends BmobObject implements Serializable {
         this.rideKcal = rideKcal;
     }
 
-    public long getWalkTime() {
+    public int getWalkTime() {
         return walkTime;
     }
 
-    public void setWalkTime(long walkTime) {
+    public void setWalkTime(int walkTime) {
         this.walkTime = walkTime;
     }
 
-    public long getRunTime() {
+    public int getRunTime() {
         return runTime;
     }
 
-    public void setRunTime(long runTime) {
+    public void setRunTime(int runTime) {
         this.runTime = runTime;
     }
 
-    public long getRideTime() {
+    public int getRideTime() {
         return rideTime;
     }
 
-    public void setRideTime(long rideTime) {
+    public void setRideTime(int rideTime) {
         this.rideTime = rideTime;
     }
 

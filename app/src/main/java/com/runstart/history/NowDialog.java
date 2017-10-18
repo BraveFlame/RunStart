@@ -10,15 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.runstart.MyApplication;
 import com.runstart.R;
 import com.runstart.help.CountDown;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by user on 17-8-24.

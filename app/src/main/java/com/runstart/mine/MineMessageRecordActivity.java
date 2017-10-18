@@ -27,7 +27,7 @@ import com.runstart.friend.ListenMsgService;
 import com.runstart.friend.LocalChatLog;
 import com.runstart.friend.MsgChat;
 import com.runstart.help.ActivityCollector;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import java.io.File;
 import java.util.ArrayList;

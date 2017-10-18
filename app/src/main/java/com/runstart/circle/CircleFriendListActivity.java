@@ -1,7 +1,6 @@
 package com.runstart.circle;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -11,8 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -23,13 +20,11 @@ import com.runstart.R;
 import com.runstart.circle.JianjiansListView.CircleActivityTopic;
 import com.runstart.circle.JianjiansListView.NowJianjiansListView;
 import com.runstart.friend.friendactivity.FriendsDetailsActivity;
-import com.runstart.friend.friendfragment.MyFriendsFragment;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

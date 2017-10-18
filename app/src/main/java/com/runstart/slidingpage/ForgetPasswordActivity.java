@@ -1,7 +1,6 @@
 package com.runstart.slidingpage;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -23,16 +21,13 @@ import com.runstart.BmobBean.User;
 import com.runstart.R;
 import com.runstart.help.JudgePhoneMail;
 import com.runstart.help.ToastShow;
-import com.runstart.history.MyApplication;
-
-import org.json.JSONArray;
+import com.runstart.MyApplication;
 
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobRole;
 import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;

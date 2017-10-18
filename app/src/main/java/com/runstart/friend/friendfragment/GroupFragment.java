@@ -1,6 +1,5 @@
 package com.runstart.friend.friendfragment;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.util.ArrayMap;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +32,7 @@ import com.runstart.friend.adapter.ListViewForScrollView;
 import com.runstart.friend.adapter.MyUtils;
 import com.runstart.friend.friendactivity.GroupDetailActivity;
 import com.runstart.friend.friendactivity.MoreRecommendedGroupActivity;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -76,6 +74,7 @@ public class GroupFragment extends Fragment {
         public void handleMessage(Message msg) {
             if (msg.what == FINISH_LOADING_GROUP){
                 queryBitmap();
+                MyUtils.dismissProgressDialog(getActivity());
             }
             if (msg.what == FINISH_LOADING_BITMAP){
                 showResult();
@@ -83,13 +82,11 @@ public class GroupFragment extends Fragment {
         }
     };
 
-    private ProgressDialog progressDialog;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        progressDialog = new ProgressDialog(getActivity());
+        MyUtils.showProgressDialog(getActivity());
 
         mFrom = new String[]{"index", "groupImage", "groupName", "groupDetail", "memberCount", "distance"};
         mTo = new int[]{R.id.index, R.id.groupImage, R.id.groupName, R.id.groupDetail, R.id.memberCount, R.id.distance};
@@ -114,7 +111,6 @@ public class GroupFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        MyUtils.showProgressDialog(progressDialog);
         queryGroup();
     }
 
@@ -128,6 +124,9 @@ public class GroupFragment extends Fragment {
                     public void done(BmobQueryResult<Group> bmobQueryResult, BmobException e) {
                         if (e == null){
                             groupList = bmobQueryResult.getResults();
+                            if (groupList.size() == 0){
+                                MyUtils.dismissProgressDialog(getActivity());
+                            }
                             handler.sendEmptyMessage(FINISH_LOADING_GROUP);
                         }else {
                             e.printStackTrace();                        }
@@ -244,7 +243,7 @@ public class GroupFragment extends Fragment {
                 saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
                 if (groupImageUri == null || groupImageUri.trim().length() == 0) {
                     bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
-                    MyUtils.dismissProgressDialog(progressDialog);
+                    MyUtils.dismissProgressDialog(getActivity());
                     showResult();
                     continue;
                 }
@@ -256,7 +255,6 @@ public class GroupFragment extends Fragment {
                         synchronized (Object.class){
                             if (e == null){
                                 bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                                MyUtils.dismissProgressDialog(progressDialog);
                                 showResult();
                             }
                         }
@@ -293,6 +291,7 @@ public class GroupFragment extends Fragment {
 
             allGroupList.add(map);
 
+            //Log.e("userobjectId", "userobjectId=====" + MyApplication.applicationMap.get("userObjectId"));
             if (MyApplication.applicationMap.get("userObjectId").equals(group.getCreatorId())){
                 myGroupList.add(map);
             } else {

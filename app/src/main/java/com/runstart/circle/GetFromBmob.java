@@ -11,6 +11,7 @@ import com.runstart.BmobBean.ActivityAndMember;
 import com.runstart.BmobBean.ActivityData;
 import com.runstart.BmobBean.Friend;
 import com.runstart.BmobBean.User;
+import com.runstart.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -192,6 +193,9 @@ public class GetFromBmob {
                         handler.sendEmptyMessage(6);
                     }else{
                         Log.e("database","查询 用户头像 失败：" + e.getMessage());
+                        ImageView imageViewToShow=map.get(object.getObjectId());
+                        imageViewToShow.setBackgroundResource(R.mipmap.fasongshibai);
+                        handler.sendEmptyMessage(6);
                     }
                 }
             });
@@ -323,6 +327,7 @@ public class GetFromBmob {
         friendIds=new ArrayList<>();
         BmobQuery<Friend> bmobQuery = new BmobQuery<Friend>();
         bmobQuery.addWhereEqualTo("userObjectId",userId);
+        bmobQuery.addWhereEqualTo("isFriend",1);
         bmobQuery.findObjects(new FindListener<Friend>() {
             @Override
             public void done(List<Friend> object, BmobException e) {
@@ -356,7 +361,10 @@ public class GetFromBmob {
         });
     }
 
-    static public void getADbyFriendsIds(final ArrayList<String> alFriendId, final Handler handler){
+    static public void getADbyFriendsIds(final List<String> alFriendId, final Handler handler){
+        for(int i=0;i<alFriendId.size();i++){
+            Log.e("database","friendId:"+alFriendId.get(i));
+        }
         friendReleaseActivitys=new ArrayList<>();
         //让商家把每一种外卖都送过来
         BmobQuery<ActivityData> bmobQuery = new BmobQuery<ActivityData>();
@@ -372,16 +380,20 @@ public class GetFromBmob {
                     for (ActivityData gameScore : object) {
                         flag=false;
                         creatorId=gameScore.getCreatorId();
+                        Log.e("database","creatorId:"+creatorId);
                         for(int j=0;j<alFriendId.size();j++)
                             if(creatorId.equals(alFriendId.get(j))){
                                 flag=true;
-                                Log.e("database","if true:"+creatorId);
+                                Log.e("database","if true");
                                 break;
                             }
                         checkAndAdd(flag,gameScore);
                         Log.e("database","通过朋友ID对应的外卖Id："+gameScore.getCreatorId());
                     }
                     //最后一种外卖都送完了，取外卖
+                    for(int i=0;i<friendReleaseActivitys.size();i++){
+                        Log.e("database","活动id:"+friendReleaseActivitys.get(i).getObjectId());
+                    }
                     handler.sendMessage(somethingIntoMessage(friendReleaseActivitys,"friendReleaseActivities",9));
                 }else{
                     Log.e("bmob","有一种外卖 失败："+e.getMessage()+","+e.getErrorCode());
