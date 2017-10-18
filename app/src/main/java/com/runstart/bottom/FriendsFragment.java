@@ -35,7 +35,7 @@ import com.runstart.friend.friendactivity.AddFriendActivity;
 import com.runstart.friend.friendactivity.CreateGroupActivity;
 import com.runstart.friend.friendfragment.GroupFragment;
 import com.runstart.friend.friendfragment.MyFriendsFragment;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 import com.runstart.mine.MineMessageRecordActivity;
 
 import java.util.ArrayList;
@@ -232,7 +232,7 @@ public class FriendsFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 if (flag){
-                    menuPopupWindow.showAsDropDown(menuButton, -290, 20);
+                    menuPopupWindow.showAsDropDown(menuButton, -450, 30);
                     flag = false;
                 }else {
                     menuPopupWindow.dismiss();

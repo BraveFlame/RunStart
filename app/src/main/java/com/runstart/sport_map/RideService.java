@@ -6,7 +6,7 @@ import android.content.Intent;
 import com.runstart.BmobBean.DaySport;
 import com.runstart.BmobBean.User;
 import com.runstart.help.ToastShow;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,9 +47,9 @@ public class RideService extends ServiceLocation {
         //今天的距離和卡路里和時間,之前总距离
         float lastAllDis_F,todayKCal_F,todayDis_F;
         int todayTimeMiss;
-        todayKCal_F=Float.valueOf(preferences.getString("ride_day_kcal","0"));
-        todayDis_F=Float.valueOf(preferences.getString("ride_day_distance","0"));
-        lastAllDis_F= Float.valueOf(preferences.getString("ride_all_pace_distance", "0"));
+        todayKCal_F=Float.valueOf(preferences.getInt("ride_day_kcal",0));
+        todayDis_F=Float.valueOf(preferences.getInt("ride_day_distance",0));
+        lastAllDis_F= Float.valueOf(preferences.getInt("all_ride_distance", 0));
         todayTimeMiss=preferences.getInt("ride_day_time",1);
 
         //判断是不是当天，是则叠加
@@ -69,14 +69,15 @@ public class RideService extends ServiceLocation {
         }
         allDisS = decimalFormat.format( Float.valueOf(s) +lastAllDis_F);
         //三位小数点,当天数据存到bmob
-        editor.putString("ride_day_kcal",decimalFormat.format(nowKCal_F));
-        editor.putString("ride_day_distance",decimalFormat.format(nowDis_F));
+        editor.putInt("ride_day_kcal",(int)nowKCal_F);
+        editor.putInt("ride_day_distance",(int)nowDis_F);
         editor.putInt("ride_day_time",nowTimeMiss);
 
         //最近一次显示在页面
         editor.putString("last_ride_distance", s);
         editor.putString("last_ride_speed", v);
-        editor.putString("all_ride_distance", allDisS);
+        double all=Double.valueOf(allDisS);
+        editor.putInt("all_ride_distance", (int)all);
         editor.commit();
         //"userID","month","week","day","distance","time","cal","type"
         c= Calendar.getInstance();
@@ -93,26 +94,26 @@ public class RideService extends ServiceLocation {
             public void done(User user, BmobException e) {
                 if (e==null){
                     //更新用户当天步行数据,ms，cal和m
-                    user.setRideTime(nowTimeMiss*1000);
-                    user.setRideKcal((int)(nowKCal_F*1000));
+                    user.setRideTime(nowTimeMiss);
+                    user.setRideKcal((int)nowKCal_F);
                     user.setRideDistance((int)(nowDis_F*1000));
                     user.update();
                     //新增用户步行数据
                     DaySport daySport=new DaySport();
-                    daySport.setCal((int)(thisKCal*1000));
+                    daySport.setCal((int)(thisKCal));
                     daySport.setDay(c.get(Calendar.DAY_OF_MONTH));
                     daySport.setMonth(c.get(c.MONTH));
                     daySport.setWeek(c.get(Calendar.WEEK_OF_YEAR));
                     daySport.setType(2);
-                    daySport.setTime(miss*1000);
+                    daySport.setTime(miss);
                     daySport.setDistance(distance);
-                    final int userPhone=Integer.valueOf(user.getPhoneNumber().substring(0,user.getPhoneNumber().length()-1));
+                    final String userPhone=user.getPhoneNumber();
                     daySport.setUserID(userPhone);
                     daySport.save(new SaveListener<String>() {
                         @Override
                         public void done(String s, BmobException e) {
                             if(e==null){
-                                myApplication.nowDB.insert(new String[]{},new double[]{userPhone,c.get(c.MONTH),
+                                myApplication.nowDB.insert(new String[]{userPhone},new double[]{c.get(c.MONTH),
                                         c.get(Calendar.WEEK_OF_YEAR),c.get(Calendar.DAY_OF_MONTH),distance,miss,thisKCal,2});
                                 ToastShow.showToast(RideService.this,"successful!!");
                             }

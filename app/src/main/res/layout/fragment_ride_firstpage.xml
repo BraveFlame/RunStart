@@ -17,8 +17,6 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:id="@+id/ride_iv_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,11 +91,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
-                android:text="Accumulated this week"
+                android:text="Accumulated history data"
                 android:textSize="14sp" />
 
             <ImageView
-                android:id="@+id/iv_shuju"
+                android:id="@+id/iv_ride_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_accumulated_mileage"
@@ -107,13 +105,16 @@
                 android:src="@mipmap/ic_shuju" />
 
             <TextView
+                android:id="@+id/sport_all_data"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_shuju"
+                android:layout_below="@+id/iv_ride_data"
                 android:layout_marginLeft="70dp"
 
                 android:layout_marginTop="5dp"
-                android:text="9.54km"
+                android:text="  0km"
                 android:textSize="16sp" />
 
             <ImageView

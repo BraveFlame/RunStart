@@ -283,6 +283,8 @@
                     android:layout_marginTop="10dp">
 
                     <TextView
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="Average speed"
@@ -320,6 +322,27 @@
                 android:layout_below="@+id/friends_details_tv_activity"
                 android:layout_marginBottom="10dp"
                 />
+            <LinearLayout
+                android:id="@+id/ll_friend_details_no_activity"
+                android:visibility="gone"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/friends_details_tv_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@mipmap/kongzhuangtai"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+                <TextView
+                    android:text="No activity"
+                    android:textColor="#c0c0c0"
+                    android:layout_width="wrap_content"
+                    android:textSize="17sp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </RelativeLayout>
     </ScrollView>
     <android.support.design.widget.FloatingActionButton

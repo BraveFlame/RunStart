@@ -1,4 +1,4 @@
-package com.runstart.history;
+package com.runstart;
 
 import android.app.Activity;
 import android.app.Application;
@@ -10,13 +10,12 @@ import android.os.Message;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.runstart.history.NowDB;
 import com.runstart.sport_fragment.FragmentRideFirstPage;
 import com.runstart.sport_fragment.FragmentRunFirstPage;
 import com.runstart.sport_fragment.FragmentWalkFirstPage;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,41 +79,44 @@ public class MyApplication extends Application {
             imageCacheFile.mkdir();
         }
         nowDB = new NowDB("exerciseData", getFilesDir().getPath() + "stu.db",
-                new String[]{}, new String[]{"userID", "month", "week", "day", "distance", "time", "cal", "type"});
+                new String[]{"userID"}, new String[]{"month", "week", "day", "distance", "time", "cal", "type"});
     }
 
-    public static String getMyProcessName() {
-        try {
-            File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
-            BufferedReader mBufferedReader = new BufferedReader(new FileReader(file));
-            String processName = mBufferedReader.readLine().trim();
-            mBufferedReader.close();
-            return processName;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    public static String getMyProcessName() {
+//        try {
+//            File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
+//            BufferedReader mBufferedReader = new BufferedReader(new FileReader(file));
+//            String processName = mBufferedReader.readLine().trim();
+//            mBufferedReader.close();
+//            return processName;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
 
     //////////////////////毕小福//////////////////////////////////
     private ProgressDialog progressDialog;
     public void showProgressDialog(Activity activity){
-        progressDialog=new ProgressDialog(activity);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("正在获取数据...");
-        progressDialog.show();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        if(progressDialog!=null&&progressDialog.isShowing())
+            progressDialog.cancel();
+            progressDialog = new ProgressDialog(activity);
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("Getting the data...");
+            progressDialog.show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    myhandler.sendEmptyMessage(11);
                 }
-                myhandler.sendEmptyMessage(11);
-            }
-        }).start();
+            }).start();
+
     }
 
     public void stopProgressDialog(){
@@ -125,7 +127,9 @@ public class MyApplication extends Application {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            progressDialog.cancel();
+           if (progressDialog.isShowing()){
+                progressDialog.cancel();
+            }
         }
     };
 

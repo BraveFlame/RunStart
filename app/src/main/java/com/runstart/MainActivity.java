@@ -17,20 +17,14 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
-import com.runstart.BmobBean.User;
 import com.runstart.bottom.CircleFragment;
 import com.runstart.bottom.FriendsFragment;
 import com.runstart.bottom.HeadPageFragment;
 import com.runstart.bottom.MineFragment;
 import com.runstart.friend.ListenMsgService;
+import com.runstart.friend.LocalChatLog;
 import com.runstart.help.ActivityCollector;
 import com.runstart.help.GetSHA1;
-import com.runstart.help.ToastShow;
-import com.runstart.history.MyApplication;
-
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.QueryListener;
 
 
 /**
@@ -76,6 +70,7 @@ public class MainActivity extends FragmentActivity {
         //底部状态栏切换fragment
         setRadioGroup();
         getPermission(PERMISSION);
+        LocalChatLog localChatLog=LocalChatLog.getLocalChatLog(this);
 
 
     }

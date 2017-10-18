@@ -55,7 +55,7 @@ public class AboutSportNewsActivity extends Activity implements View.OnClickList
         tv_newstitle = (TextView) findViewById(R.id.mine_aboutsport_content_news_tv_newstitle);
         tv_newstitle.setText(aboutSport.getNewsTitle());
         iv_newsImage = (ImageView) findViewById(R.id.mine_aboutsport_content_news_iv_newsImage);
-        iv_newsImage.setImageResource(Integer.parseInt(aboutSport.getNewsImage()));
+        iv_newsImage.setImageResource(Integer.parseInt(aboutSport.getNewsBgImage()));
         tv_newscontent = (TextView) findViewById(R.id.mine_aboutsport_content_news_tv_newscontent);
         tv_newscontent.setText(aboutSport.getNewsContent());
     }

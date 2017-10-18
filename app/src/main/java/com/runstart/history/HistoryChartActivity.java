@@ -1,6 +1,5 @@
 package com.runstart.history;
 
-import android.app.Application;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.runstart.MyApplication;
 import com.runstart.R;
 import com.runstart.history.MyChart.DayLineChart;
 import com.runstart.history.MyChart.MonthLineChart;

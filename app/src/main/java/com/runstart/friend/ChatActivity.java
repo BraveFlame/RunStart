@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.runstart.BmobBean.Friend;
 import com.runstart.R;
 import com.runstart.help.ToastShow;
-import com.runstart.history.MyApplication;
 
 import org.json.JSONObject;
 
@@ -33,7 +32,6 @@ import java.util.Map;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobRealTimeData;
-import cn.bmob.v3.b.V;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;

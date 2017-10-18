@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
 
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="10dp"
+
 
             android:src="@mipmap/ic_zuojiantou" />
 
@@ -27,7 +27,6 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="110dp"
             android:layout_toRightOf="@+id/circle_join_iv_zuojiantou"
-            android:paddingTop="10dp"
 
             android:text="Circle"
             android:textColor="#212121"

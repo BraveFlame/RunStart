@@ -2,7 +2,6 @@ package com.runstart.mine;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Trace;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -23,13 +21,9 @@ import android.widget.TextView;
 
 import com.runstart.BmobBean.User;
 import com.runstart.R;
-import com.runstart.friend.ChatActivity;
 import com.runstart.friend.PhotoUtilsCircle;
-import com.runstart.friend.adapter.PhotoUtils;
 import com.runstart.help.ActivityCollector;
-import com.runstart.help.GetSharedPreferences;
 import com.runstart.help.ToastShow;
-import com.runstart.history.MyApplication;
 
 import java.io.File;
 

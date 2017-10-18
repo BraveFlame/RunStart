@@ -41,7 +41,7 @@ import com.runstart.friend.ChatActivity;
 import com.runstart.friend.ListenMsgService;
 import com.runstart.friend.MsgChat;
 import com.runstart.friend.adapter.MyUtils;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 import com.runstart.middle.ListViewAdapterForCircle;
 
 import java.io.File;
@@ -317,6 +317,7 @@ public class FriendsDetailsActivity extends AppCompatActivity {
         });
 
         myListView = (ListView)findViewById(R.id.friend_details_activity_listview);
+        ll_friend_details=(LinearLayout)findViewById(R.id.ll_friend_details_no_activity);
         myApplication=(MyApplication)getApplicationContext();
         GetFromBmob.getActivityIdsByUserId(user.getObjectId(),handler);
         myApplication.showProgressDialog(this);
@@ -532,8 +533,8 @@ public class FriendsDetailsActivity extends AppCompatActivity {
         unregisterReceiver(msgCountReceiver);
     }
 
-
     ListView myListView;
+    LinearLayout ll_friend_details;
     List<ActivityData> alAD;
     List listToShow1;
     MyApplication myApplication;
@@ -644,20 +645,23 @@ public class FriendsDetailsActivity extends AppCompatActivity {
 
     //新的使用适配器
     public void useAdapter1(List list) {
-        final List<ActivityTopicForCircle> topicList = list;
-        ListViewAdapterForCircle listViewAdapterForCircle = new ListViewAdapterForCircle(this);
-        listViewAdapterForCircle.setTopicList(topicList);
-        myListView.setAdapter(listViewAdapterForCircle);
-        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String ADid=topicList.get(position).getADid();
-                CirclePushCardActivity.jump(ADid,FriendsDetailsActivity.this);
-            }
-        });
-        if(myApplication.fragmentRunFirstPage!=null)
-            myApplication.fragmentRunFirstPage.useAdapter_new(topicList);
-        if(myApplication.fragmentRideFirstPage!=null)
-            myApplication.fragmentRideFirstPage.useAdapter_new(topicList);
+        if(list.size()!=0) {
+            myListView.setVisibility(View.VISIBLE);
+            ll_friend_details.setVisibility(View.GONE);
+            final List<ActivityTopicForCircle> topicList = list;
+            ListViewAdapterForCircle listViewAdapterForCircle = new ListViewAdapterForCircle(this);
+            listViewAdapterForCircle.setTopicList(topicList);
+            myListView.setAdapter(listViewAdapterForCircle);
+            myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String ADid = topicList.get(position).getADid();
+                    CirclePushCardActivity.jump(ADid, FriendsDetailsActivity.this);
+                }
+            });
+        } else {
+            myListView.setVisibility(View.GONE);
+            ll_friend_details.setVisibility(View.VISIBLE);
+        }
     }
 }

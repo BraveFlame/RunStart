@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#f1f0f0"
+    android:background="#ffff"
     android:orientation="vertical">
     <!--new Activity-->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:id="@+id/rr_pushcard_popupmenu_new_activity"
         >
 
         <ImageView
@@ -44,6 +44,7 @@
     </RelativeLayout>
     <!--Exit Activity-->
     <RelativeLayout
+        android:id="@+id/rr_pushcard_popupmenu_exit_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -80,7 +81,8 @@
     </RelativeLayout>
     <!--News-->
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/rr_pushcard_popupmenu_news"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -105,41 +107,6 @@
             android:text="news"
             android:textSize="16sp"
             />
-
-        <View
-            android:layout_width="350dp"
-            android:layout_height="1dp"
-            android:layout_below="@+id/circle_tv_popup_news"
-            android:layout_alignLeft="@+id/circle_tv_popup_news"
-
-            android:background="#e0e0e0" />
     </RelativeLayout>
-    <!--invite friends-->
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/circle_iv_popup_fenxian"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-
-            android:src="@mipmap/ic_fenxian" />
-
-        <TextView
-            android:id="@+id/circle_tv_popup_invitefriends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/circle_iv_popup_fenxian"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-
-            android:text="invite friends"
-            android:textSize="16sp"
-            />
-    </RelativeLayout>
 </LinearLayout>

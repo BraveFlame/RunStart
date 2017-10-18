@@ -1,6 +1,5 @@
 package com.runstart.friend.friendfragment;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,7 +27,7 @@ import com.runstart.friend.adapter.ListViewForScrollView;
 import com.runstart.friend.adapter.MySimpleAdapter;
 import com.runstart.friend.adapter.MyUtils;
 import com.runstart.friend.friendactivity.FriendsDetailsActivity;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,18 +58,17 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
     private Map<String, Bitmap> forDetailsBitmap = new ArrayMap<>();
     private User[] orderedUserArr;
 
-    private ProgressDialog progressDialog;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressDialog = new ProgressDialog(getActivity());
+
+        MyUtils.showProgressDialog(getActivity());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        MyUtils.showProgressDialog(progressDialog);
+
         queryFriend();
     }
 
@@ -142,6 +140,7 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
 
                     //设置无好友时界面
                     if (friendList.size() == 0){
+                        MyUtils.dismissProgressDialog(getActivity());
                         ((ScrollView)view).removeAllViews();
                         ((ScrollView)view).addView(LayoutInflater.from(getActivity()).inflate(R.layout.zero_friend, null));
                     }
@@ -169,7 +168,7 @@ public class MyFriendsFragment extends Fragment implements MySimpleAdapter.Callb
                                 User user = bmobQueryResult.getResults().get(0);
                                 userList.add(user);
                                 queryBitmap(user);
-                                MyUtils.dismissProgressDialog(progressDialog);
+                                MyUtils.dismissProgressDialog(getActivity());
                             }
                         }
                     }else {

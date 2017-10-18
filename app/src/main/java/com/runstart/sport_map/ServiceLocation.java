@@ -80,7 +80,7 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
     GetLocationData getLocationData;
     NotificationCompat.Builder mBuilder;
 
-    private LocationSource.OnLocationChangedListener mListener;
+    private OnLocationChangedListener mListener;
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
 
@@ -98,7 +98,7 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
         //isActivityLive=true;
         RidingActivity.isEnd=false;
         init();
-      initBroadcastReceiver();
+       initBroadcastReceiver();
         initNotification();
         startTimeCount();
     }

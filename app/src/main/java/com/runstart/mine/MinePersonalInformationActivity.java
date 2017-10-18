@@ -105,9 +105,12 @@ public class MinePersonalInformationActivity extends Activity implements View.On
         if (userImgFile.exists()) {
             PhotoUtilsCircle.showImage(myHeadImg, USER_IMG_PATH);
             Log.e("bmob", "之前头像地址" + USER_IMG_PATH);
-        } else {
+        }
+        if(!userImgFile.exists()&&user.getHeaderImageUri()!=null){
             pullHeadImg();
         }
+
+
         myNameTv.setText(user.getNickName());
         myLocationTv.setText(user.getLocation());
         myMailBoxTv.setText(user.getMailBox());

@@ -1,6 +1,5 @@
 package com.runstart.friend.friendactivity;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,7 +30,7 @@ import com.runstart.friend.adapter.AdapterForAddFriends;
 import com.runstart.friend.adapter.ListViewForScrollView;
 import com.runstart.friend.adapter.MyUtils;
 import com.runstart.friend.adapter.PhotoUtils;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -67,15 +66,12 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
     private List<User> orderedUserList = new ArrayList<>();
     private Map<String, String> selectedUserObjectIdMap = new HashMap();
 
-    private ProgressDialog progressDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
 
-        progressDialog = new ProgressDialog(CreateGroupActivity.this);
-        MyUtils.showProgressDialog(progressDialog);
+        MyUtils.showProgressDialog(this);
         queryFriend();
 
         goBack = (Button) findViewById(R.id.goBack);
@@ -102,6 +98,8 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
                             friendList = bmobQueryResult.getResults();
                             if (friendList.size() != 0) {
                                 queryUser();
+                            } else {
+                                MyUtils.dismissProgressDialog(CreateGroupActivity.this);
                             }
                         } else {
                             e.printStackTrace();
@@ -226,10 +224,7 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
             synchronized (Object.class) {
                 bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
                 if (bitmapMap.size() == friendList.size()) {
-                    progressDialog = new ProgressDialog(CreateGroupActivity.this);
-                    if (progressDialog.isShowing()){
-                        MyUtils.dismissProgressDialog(progressDialog);
-                    }
+                    MyUtils.dismissProgressDialog(CreateGroupActivity.this);
                     showResult();
                 }
                 return;
@@ -242,9 +237,7 @@ public class CreateGroupActivity extends AppCompatActivity implements View.OnCli
                     synchronized (Object.class) {
                         bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
                         if (bitmapMap.size() == friendList.size()) {
-                            if (progressDialog.isShowing()){
-                                MyUtils.dismissProgressDialog(progressDialog);
-                            }
+                            MyUtils.dismissProgressDialog(CreateGroupActivity.this);
                             showResult();
                         }
                     }

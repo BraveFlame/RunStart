@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.runstart.R;
 import com.runstart.bean.OurMall;
+import com.runstart.friend.MsgChat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,54 +24,38 @@ class OurMallViewHolder{
     public ImageView commodityImage;
     public TextView commodityname;
     public TextView commodityprice;
+
 }
-public class OurMallAdapter extends BaseAdapter {
-    private LayoutInflater mLayoutInflater;
-    private List<OurMall> ourMallList = new ArrayList<OurMall>();
+public class OurMallAdapter extends ArrayAdapter<OurMall> {
 
-    public List<OurMall> getOurMallList() {
-        return ourMallList;
+    private int resourceId;
+
+    public OurMallAdapter(Context context, int textViewResourceId, ArrayList<OurMall>
+            objects) {
+        super(context, textViewResourceId, objects);
+        this.resourceId = textViewResourceId;
     }
 
-    public void setOurMallList(List<OurMall> ourMallList) {
-        this.ourMallList = ourMallList;
-    }
-
-    public OurMallAdapter(Context context) {
-        mLayoutInflater = LayoutInflater.from(context);
-    }
-
-    @Override
-    public int getCount() {
-        return ourMallList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return ourMallList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        OurMall ourMall= getItem(position);
         OurMallViewHolder ourMallViewHolder;
+        View  view;
         if(convertView==null){
             ourMallViewHolder=new OurMallViewHolder();
-            convertView = mLayoutInflater.inflate(R.layout.mine_ourmall_listitem, null);
-            ourMallViewHolder.commodityImage = (ImageView) convertView.findViewById(R.id.mine_ourmall_listitem_iv_commodityImage);
-            ourMallViewHolder.commodityname = (TextView) convertView.findViewById(R.id.mine_ourmall_listitem_commodityname);
-            ourMallViewHolder.commodityprice = (TextView) convertView.findViewById(R.id.mine_ourmall_listitem_tv_commodityprice);
-            convertView.setTag(ourMallViewHolder);
+            view = LayoutInflater.from(getContext()).inflate(resourceId, null);
+            ourMallViewHolder.commodityImage = (ImageView) view.findViewById(R.id.mine_ourmall_listitem_iv_commodityImage);
+            ourMallViewHolder.commodityname = (TextView) view.findViewById(R.id.mine_ourmall_listitem_commodityname);
+            ourMallViewHolder.commodityprice = (TextView) view.findViewById(R.id.mine_ourmall_listitem_tv_commodityprice);
+            view.setTag(ourMallViewHolder);
         }else {
             ourMallViewHolder=(OurMallViewHolder)convertView.getTag();
+            view=convertView;
         }
-        ourMallViewHolder.commodityImage.setImageResource(Integer.parseInt(ourMallList.get(position).commodityImage));
-        ourMallViewHolder.commodityname.setText(ourMallList.get(position).getCommodityName());
-        ourMallViewHolder.commodityprice.setText(ourMallList.get(position).getCommodityPrice());
-        return convertView;
+        ourMallViewHolder.commodityImage.setImageResource(Integer.parseInt(ourMall.commodityImage));
+        ourMallViewHolder.commodityname.setText(ourMall.getCommodityName());
+        ourMallViewHolder.commodityprice.setText(ourMall.getCommodityPrice());
+        return view;
     }
 }

@@ -77,12 +77,16 @@ public class GetMap implements LocationSource, AMapLocationListener, WeatherSear
 
 
 
-    public void getLocation(Context context) {
+    public void getLocation(Context context,boolean isFirstLoad) {
         this.context=context;
         dialog = new ProgressDialog(context);
         dialog.setMessage("getting location...");
         dialog.setCancelable(true);
-        dialog.show();
+        if(isFirstLoad){
+
+            dialog.show();
+        }
+
         View view = View.inflate(context, R.layout.follow, null);
         mapView = (MapView) view.findViewById(R.id.map);
         aMap = mapView.getMap();
@@ -107,7 +111,7 @@ public class GetMap implements LocationSource, AMapLocationListener, WeatherSear
         } else {
             dialog.dismiss();
             aMap=null;
-           setNoWeather();
+            setNoWeather();
             deactivate();
             mapView.onDestroy();
         }

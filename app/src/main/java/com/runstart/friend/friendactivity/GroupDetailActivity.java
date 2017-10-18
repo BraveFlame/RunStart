@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AlertDialog;
@@ -27,16 +29,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.runstart.BmobBean.ActivityAndMember;
+import com.runstart.BmobBean.ActivityData;
 import com.runstart.BmobBean.Group;
 import com.runstart.BmobBean.User;
 import com.runstart.R;
+import com.runstart.bean.ActivityTopicForCircle;
+import com.runstart.circle.CircleJoinActivity;
+import com.runstart.circle.GetFromBmob;
 import com.runstart.friend.adapter.ListViewForScrollView;
 import com.runstart.friend.adapter.MyUtils;
 import com.runstart.friend.adapter.PhotoUtils;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
+import com.runstart.middle.ListViewAdapterForCircle;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,7 +145,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         distance.setText(groupMap.get("distance").toString());
         groupDetail.setText(groupMap.get("groupDetail").toString());
 
-        MyUtils.showProgressDialog(progressDialog);
+        MyUtils.showProgressDialog(this);
         queryGroupImage();
 
         for (final String memberObjectId: memberObjectIdList){
@@ -152,6 +164,9 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                }
            });
         }
+        //////////////////////////////////////获取activity信息/////////////////////////////////////////////
+        GetFromBmob.getADbyFriendsIds(memberObjectIdList,handler);
+        ll_friend_detail_no_activity=(LinearLayout)findViewById(R.id.ll_group_detail_no_activity);
     }
 
     @Override
@@ -200,7 +215,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         if (imageUri == null || imageUri.length() == 0){
             bitmapMap.put(saveFile.toString().substring(saveFile.toString().length() - objectIdLength - 4, saveFile.toString().length() - 4), null);
             if (bitmapMap.size() == memberCount){
-                MyUtils.dismissProgressDialog(progressDialog);
+                MyUtils.dismissProgressDialog(GroupDetailActivity.this);
                 showOrderedImagesByKcal(memberCount);
             }
             return;
@@ -211,7 +226,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                 if (e == null){
                     bitmapMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
                     if (bitmapMap.size() == memberCount){
-                        MyUtils.dismissProgressDialog(progressDialog);
+                        MyUtils.dismissProgressDialog(GroupDetailActivity.this);
                         showOrderedImagesByKcal(memberCount);
                     }
                 }
@@ -254,7 +269,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.menuButton:
                 if (flag){
-                    menuPopupWindow.showAsDropDown(menuButton, -290, 20);
+                    menuPopupWindow.showAsDropDown(menuButton, -410, 30);
                     flag = false;
                 }else {
                     menuPopupWindow.dismiss();
@@ -528,4 +543,151 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
                 }).show();
     }
 
+    ////////////////////////////添加activity////////////////////////////////////////////////////////
+    List<ActivityData> alAD;
+    ArrayList<ActivityData> friendReleaseActivities;
+    ArrayList<Map<String,Object>> ListToShow2;
+    LinearLayout ll_friend_detail_no_activity;
+    final static int oneBox=1;
+    final static int twoBox=2;
+
+    Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Gson gson=new Gson();
+            Bundle bundle=msg.getData();
+            String str;
+            String creatorId;
+            switch (msg.what){
+                //这里获取活动和成员的关系表，可以进而得到 当前用户加入的所有活动 的id（就很尴尬）
+                case 5:
+                    Log.e("database","5");
+                    str=bundle.getString("MTAlist");
+                    List<ActivityAndMember> ps = gson.fromJson(str, new TypeToken<List<ActivityAndMember>>(){}.getType());
+                    //外卖菜名
+                    ArrayList<String> al=new ArrayList<>();
+                    for (ActivityAndMember gameScore : ps) {
+                        al.add(gameScore.getActivityId());
+                    }
+                    //根据菜名叫外卖，到了的外卖放到一号邮箱
+                    GetFromBmob.getActivitysByActivityIds(oneBox,al,handler);
+                    break;
+                //上面的过程执行后，获得一系列的Activity，以为没事了吗，还要获取创建者的相关信息
+                //1号邮箱拿了外卖，该去拿餐具了，取了一个箱子，分格子，分别标上那份外卖的厨师名，重复的覆盖
+                case 6:
+                    Log.e("database","6");
+                    str=bundle.getString("alAD1");
+                    alAD=gson.fromJson(str,new TypeToken<List<ActivityData>>(){}.getType());
+                    Map<String,User> creatorMap=new HashMap<>();
+                    for(int i=0;i<alAD.size();i++){
+                        creatorId=alAD.get(i).getCreatorId();
+                        creatorMap.put(creatorId,new User());
+                    }
+                    //叫外卖小哥送餐具过来
+                    GetFromBmob.getUsersByUserIds(oneBox,creatorMap,handler);
+                    break;
+                case 10:
+                    Log.e("database","10");
+                    //打开2号邮箱餐具包装
+                    str=bundle.getString("mapUser2");
+                    //到这里，终于把 外卖和对应的餐具，放到了一起，并放到桌子上。
+                    ListToShow2=putTheTable(str,friendReleaseActivities);
+                    useAdapter2(ListToShow2);
+                    ((MyApplication)getApplicationContext()).stopProgressDialog();
+                    break;
+                //getADbyFriendsIds调用后（通过好友的IDs获取他们创建的活动s），会来到
+                case 9:
+                    Log.e("database","9");
+                    str=bundle.getString("friendReleaseActivities");
+                    friendReleaseActivities=gson.fromJson(str,new TypeToken<List<ActivityData>>(){}.getType());
+                    //取餐具
+                    Map<String,User> friendCreatorMap=new HashMap<>();
+                    Log.e("database","size:"+friendReleaseActivities.size());
+                    if(friendReleaseActivities.size()==0){
+                        useAdapter2(new ArrayList());
+                        ((MyApplication)getApplicationContext()).stopProgressDialog();
+                    } else {
+                        for (int i = 0; i < friendReleaseActivities.size(); i++) {
+                            creatorId = friendReleaseActivities.get(i).getCreatorId();
+                            friendCreatorMap.put(creatorId, new User());
+                            Log.e("database", "creatorMap:" + friendCreatorMap);
+                        }
+                        //叫外卖小哥送餐具过来2号邮箱
+                        GetFromBmob.getUsersByUserIds(twoBox, friendCreatorMap, handler);
+                    }
+                    break;
+                default:break;
+            }
+        }
+    };
+
+    private ArrayList putTheTable(String CanjuPackage,List<ActivityData> openedWaimaiPackage){
+        Gson gson=new Gson();
+        String creatorId;
+        Type type = new TypeToken<Map<String, User>>() {}.getType();
+        Map<String, User> userMap = gson.fromJson(CanjuPackage, type);
+        //放一套餐具、外卖的大格子
+        Map<String,Object> mapToAdd;
+        //放餐具的小格子
+        User userToPut;
+        //放外卖的小格子
+        ActivityData ADtoPut;
+        //放18套餐具、外卖的桌子
+        ArrayList<Map<String,Object>> list=new ArrayList<>();
+        //开始摆放
+        for(int i=0;i<openedWaimaiPackage.size();i++){
+            mapToAdd=new HashMap<>();
+            ADtoPut=openedWaimaiPackage.get(i);
+            creatorId=ADtoPut.getCreatorId();
+            userToPut=userMap.get(creatorId);
+            mapToAdd.put("AD",ADtoPut);
+            mapToAdd.put("creator",userToPut);
+            list.add(mapToAdd);
+        }
+        return list;
+    }
+
+    public List<ActivityTopicForCircle> getActivityDataTopicData(List<Map<String,Object>> list) {
+        List<ActivityTopicForCircle> topicList = new ArrayList<>();
+        ActivityTopicForCircle activityTopicForCircle;
+        ActivityData AD;
+        User creator;
+        for(int i=0;i<list.size();i++){
+            activityTopicForCircle = new ActivityTopicForCircle();
+            AD=(ActivityData) list.get(i).get("AD");
+            creator=(User) list.get(i).get("creator");
+            activityTopicForCircle.setADid(AD.getObjectId());
+            activityTopicForCircle.setTopicImage(AD.getBackgroundURL());
+            activityTopicForCircle.setTopicTitle(AD.getActivityName());
+            activityTopicForCircle.setUserHeadImage(creator.getHeaderImageUri());
+            Log.e("database","创建者头像："+creator.getHeaderImageUri());
+            activityTopicForCircle.setUserName(creator.getNickName());
+            activityTopicForCircle.setTopicProgressbar(String.valueOf(R.mipmap.progressbar));
+            topicList.add(activityTopicForCircle);
+        }
+        return topicList;
+    }
+
+    public void useAdapter2(List list) {
+        if(list.size()!=0) {
+            activityListView.setVisibility(View.VISIBLE);
+            ll_friend_detail_no_activity.setVisibility(View.GONE);
+            final List<ActivityTopicForCircle> topicList = getActivityDataTopicData(list);
+            Collections.sort(topicList);
+            ListViewAdapterForCircle listViewAdapterForCircle = new ListViewAdapterForCircle(this);
+            listViewAdapterForCircle.setTopicList(topicList);
+            activityListView.setAdapter(listViewAdapterForCircle);
+            activityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String ADid = topicList.get(position).getADid();
+                    CircleJoinActivity.jump(ADid, GroupDetailActivity.this);
+                }
+            });
+        } else {
+            activityListView.setVisibility(View.GONE);
+            ll_friend_detail_no_activity.setVisibility(View.VISIBLE);
+        }
+    }
 }

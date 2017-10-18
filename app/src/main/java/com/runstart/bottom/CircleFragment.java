@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -24,7 +25,7 @@ import com.runstart.bean.ActivityTopicForCircle;
 import com.runstart.circle.CircleCreateActivity;
 import com.runstart.circle.CircleJoinActivity;
 import com.runstart.circle.GetFromBmob;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 import com.runstart.middle.ListViewAdapterForCircle;
 
 import java.lang.reflect.Type;
@@ -49,9 +50,10 @@ public class CircleFragment extends BaseFragment{
     ArrayList<ActivityData> friendReleaseActivities;
     ArrayList<Map<String,Object>> listToShow1,ListToShow2;
     ArrayList<String> friendIds;
-    final static String SystemRecommandedActivity[]={"EVwFAAAI","p5I2333K"};
+    final static String SystemRecommandedActivity[]={"86d00b05c1","346fbcbe4b"};
     final static int oneBox=1;
     final static int twoBox=2;
+    LinearLayout ll_circle_fragment_no_activity;
 
     Handler handler=new Handler(){
         @Override
@@ -210,6 +212,7 @@ public class CircleFragment extends BaseFragment{
      * 初始化view
      */
     private void initBasicView(){
+        ll_circle_fragment_no_activity=(LinearLayout)view.findViewById(R.id.ll_circle_fragment_no_activity);
         firstListView = (ListView) view.findViewById(R.id.circle_recommendactivity_first_listview);
         secondListView = (ListView) view.findViewById(R.id.circle_recommendactivity_second_listview);
         mSwipeLayout=(SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
@@ -320,18 +323,25 @@ public class CircleFragment extends BaseFragment{
         });
     }
     public void useAdapter2(List list) {
-        final List<ActivityTopicForCircle> topicList = getActivityDataTopicData(list);
-        Collections.sort(topicList);
-        ListViewAdapterForCircle listViewAdapterForCircle = new ListViewAdapterForCircle(getContext());
-        listViewAdapterForCircle.setTopicList(topicList);
-        secondListView.setAdapter(listViewAdapterForCircle);
-        secondListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String ADid=topicList.get(position).getADid();
-                CircleJoinActivity.jump(ADid,getActivity());
-            }
-        });
+        if(list.size()!=0) {
+            secondListView.setVisibility(View.VISIBLE);
+            ll_circle_fragment_no_activity.setVisibility(View.GONE);
+            final List<ActivityTopicForCircle> topicList = getActivityDataTopicData(list);
+            Collections.sort(topicList);
+            ListViewAdapterForCircle listViewAdapterForCircle = new ListViewAdapterForCircle(getContext());
+            listViewAdapterForCircle.setTopicList(topicList);
+            secondListView.setAdapter(listViewAdapterForCircle);
+            secondListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String ADid = topicList.get(position).getADid();
+                    CircleJoinActivity.jump(ADid, getActivity());
+                }
+            });
+        } else {
+            secondListView.setVisibility(View.GONE);
+            ll_circle_fragment_no_activity.setVisibility(View.VISIBLE);
+        }
     }
 
     /**

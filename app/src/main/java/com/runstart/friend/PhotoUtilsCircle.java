@@ -52,7 +52,12 @@ public class PhotoUtilsCircle {
                 IMAGE_UNSPECIFIED);
 
         // 调用剪切功能
-        activity.startActivityForResult(intent, PHOTOZOOM);
+        try {
+            activity.startActivityForResult(intent, PHOTOZOOM);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -92,7 +97,12 @@ public class PhotoUtilsCircle {
         values.put(MediaStore.Images.Media.DATA, Environment.getExternalStorageDirectory()+ File.separator + activity.getPackageName()+ File.separator+"myimages/" + imageName);
         Uri uri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        activity.startActivityForResult(intent, PHOTOGRAPH);
+        try {
+            activity.startActivityForResult(intent, PHOTOGRAPH);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -138,7 +148,12 @@ public class PhotoUtilsCircle {
         intent.putExtra("return-data", false);//如果设为true则返回bitmap
         intent.putExtra(MediaStore.EXTRA_OUTPUT, destUri);//输出文件
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        activity.startActivityForResult(intent, PHOTORESOULT);
+        try {
+            activity.startActivityForResult(intent, PHOTORESOULT);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     /**

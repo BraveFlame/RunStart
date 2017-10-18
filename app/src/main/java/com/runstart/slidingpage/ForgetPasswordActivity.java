@@ -1,10 +1,10 @@
 package com.runstart.slidingpage;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -16,11 +16,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+
 import com.runstart.BmobBean.User;
 import com.runstart.R;
 import com.runstart.help.JudgePhoneMail;
 import com.runstart.help.ToastShow;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 
 import java.util.List;
 import java.util.Timer;

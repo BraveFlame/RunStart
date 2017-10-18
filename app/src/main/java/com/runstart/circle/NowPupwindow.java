@@ -8,17 +8,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 
 import com.runstart.BmobBean.ActivityAndMember;
 import com.runstart.BmobBean.ActivityData;
 import com.runstart.R;
-import com.runstart.history.MyApplication;
+import com.runstart.MyApplication;
 import com.runstart.mine.MineMessageRecordActivity;
 
 import java.util.List;
@@ -33,7 +31,7 @@ import cn.bmob.v3.listener.UpdateListener;
  * Created by zhouj on 2017-09-21.
  */
 
-public class NowPupwindow implements PopupMenu.OnMenuItemClickListener{
+public class NowPupwindow {
 
     MyApplication myApplication;
     CirclePushCardActivity activity;
@@ -46,7 +44,6 @@ public class NowPupwindow implements PopupMenu.OnMenuItemClickListener{
     public NowPupwindow(CirclePushCardActivity activity){
         this.activity=activity;
         initPopMenu();
-        initMenu();
         myApplication=(MyApplication)activity.getApplicationContext();
     }
 
@@ -56,8 +53,9 @@ public class NowPupwindow implements PopupMenu.OnMenuItemClickListener{
     private void initPopMenu(){
         //装载mine.layout.popup对应的界面布局
         View view = activity.getLayoutInflater().inflate(R.layout.circle_putcard_popupmenu, null);
+
         //创建PopupWindow对象
-        final PopupWindow popupWindow=new PopupWindow(view,550,550);
+        final PopupWindow popupWindow=new PopupWindow(view,550,400);
         popupWindow.setOutsideTouchable(true);
         Button btn_popupmenu = (Button) activity.findViewById(R.id.circle_pushcard_popupmenu);
         btn_popupmenu.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +65,7 @@ public class NowPupwindow implements PopupMenu.OnMenuItemClickListener{
                     //以下拉的方式来显示
 //                popupWindow.showAsDropDown(v,20,30);
                     //将PopupWindow显示在指定的位置
-                    popupWindow.showAtLocation(activity.findViewById(R.id.circle_pushcard_popupmenu), Gravity.RELATIVE_LAYOUT_DIRECTION, 220, -435);
+                    popupWindow.showAtLocation(activity.findViewById(R.id.circle_pushcard_popupmenu), Gravity.RELATIVE_LAYOUT_DIRECTION, 220, -530);
                     flag = true;
                 }else {
                     popupWindow.dismiss();
@@ -91,35 +89,20 @@ public class NowPupwindow implements PopupMenu.OnMenuItemClickListener{
                 }).start();
             }
         });
-    }
-    /**
-     * 初始化popMenu菜单
-     */
-    public void initMenu(){
-        View view = activity.findViewById(R.id.circle_pushcard_popupmenu);
-        if (view != null) {
-            mMenu = new PopupMenu(activity, view);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mMenu.show();
 
-                }
-            });
-            mMenu.getMenuInflater().inflate(R.menu.circle_pushcard_title_menu, mMenu.getMenu());
-            mMenu.setOnMenuItemClickListener(this);
-        }
-    }
-
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.circle_pushcard_menu_newactivity:
+        //三行分别设置点击的事件
+        view.findViewById(R.id.rr_pushcard_popupmenu_new_activity).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
                 CircleCreateActivity.jump(activity);
                 activity.finish();
-                break;
-            case R.id.circle_pushcard_menu_exitactivity:
+            }
+        });
+        view.findViewById(R.id.rr_pushcard_popupmenu_exit_activity).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
                 if(!activity.activityData.getCreatorId().equals(activity.initMyId)) {
                     new AlertDialog.Builder(activity).setTitle("Make Sure").setMessage("Are you sure to exit?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
@@ -131,25 +114,28 @@ public class NowPupwindow implements PopupMenu.OnMenuItemClickListener{
                 } else {
                     new AlertDialog.Builder(activity).setTitle("Make Sure").setMessage("Are you sure to delete this activity?").
                             setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            deleteActivityMembersByActivityId(activity.activityData.getObjectId());
-                            deleteActivityData(activity.activityData.getObjectId());
-                            deletePicture(activity.activityData.getBackgroundURL());
-                            ((MyApplication)activity.getApplicationContext()).showProgressDialog(activity);
-                        }
-                    }).setNegativeButton("No", null).show();
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    deleteActivityMembersByActivityId(activity.activityData.getObjectId());
+                                    deleteActivityData(activity.activityData.getObjectId());
+                                    deletePicture(activity.activityData.getBackgroundURL());
+                                    ((MyApplication)activity.getApplicationContext()).showProgressDialog(activity);
+                                }
+                            }).setNegativeButton("No", null).show();
                 }
-                break;
-            case R.id.circle_pushcard_menu_news:
+            }
+        });
+        view.findViewById(R.id.rr_pushcard_popupmenu_news).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
                 activity.startActivity(new Intent(activity, MineMessageRecordActivity.class));
-                break;
-            default:
-                break;
-        }
-        return false;
+                activity.finish();
+            }
+        });
     }
 
+    //////////////////////////////////////以下是几个删除服务器上数据滴方法//////////////////////////
     Handler handler=new Handler(){
 
         int k=0;
