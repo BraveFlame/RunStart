@@ -81,7 +81,7 @@ public class NowDialog {
         // 创建对话框构建器
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         // 设置参数
-        builder.setIcon(R.mipmap.sport).setTitle("Please choose the sport")
+        builder.setIcon(R.mipmap.logo).setTitle("Please choose the sport")
                 .setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -22,21 +22,16 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-
 import com.runstart.R;
 import com.runstart.bean.ExerciseDiary;
 import com.runstart.help.ActivityCollector;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 
@@ -61,7 +56,7 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
     private RelativeLayout rl_mine_exdiarymenu_second;
     private RelativeLayout rl_mine_exdiarymenu_three;
     //定义ListView的适配器exDairyListViewAdapter
-    public static ExerciseDiaryListViewAdapter exDairyListViewAdapter;
+    private   ExerciseDiaryListViewAdapter exDairyListViewAdapter;
     //定义HashSet来保存所选中的item位置
     private List<Integer> positionList;
 
@@ -75,15 +70,14 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
         initView();
         initPopMenu();
         useAdapter();
+        useListViewMethod();
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         getExerciseDiaryData();
-        useListViewMethod();
     }
 
     /**
@@ -159,6 +153,7 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
      */
     public void getExerciseDiaryData() {
         exerciseDiaryList.clear();
+        exDairyListViewAdapter.notifyDataSetChanged();
         BmobQuery<ExerciseDiary> query = new BmobQuery<ExerciseDiary>();
         //执行查询方法
         query.findObjects(new FindListener<ExerciseDiary>() {
@@ -182,8 +177,8 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
      * 使用ListViewAdapter
      */
     public void useAdapter() {
-        exDairyListViewAdapter = new ExerciseDiaryListViewAdapter(MineExerciseDiaryActivity.this);
-        exDairyListViewAdapter.setExerciseDiaryList(exerciseDiaryList);
+        exDairyListViewAdapter = new ExerciseDiaryListViewAdapter(MineExerciseDiaryActivity.this
+        ,R.layout.mine_exercisediary_listitem,exerciseDiaryList);
         lv_exercisedairy.setAdapter(exDairyListViewAdapter);
 
 
@@ -252,6 +247,9 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
                 }
             }
         });
+
+
+
         lv_exercisedairy.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -376,7 +374,6 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
             public void done(BmobException e) {
                 if (e == null) {
                     Log.i("bmob", "成功");
-
 
                 } else {
                     Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());

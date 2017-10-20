@@ -8,17 +8,17 @@ public class OurMall {
     /**
      * 定义OurMall的字段属性
      */
-    public String commodityImage;
+    public int commodityImage;
     public String commodityName;
     public String commodityPrice;
     /**
      * 定义OurMall字段的Getter/Setter
      */
-    public String getCommodityImage() {
+    public int getCommodityImage() {
         return commodityImage;
     }
 
-    public void setCommodityImage(String commodityImage) {
+    public void setCommodityImage(int commodityImage) {
         this.commodityImage = commodityImage;
     }
 
