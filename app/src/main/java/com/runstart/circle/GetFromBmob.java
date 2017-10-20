@@ -193,8 +193,6 @@ public class GetFromBmob {
                         handler.sendEmptyMessage(6);
                     }else{
                         Log.e("database","查询 用户头像 失败：" + e.getMessage());
-                        ImageView imageViewToShow=map.get(object.getObjectId());
-                        imageViewToShow.setBackgroundResource(R.mipmap.fasongshibai);
                         handler.sendEmptyMessage(6);
                     }
                 }

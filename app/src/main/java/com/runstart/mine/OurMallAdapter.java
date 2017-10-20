@@ -53,7 +53,7 @@ public class OurMallAdapter extends ArrayAdapter<OurMall> {
             ourMallViewHolder=(OurMallViewHolder)convertView.getTag();
             view=convertView;
         }
-        ourMallViewHolder.commodityImage.setImageResource(Integer.parseInt(ourMall.commodityImage));
+        ourMallViewHolder.commodityImage.setImageResource(ourMall.commodityImage);
         ourMallViewHolder.commodityname.setText(ourMall.getCommodityName());
         ourMallViewHolder.commodityprice.setText(ourMall.getCommodityPrice());
         return view;

@@ -41,9 +41,7 @@
         <ImageView
             android:id="@+id/mine_ourmall_listitem_iv_commodityImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:src="@mipmap/ourmall_shoes01" />
+            android:layout_height="wrap_content" />
     </RelativeLayout>
     <!--ourmall的商品的价格-->
     <RelativeLayout

@@ -69,27 +69,27 @@ public class MineOurMallActivity extends Activity implements View.OnClickListene
     public void getOurMallData() {
         ourMallList = new ArrayList<OurMall>();
         OurMall ourMall01 = new OurMall();
-        ourMall01.setCommodityImage(String.valueOf(R.mipmap.ourmall_shoes01));
+        ourMall01.setCommodityImage(R.mipmap.ourmall_shoes01);
         ourMall01.setCommodityName("Nike Air Max");
         ourMall01.setCommodityPrice("$155.00");
         ourMallList.add(ourMall01);
         OurMall ourMall02 = new OurMall();
-        ourMall02.setCommodityImage(String.valueOf(R.mipmap.ourmall_shoes02));
+        ourMall02.setCommodityImage(R.mipmap.ourmall_shoes02);
         ourMall02.setCommodityName("361 Air Max");
         ourMall02.setCommodityPrice("$60.00");
         ourMallList.add(ourMall02);
         OurMall ourMall03 = new OurMall();
-        ourMall03.setCommodityImage(String.valueOf(R.mipmap.ourmall_shoes03));
+        ourMall03.setCommodityImage(R.mipmap.ourmall_shoes03);
         ourMall03.setCommodityName("Dan Air Max");
         ourMall03.setCommodityPrice("$135.00");
         ourMallList.add(ourMall03);
         OurMall ourMall04 = new OurMall();
-        ourMall04.setCommodityImage(String.valueOf(R.mipmap.ourmall_shoes04));
+        ourMall04.setCommodityImage(R.mipmap.ourmall_shoes04);
         ourMall04.setCommodityName("Adidas Air Max");
         ourMall04.setCommodityPrice("$187.00");
         ourMallList.add(ourMall04);
         OurMall ourMall05 = new OurMall();
-        ourMall05.setCommodityImage(String.valueOf(R.mipmap.ourmall_shoes05));
+        ourMall05.setCommodityImage(R.mipmap.ourmall_shoes05);
         ourMall05.setCommodityName("Ning Air Max");
         ourMall05.setCommodityPrice("$97.00");
         ourMallList.add(ourMall05);
@@ -102,8 +102,6 @@ public class MineOurMallActivity extends Activity implements View.OnClickListene
     public void useListViewAdapter() {
         ourMallAdapter = new OurMallAdapter(MineOurMallActivity.this,R.layout.mine_ourmall_listitem,ourMallList);
         ourMallListView.setAdapter(ourMallAdapter);
-
-
 
     }
 

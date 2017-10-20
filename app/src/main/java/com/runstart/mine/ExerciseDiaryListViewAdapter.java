@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 
 import com.runstart.R;
 import com.runstart.bean.ExerciseDiary;
+import com.runstart.bean.OurMall;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,44 +23,25 @@ import java.util.List;
 
 
 
-public class ExerciseDiaryListViewAdapter extends BaseAdapter {
-    LayoutInflater mLayoutInflater;
-    List<ExerciseDiary> exerciseDiaryList;
+public class ExerciseDiaryListViewAdapter extends ArrayAdapter<ExerciseDiary> {
+ private int resourceId;
 
-    public void setExerciseDiaryList(List<ExerciseDiary> exerciseDiaryList) {
-        this.exerciseDiaryList = exerciseDiaryList;
-    }
-
-    public List<ExerciseDiary> getExerciseDiaryList() {
-        return exerciseDiaryList;
-    }
     //创建构造函数
 
-    public ExerciseDiaryListViewAdapter(Context context) {
-        mLayoutInflater = LayoutInflater.from(context);
+    public ExerciseDiaryListViewAdapter(Context context, int textViewResourceId,List<ExerciseDiary>
+            objects) {
+        super(context, textViewResourceId, objects);
+        this.resourceId = textViewResourceId;
     }
 
-    @Override
-    public int getCount() {
-        return exerciseDiaryList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return exerciseDiaryList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (viewHolder == null) {
+        ExerciseDiary exerciseDiary=getItem(position);
+        if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = mLayoutInflater.inflate(R.layout.mine_exercisediary_listitem, null);
+            convertView = LayoutInflater.from(getContext()).inflate(resourceId,null);
             viewHolder.exDiaryTitle = (TextView) convertView.findViewById(R.id.mine_exercisediary_listitem_exdiarytitle);
             viewHolder.exDiaryContent = (TextView) convertView.findViewById(R.id.mine_exercisediary_listitem_exdiarycontent);
             viewHolder.exDiaryDate = (TextView) convertView.findViewById(R.id.mine_exercisediary_listitem_exdiarydate);
@@ -74,10 +58,10 @@ public class ExerciseDiaryListViewAdapter extends BaseAdapter {
         } else {
             viewHolder.checkBox.setVisibility(View.VISIBLE);
         }
-        viewHolder.exDiaryTitle.setText(exerciseDiaryList.get(position).getExDairyTitle());
-        viewHolder.exDiaryContent.setText(exerciseDiaryList.get(position).getExDairyContent());
-        viewHolder.exDiaryDate.setText(exerciseDiaryList.get(position).getExDairyDate());
-        viewHolder.checkBox.setChecked(exerciseDiaryList.get(position).isCheck());
+        viewHolder.exDiaryTitle.setText(exerciseDiary.getExDairyTitle());
+        viewHolder.exDiaryContent.setText(exerciseDiary.getExDairyContent());
+        viewHolder.exDiaryDate.setText(exerciseDiary.getExDairyDate());
+        viewHolder.checkBox.setChecked(exerciseDiary.isCheck());
 
         return convertView;
     }
