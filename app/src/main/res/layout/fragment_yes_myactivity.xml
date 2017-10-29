@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--第二个FrameLayout-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        >
+        <TextView
+            android:id="@+id/fragment_yes_myactivity_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="My activity"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            />
+        <com.runstart.friend.adapter.ListViewForScrollView
+            android:id="@+id/lv_walk_myactivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_yes_myactivity_activity"
+
+            >
+        </com.runstart.friend.adapter.ListViewForScrollView>
+        <LinearLayout
+            android:id="@+id/ll_main_page_no_activity"
+            android:visibility="gone"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@mipmap/kongzhuangtai"
+                android:layout_width="150dp"
+                android:layout_height="150dp" />
+            <TextView
+                android:text="No activity"
+                android:textColor="#c0c0c0"
+                android:layout_width="wrap_content"
+                android:textSize="17sp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </FrameLayout>
+
+
+</RelativeLayout>

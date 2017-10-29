@@ -1,8 +1,3 @@
-<<<<<<< Updated upstream
-<resources>
-    <string name="app_name">RunStart</string>
-</resources>
-=======
 <resources>
     <string name="app_name">RHYTHM IN LIFE</string>
 
@@ -32,4 +27,3 @@
     <string name="slide_3_title02">Together ignite our blood</string>
 
 </resources>
->>>>>>> Stashed changes

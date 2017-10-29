@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/circle_rl_pushcard_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/circle_pushcard_iv_zuojiantou"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentLeft="true"
+
+            android:src="@mipmap/ic_zuojiantou" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="110dp"
+            android:layout_toRightOf="@+id/circle_pushcard_iv_zuojiantou"
+
+            android:text="Circle"
+            android:textColor="#212121"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/circle_pushcard_popupmenu"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+           android:layout_marginTop="-5dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+
+            android:text="..."
+            android:textSize="21dp" />
+    </RelativeLayout>
+
+</RelativeLayout>

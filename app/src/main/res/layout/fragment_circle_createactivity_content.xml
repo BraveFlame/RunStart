@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--第一部分-->
+        <LinearLayout
+            android:id="@+id/circle_createactivity_ll_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="10dp"
+
+                android:text="Basic Information"
+                android:textColor="#878787"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:id="@+id/themePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#ffff">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="15dp"
+
+                    android:text="Theme photo"
+                    android:textColor="#212121"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/foreViewThemePhoto"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="60dp"
+                    android:layout_marginTop="10dp"
+
+                    android:src="@mipmap/ic_shangchuangtupiang" />
+                <com.runstart.mine.MyHeaderImageView
+                    android:id="@+id/circleForeViewThemePhoto"
+                    android:visibility="gone"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="60dp"
+                    android:layout_marginTop="10dp"
+
+                    android:src="@mipmap/ic_shangchuangtupiang"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+
+                    android:src="@mipmap/ic_youjiantou" />
+            </RelativeLayout>
+        </LinearLayout>
+        <!--第一条分割线-->
+        <View
+            android:id="@+id/circle_createactivity_line_first"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_below="@+id/circle_createactivity_ll_first"
+
+            android:background="#f1f0f0" />
+        <!--第二部分-->
+        <EditText
+            android:id="@+id/ETactivityName"
+            android:layout_below="@+id/circle_createactivity_line_first"
+            android:background="#ffff"
+            android:paddingLeft="20dp"
+            android:textSize="18sp"
+            android:hint="Give you activity a name"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <!--第二条分割线-->
+        <View
+            android:id="@+id/circle_createactivity_line_second"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_below="@+id/ETactivityName"
+
+            android:background="#f1f0f0" />
+        <!--第三部分-->
+        <EditText
+            android:id="@+id/ETactivityIntroduction"
+            android:layout_below="@+id/circle_createactivity_line_second"
+            android:background="#ffff"
+            android:paddingLeft="20dp"
+            android:gravity="top"
+            android:textSize="16sp"
+            android:minHeight="130dp"
+            android:hint="Introduce your activity"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <!--第四部分-->
+        <LinearLayout
+            android:id="@+id/circle_createactivity_ll_four"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ETactivityIntroduction"
+
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/circle_createactivity_tv_four_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="10dp"
+
+                android:text="The amount of completion"
+                android:textColor="#878787"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:id="@+id/circle_createactivity_four_rl_first"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#ffff">
+
+                <TextView
+                    android:id="@+id/circle_createactivity_four_first_tv_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="10dp"
+
+                    android:hint="please enter"
+                    android:textColor="#212121"
+                    android:textColorHint="#878787"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/circle_createactivity_four_first_tv_mileage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="65dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+
+                    android:textColor="#212121"
+                    android:textSize="18sp"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+
+                    android:src="@mipmap/ic_youjiantou" />
+            </RelativeLayout>
+        </LinearLayout>
+        <!--第五部分-->
+        <LinearLayout
+            android:id="@+id/circle_createactivity_ll_five"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/circle_createactivity_ll_four"
+
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="10dp"
+
+                android:text="Or select the frequency"
+                android:textColor="#878787"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:id="@+id/circle_createactivity_five_rl_first"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="#ffff">
+
+                <TextView
+                    android:id="@+id/circle_createactivity_five_first_tv_selectedfrequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="10dp"
+
+                    android:hint="Select frequency"
+                    android:textColor="#212121"
+                    android:textColorHint="#878787"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+
+                    android:src="@mipmap/ic_youjiantou" />
+            </RelativeLayout>
+        </LinearLayout>
+        <!--第六部分-->
+        <LinearLayout
+            android:id="@+id/circle_createactivity_ll_six"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/circle_createactivity_ll_five"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="10dp"
+
+                android:text="Invite friends together"
+                android:textColor="#878787"
+                android:textSize="18sp" />
+
+            <com.runstart.friend.adapter.ListViewForScrollView
+                android:id="@+id/friendsListView"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:divider="#eaeaea"
+                android:dividerHeight="1dp">
+
+            </com.runstart.friend.adapter.ListViewForScrollView>
+        </LinearLayout>
+        <!--第七部分-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/circle_createactivity_ll_six"
+            android:layout_marginBottom="10dp"
+            >
+            <Button
+                android:id="@+id/create_activity_button"
+                android:layout_width="165dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+
+                android:textAllCaps="false"
+                android:background="@mipmap/b4"
+                android:text="Create"
+                android:textSize="18dp"
+                android:textColor="#21187f"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

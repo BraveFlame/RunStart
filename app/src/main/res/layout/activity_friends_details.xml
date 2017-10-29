@@ -19,15 +19,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ian_dooley_298769" />
+                android:src="@mipmap/ic_tupisn" />
 
-            <com.runstart.friend.friendactivity.MyHeaderImageView
+            <com.runstart.friend.friend_activity.MyHeaderImageView
                 android:id="@+id/headerImageCircle"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="110dp"
-                android:src="@mipmap/ian_dooley_298769"
+                android:src="@mipmap/ic_t"
                 app:civ_border_color="#f2f1f1"
                 app:civ_border_width="8dp"
                 app:civ_fill_color="#ffffff" />
