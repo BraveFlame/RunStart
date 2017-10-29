@@ -1,16 +1,8 @@
-<<<<<<< Updated upstream
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-</resources>
-=======
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <color name="text_Primary">#727272</color>
-<!--#f2f1f1,#eae5e5-->
+    <!--#f2f1f1,#eae5e5-->
     <color name="colorBackground">#eae5e5</color>
     <color name="main_top_color">#fdfdfd</color>
     <color name="main_top_tab_color">#b4b4b4</color>
@@ -56,4 +48,3 @@
 
     </array>
 </resources>
->>>>>>> Stashed changes
