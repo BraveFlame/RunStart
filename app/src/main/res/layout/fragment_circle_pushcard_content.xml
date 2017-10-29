@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--第一部分-->
+        <LinearLayout
+            android:id="@+id/circle_pushcard_ll_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffff"
+            android:orientation="vertical"
+            >
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_below="@+id/circle_rl_pushcard_title"
+                >
+
+                <ImageView
+                    android:id="@+id/activityBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@mipmap/bitmap_walk"
+                    />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@mipmap/mask_image"
+                    />
+
+            </FrameLayout>
+            <TextView
+                android:id="@+id/activityName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+
+                android:text="Exercise every day"
+                android:textSize="18sp"
+                android:textColor="#212121"
+                />
+        </LinearLayout>
+        <!--第一条分割线-->
+        <View
+            android:id="@+id/circle_pushcard_line_first"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/circle_pushcard_ll_first"
+
+            android:background="#f1f0f0"
+            />
+        <!--第二部分-->
+        <RelativeLayout
+            android:id="@+id/circle_pushcard_rl_second"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/circle_pushcard_line_first"
+
+            android:background="#ffff"
+            >
+            <TextView
+                android:id="@+id/activityIntroduction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:minHeight="70dp"
+                android:text="activity description：We need to have enough exercise every day to maintain our healthy life,I hope we can drink every day we work together, punch together"
+                android:textSize="16sp"
+                android:textColor="#5e5e5e"
+                />
+            <TextView
+                android:id="@+id/activityCreatingDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/activityIntroduction"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+
+                android:text="2017-09-09"
+                android:textSize="16sp"
+                android:lineSpacingExtra="3dp"
+                android:textColor="#5e5e5e"
+                />
+        </RelativeLayout>
+        <!--第二条分割线-->
+        <View
+            android:id="@+id/circle_pushcard_line_second"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/circle_pushcard_rl_second"
+
+            android:background="#f1f0f0"
+            />
+        <!--第三部分-->
+        <LinearLayout
+            android:id="@+id/circle_pushcard_ll_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/circle_pushcard_line_second"
+
+            android:orientation="vertical"
+            >
+            <!--Group of people-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="18dp"
+
+                    android:text="Group of people"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    />
+            </LinearLayout>
+            <!--展示组员的用户头像-->
+            <LinearLayout
+                android:id="@+id/circle_pushcard_ll_friend_list"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="#ffff"
+                >
+                <com.runstart.friend.friend_activity.MyHeaderImageView
+                    android:id="@+id/circle_pushcard_iv_userimage_first"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/my_padding"
+                    android:paddingRight="@dimen/my_padding"
+                    android:layout_weight="1"
+
+                    />
+                <com.runstart.friend.friend_activity.MyHeaderImageView
+                    android:id="@+id/circle_pushcard_iv_userimage_second"
+                    android:layout_width="0dp"
+                    android:paddingLeft="@dimen/my_padding"
+                    android:paddingRight="@dimen/my_padding"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+
+                    />
+                />
+                <com.runstart.friend.friend_activity.MyHeaderImageView
+                    android:id="@+id/circle_pushcard_iv_userimage_three"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/my_padding"
+                    android:paddingRight="@dimen/my_padding"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+
+                    />
+                <com.runstart.friend.friend_activity.MyHeaderImageView
+                    android:id="@+id/circle_pushcard_iv_userimage_four"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:paddingLeft="@dimen/my_padding"
+                    android:paddingRight="@dimen/my_padding"
+                    android:layout_height="match_parent"
+
+                    />
+                <com.runstart.friend.friend_activity.MyHeaderImageView
+                    android:id="@+id/circle_pushcard_iv_userimage_five"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/my_padding"
+                    android:paddingRight="@dimen/my_padding"
+                    android:layout_weight="1"
+
+                    />
+                <com.runstart.friend.friend_activity.MyHeaderImageView
+                    android:id="@+id/circle_pushcard_iv_userimage_six"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/my_padding"
+                    android:paddingRight="@dimen/my_padding"
+
+                    />
+
+                <!--右箭头-->
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="45dp"
+                    android:src="@mipmap/ic_youjiantou"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+        <!--第三条分割线-->
+        <View
+            android:id="@+id/circle_pushcard_line_three"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_below="@+id/circle_pushcard_ll_three"
+
+            android:background="#f1f0f0"/>
+        <!--第四部分-->
+        <LinearLayout
+            android:id="@+id/circle_pushcard_ll_four"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/circle_pushcard_line_three"
+
+            android:background="#ffff"
+            android:orientation="vertical"
+            >
+            <!--第一栏-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="18dp"
+
+                    android:text="I joined the event"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    />
+                <TextView
+                    android:id="@+id/beenInDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:text="180 days"
+                    android:textSize="18dp"
+                    android:textColor="#a9a9a9"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/beenInDays"
+
+                    android:background="#f1f0f0"/>
+            </RelativeLayout>
+            <!--第二栏-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="18dp"
+
+                    android:text="I have been punching"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    />
+                <TextView
+                    android:id="@+id/signInTimes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:text="60 days"
+                    android:textSize="18dp"
+                    android:textColor="#a9a9a9"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/signInTimes"
+
+                    android:background="#f1f0f0"/>
+            </RelativeLayout>
+            <!--第三栏-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="My completion rate"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                  />
+                <TextView
+                    android:id="@+id/completionRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:text="38%"
+                    android:textSize="18dp"
+                    android:textColor="#a9a9a9"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/completionRate"
+
+                    android:background="#f1f0f0"/>
+            </RelativeLayout>
+            <!--第四栏-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="18dp"
+
+                    android:text="once a week"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    />
+                <TextView
+                    android:id="@+id/exerciseAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:text="1800m"
+                    android:textSize="18dp"
+                    android:textColor="#a9a9a9"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/frequency"
+
+                    android:background="#f1f0f0"/>
+            </RelativeLayout>
+            <!--第五栏-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_pinjuzi2"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/averageSpeed"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:textSize="20sp"
+                        android:textColor="#e8000000"
+                        android:gravity="center"
+                        android:text="0km/h"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:textColor="#e8000000"
+                        android:text="average speed"
+                        android:gravity="center"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_daojishi"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/exerciseTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:textSize="20sp"
+                        android:textColor="#e8000000"
+                        android:gravity="center"
+                        android:text="00:00:00"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:textColor="#e8000000"
+                        android:text="time cost"
+                        android:gravity="center"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_kaluli"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/Kcal"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:textSize="20sp"
+                        android:textColor="#e8000000"
+                        android:gravity="center"
+                        android:text="0"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:textColor="#e8000000"
+                        android:text="Kcal"
+                        android:gravity="center"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--第四部分-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/circle_pushcard_ll_four"
+            >
+            <Button
+                android:id="@+id/punchCard"
+                android:layout_width="165dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+
+                android:textAllCaps="false"
+                android:background="@mipmap/b3"
+                android:text="Punch card"
+                android:textSize="18dp"
+                android:textColor="#ffff"
+                android:enabled="false"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

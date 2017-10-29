@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:descendantFocusability="blocksDescendants">
+        <TextView
+            android:id="@+id/rankings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+
+            android:text="1"
+            android:textSize="18sp"
+            android:textColor="#101010"
+            android:layout_weight="1"
+            />
+        <com.runstart.friend.friend_activity.MyHeaderImageView
+            android:id="@+id/headerImage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            app:civ_border_overlay="true"
+            app:civ_border_width="0dp"
+            android:focusable="false"
+            android:layout_weight="3"
+            android:src="@mipmap/ic_shangchuangtupiang"/>
+        <TextView
+            android:id="@+id/nickName"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="梅亦曼"
+            android:maxEms="1"
+            android:textSize="18sp"
+            android:textColor="#101010"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="7"/>
+
+        <TextView
+            android:id="@+id/sportLength"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="7"
+            android:text="22232 km"
+            android:gravity="center"
+            android:textColor="#101010"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/likeImage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="2"
+            android:src="@mipmap/ic_zan"/>
+        <TextView
+            android:id="@+id/likeNumber"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="99+"
+            android:textSize="14sp"
+            android:textColor="#6c6c6c"
+            android:layout_weight="3"
+            android:layout_marginRight="5dp"/>
+</LinearLayout>

@@ -1,3 +1,35 @@
+<<<<<<< Updated upstream
 <resources>
     <string name="app_name">RunStart</string>
 </resources>
+=======
+<resources>
+    <string name="app_name">RHYTHM IN LIFE</string>
+
+    <!--首页的布局文字信息-->
+    <string name="walk">Walk</string>
+    <string name="run">Run</string>
+    <string name="ride">Ride</string>
+    
+    <!--activity_bottom.xml-->
+    <string name="head_page">SPORTS</string>
+    <string name="friends">FRIENDS</string>
+    <string name="circle">CIRCLE</string>
+    <string name="mine">MINE</string>
+
+
+
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="log_in">Log in</string>
+    <string name="slide_1_title">We can set the distance of the movement</string>
+    <string name="slide_1_title02">Better reflect the fun of the sport</string>
+    <string name="slide_2_title">We sweat with you</string>
+    <string name="slide_2_title02">Come with you for a better life</string>
+    <string name="slide_3_title">We have the speed and passion</string>
+    <string name="slide_3_title02">Together ignite our blood</string>
+
+</resources>
+>>>>>>> Stashed changes

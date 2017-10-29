@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffff"
+    >
+    <TextView
+        android:id="@+id/friendObjectId"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+<!--用户头像-->
+    <com.runstart.friend.friend_activity.MyHeaderImageView
+        android:id="@+id/mine_messagerecord_listitem_iv_userimage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="18dp"
+        android:src="@mipmap/ic_shangchuangtupiang"
+        />
+    <!--消息显示-->
+    <TextView
+        android:id="@+id/mine_messagerecord_listitem_tv_msgCount"
+        android:layout_width="20dp"
+        android:layout_height="18dp"
+        android:gravity="center"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+
+        android:background="@drawable/my_textview"
+        android:text="99+"
+        android:textSize="8sp"
+
+        android:textColor="#ffffff"/>
+    <!--用户名-->
+    <TextView
+        android:id="@+id/mine_messagerecord_listitem_tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/mine_messagerecord_listitem_iv_userimage"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+
+
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="aafa.chen。。。"
+        android:maxEms="4"
+        android:textSize="16sp"
+        android:textColor="#212121"
+        />
+    <!--用户信息-->
+    <TextView
+        android:id="@+id/mine_messagerecord_listitem_tv_usermessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mine_messagerecord_listitem_tv_username"
+        android:layout_alignLeft="@+id/mine_messagerecord_listitem_tv_username"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:maxEms="12"
+        android:layout_marginRight="20dp"
+
+        android:text="hello"
+        android:textSize="16sp"
+        android:textColor="#757575"
+        />
+
+    <TextView
+        android:id="@+id/mine_messagerecord_listitem_tv_usertime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="5dp"
+
+        android:text="P.M10:37"
+        android:textSize="14sp"
+        android:textColor="#757575"
+        />
+</RelativeLayout>
