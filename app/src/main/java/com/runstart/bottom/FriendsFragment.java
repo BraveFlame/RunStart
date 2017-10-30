@@ -29,14 +29,14 @@ import android.widget.TextView;
 
 
 import com.runstart.R;
-import com.runstart.friend.ListenMsgService;
-import com.runstart.friend.MsgChat;
-import com.runstart.friend.friendactivity.AddFriendActivity;
-import com.runstart.friend.friendactivity.CreateGroupActivity;
+import com.runstart.friend.chat.ListenMsgService;
+import com.runstart.friend.chat.MsgChat;
+import com.runstart.friend.friend_activity.AddFriendActivity;
+import com.runstart.friend.friend_activity.CreateGroupActivity;
 import com.runstart.friend.friendfragment.GroupFragment;
 import com.runstart.friend.friendfragment.MyFriendsFragment;
 import com.runstart.MyApplication;
-import com.runstart.mine.MineMessageRecordActivity;
+import com.runstart.mine.mine_activity.MineMessageRecordActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

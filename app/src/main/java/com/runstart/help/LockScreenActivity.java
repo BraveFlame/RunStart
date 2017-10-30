@@ -7,7 +7,7 @@ import android.view.WindowManager;
 import com.runstart.R;
 
 /**
- * Created by user on 17-9-27.
+ * Created by zhonghao.song on 17-9-27.
  */
 
 public class LockScreenActivity extends Activity{

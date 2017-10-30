@@ -17,7 +17,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
-import com.runstart.BmobBean.User;
+import com.runstart.bean.User;
 import com.runstart.R;
 import com.runstart.help.JudgePhoneMail;
 import com.runstart.help.ToastShow;

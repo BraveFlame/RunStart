@@ -98,19 +98,19 @@
             android:name=".help.CountDown"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".sport_map.SportingActivity"
+            android:name=".sports.sport_activity.SportingActivity"
             android:exported="true" />
         <activity
-            android:name=".sport_map.PacingActivity"
+            android:name=".sports.sport_activity.PacingActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".sport_map.RunningActivity"
+            android:name=".sports.sport_activity.RunningActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".sport_map.RidingActivity"
+            android:name=".sports.sport_activity.RidingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -124,7 +124,7 @@
         </activity>
         <!-- 历史记录chart-->
         <activity
-            android:name=".history.HistoryChartActivity"
+            android:name=".history.mysportdb.HistoryChartActivity"
             android:launchMode="singleTask" />
         <!-- ***************************************************************** -->
 
@@ -132,19 +132,19 @@
         <!-- ***************************************************************** -->
         <!-- Friend Activity  -->
         <activity
-            android:name=".friend.ChatActivity"
+            android:name=".friend.chat.ChatActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".friend.friendactivity.AddFriendActivity" />
-        <activity android:name=".friend.friendactivity.FriendsDetailsActivity" />
-        <activity android:name=".friend.friendactivity.MoreRecommendedGroupActivity" />
-        <activity android:name=".friend.friendactivity.CreateGroupActivity" />
-        <activity android:name=".friend.friendactivity.GroupDetailActivity" />
-        <activity android:name=".friend.friendactivity.PeopleOfGroupActivity"></activity>
-        <activity android:name=".friend.friendactivity.InviteFriendToGroupActivity"/>
+        <activity android:name=".friend.friend_activity.AddFriendActivity" />
+        <activity android:name=".friend.friend_activity.FriendsDetailsActivity" />
+        <activity android:name=".friend.friend_activity.MoreRecommendedGroupActivity" />
+        <activity android:name=".friend.friend_activity.CreateGroupActivity" />
+        <activity android:name=".friend.friend_activity.GroupDetailActivity" />
+        <activity android:name=".friend.friend_activity.PeopleOfGroupActivity"></activity>
+        <activity android:name=".friend.friend_activity.InviteFriendToGroupActivity"/>
 
-        <service android:name=".friend.ListenMsgService" />
+        <service android:name=".friend.chat.ListenMsgService" />
 
         <receiver
             android:name=".bottom.FriendsFragment$MsgCountReceiver"
@@ -153,7 +153,7 @@
 
 
         <receiver
-            android:name=".friend.friendactivity.FriendsDetailsActivity$MsgCountReceiver"
+            android:name=".friend.friend_activity.FriendsDetailsActivity$MsgCountReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -161,7 +161,7 @@
             </intent-filter>
             </receiver>
         <receiver
-            android:name=".mine.MineMessageRecordActivity$MsgCountReceiver"
+            android:name=".mine.mine_activity.MineMessageRecordActivity$MsgCountReceiver"
             android:enabled="true"
             android:exported="true" />
         <receiver
@@ -176,21 +176,21 @@
         <!-- 圈子Activity -->
         <!-- “circle”的CircleCreateActivity -->
         <activity
-            android:name=".circle.CircleCreateActivity"
+            android:name=".circle.circle_activity.CircleCreateActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!--"circle"的CircleJoinActivity-->
         <activity
-            android:name=".circle.CircleJoinActivity"
+            android:name=".circle.circle_activity.CircleJoinActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <!--"circle"的CirclePushCardActivity-->
         <activity
-            android:name=".circle.CirclePushCardActivity"
+            android:name=".circle.circle_activity.CirclePushCardActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".circle.CircleFriendListActivity"
+            android:name=".circle.circle_activity.CircleFriendListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
@@ -198,27 +198,26 @@
 
 
         <!-- ***************************************************************** -->
-        <!--“我的”的MineGoodFriendActivity-->
-        <activity android:name=".mine.MineGoodFriendActivity"></activity>
+
         <!--“我的”的MineGroupActivity-->
-        <activity android:name=".mine.MineGroupActivity"></activity>
+        <activity android:name=".mine.mine_activity.MineGroupActivity"></activity>
         <!--“我的”的MineMessageRecordActivity-->
-        <activity android:name=".mine.MineMessageRecordActivity"></activity>
+        <activity android:name=".mine.mine_activity.MineMessageRecordActivity"></activity>
         <!--“我的”的MineSetUpActivity-->
-        <activity android:name=".mine.MineSetUpActivity"></activity>
-        <activity android:name=".mine.MineExerciseDiaryActivity" /><!--"我的"的ExerciseDiaryCotentActivity-->
-        <activity android:name=".mine.ExerciseDiaryContentActivity" /><!--"我的"的AddExDiaryActivity-->
-        <activity android:name=".mine.AddExDiaryActivity" /><!-- “我的”的MineAboutSportActivity -->
-        <activity android:name=".mine.MineAboutSportActivity" /><!-- “我的”的AboutSportNewsActivity -->
-        <activity android:name=".mine.AboutSportNewsActivity" />
-        <activity android:name=".mine.MineOurMallActivity" /><!-- “我的”的MineMessageRecordActivity -->
-        <activity android:name=".mine.MinePersonalInformationActivity" /><!-- “Circle”的CirclePushCardActivity -->
-        <activity android:name=".mine.MinePInfoSetNameActivity"/>
+        <activity android:name=".mine.mine_activity.MineSetUpActivity"></activity>
+        <activity android:name=".mine.mine_activity.MineExerciseDiaryActivity" /><!--"我的"的ExerciseDiaryCotentActivity-->
+        <activity android:name=".mine.mine_activity.ExerciseDiaryContentActivity" /><!--"我的"的AddExDiaryActivity-->
+        <activity android:name=".mine.mine_activity.AddExDiaryActivity" /><!-- “我的”的MineAboutSportActivity -->
+        <activity android:name=".mine.mine_activity.MineAboutSportActivity" /><!-- “我的”的AboutSportNewsActivity -->
+        <activity android:name=".mine.mine_activity.AboutSportNewsActivity" />
+        <activity android:name=".mine.mine_activity.MineOurMallActivity" /><!-- “我的”的MineMessageRecordActivity -->
+        <activity android:name=".mine.mine_activity.MinePersonalInformationActivity" /><!-- “Circle”的CirclePushCardActivity -->
+        <activity android:name=".mine.mine_activity.MinePInfoSetNameActivity"/>
         <activity android:name=".mine.location.PInfoLocationActivity"/>
-        <activity android:name=".mine.MinePInfoMailBoxActivity"/>
-        <activity android:name=".mine.MineAboutUsActivity" />
-        <activity android:name=".mine.MineFeedbackActivity" />
-        <activity android:name=".mine.MineRelatedUsActivity" />
+        <activity android:name=".mine.mine_activity.MinePInfoMailBoxActivity"/>
+        <activity android:name=".mine.mine_activity.MineAboutUsActivity" />
+        <activity android:name=".mine.mine_activity.MineFeedbackActivity" />
+        <activity android:name=".mine.mine_activity.MineRelatedUsActivity" />
         <!-- ***************************************************************** -->
 
 
@@ -245,7 +244,7 @@
         <!-- ***************************************************************** -->
         <!-- ****高徳地图的后台服务**** -->
         <service android:name="com.amap.api.location.APSService" />
-        <service android:name=".sport_map.ServiceLocation">
+        <service android:name=".sports.sport_service.ServiceLocation">
             <intent-filter>
                 <!-- 系统启动完成后会调用 -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -255,9 +254,9 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </service>
-        <service android:name=".sport_map.RunService" />
-        <service android:name=".sport_map.RideService" />
-        <service android:name=".sport_map.WalkService" />
+        <service android:name=".sports.sport_service.RunService" />
+        <service android:name=".sports.sport_service.RideService" />
+        <service android:name=".sports.sport_service.WalkService" />
         <!-- ***************************************************************** -->
 
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 /**解决短时间内连续触发Toast的频发显示问题
- * Created by user on 17-8-7.
+ * Created by zhonghao.song on 17-8-7.
  */
 
 public class ToastShow {

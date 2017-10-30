@@ -9,7 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp" />
 <!--用户头像-->
-    <com.runstart.friend.friendactivity.MyHeaderImageView
+    <com.runstart.friend.friend_activity.MyHeaderImageView
         android:id="@+id/mine_messagerecord_listitem_iv_userimage"
         android:layout_width="40dp"
         android:layout_height="40dp"

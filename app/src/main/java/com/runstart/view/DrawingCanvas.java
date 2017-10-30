@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 
 
 /**
- * Created by user on 17-9-28.
+ * Created by zhonghao.song on 17-9-28.
  * 用来保存绘制的进度仪表盘
  */
 

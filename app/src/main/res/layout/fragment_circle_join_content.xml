@@ -174,7 +174,7 @@
                 android:orientation="horizontal"
                 android:background="#ffff"
                 >
-                <com.runstart.friend.friendactivity.MyHeaderImageView
+                <com.runstart.friend.friend_activity.MyHeaderImageView
                     android:id="@+id/circle_pushcard_iv_userimage_first"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -183,7 +183,7 @@
                     android:layout_weight="1"
 
                     />
-                <com.runstart.friend.friendactivity.MyHeaderImageView
+                <com.runstart.friend.friend_activity.MyHeaderImageView
                     android:id="@+id/circle_pushcard_iv_userimage_second"
                     android:layout_width="0dp"
                     android:paddingLeft="@dimen/my_padding"
@@ -193,7 +193,7 @@
 
                     />
                 />
-                <com.runstart.friend.friendactivity.MyHeaderImageView
+                <com.runstart.friend.friend_activity.MyHeaderImageView
                     android:id="@+id/circle_pushcard_iv_userimage_three"
                     android:layout_weight="1"
                     android:paddingLeft="@dimen/my_padding"
@@ -202,7 +202,7 @@
                     android:layout_height="match_parent"
 
                     />
-                <com.runstart.friend.friendactivity.MyHeaderImageView
+                <com.runstart.friend.friend_activity.MyHeaderImageView
                     android:id="@+id/circle_pushcard_iv_userimage_four"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -211,7 +211,7 @@
                     android:layout_height="match_parent"
 
                     />
-                <com.runstart.friend.friendactivity.MyHeaderImageView
+                <com.runstart.friend.friend_activity.MyHeaderImageView
                     android:id="@+id/circle_pushcard_iv_userimage_five"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -220,7 +220,7 @@
                     android:layout_weight="1"
 
                     />
-                <com.runstart.friend.friendactivity.MyHeaderImageView
+                <com.runstart.friend.friend_activity.MyHeaderImageView
                     android:id="@+id/circle_pushcard_iv_userimage_six"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

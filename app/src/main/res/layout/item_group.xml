@@ -23,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp" />
 
-        <com.runstart.friend.friendactivity.MyHeaderImageView
+        <com.runstart.friend.friend_activity.MyHeaderImageView
             android:id="@+id/groupImage"
             android:layout_width="40dp"
             android:layout_height="75dp"

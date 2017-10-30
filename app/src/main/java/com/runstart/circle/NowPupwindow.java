@@ -13,11 +13,13 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 
 
-import com.runstart.BmobBean.ActivityAndMember;
-import com.runstart.BmobBean.ActivityData;
+import com.runstart.bean.ActivityAndMember;
+import com.runstart.bean.ActivityData;
 import com.runstart.R;
 import com.runstart.MyApplication;
-import com.runstart.mine.MineMessageRecordActivity;
+import com.runstart.circle.circle_activity.CircleCreateActivity;
+import com.runstart.circle.circle_activity.CirclePushCardActivity;
+import com.runstart.mine.mine_activity.MineMessageRecordActivity;
 
 import java.util.List;
 
@@ -33,8 +35,8 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class NowPupwindow {
 
-    MyApplication myApplication;
-    CirclePushCardActivity activity;
+    public MyApplication myApplication;
+    public CirclePushCardActivity activity;
 
     //定义PopupMenu菜单对象
     PopupMenu mMenu;

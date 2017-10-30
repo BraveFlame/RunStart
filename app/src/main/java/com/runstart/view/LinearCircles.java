@@ -1,7 +1,7 @@
 package com.runstart.view;
 
 /**
- * Created by user on 17-9-5.
+ * Created by zhonghao.song on 17-9-5.
  */
 
 import android.content.Context;

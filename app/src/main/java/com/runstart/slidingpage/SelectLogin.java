@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 
-import com.runstart.BmobBean.User;
+import com.runstart.bean.User;
 import com.runstart.MainActivity;
 import com.runstart.R;
 import com.runstart.help.GetSharedPreferences;

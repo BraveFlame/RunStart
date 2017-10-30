@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.animation.ScaleAnimation;
 
 /**
- * Created by user on 17-9-26.
+ * Created by zhonghao.song on 17-9-26.
  */
 
 public class MyScaleAnimation extends ScaleAnimation {

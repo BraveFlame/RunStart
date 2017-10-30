@@ -2,9 +2,8 @@ package com.runstart.help;
 
 import android.content.Context;
 
-import com.runstart.BmobBean.DaySport;
-import com.runstart.BmobBean.User;
-import com.runstart.friend.LocalChatLog;
+import com.runstart.bean.DaySport;
+import com.runstart.bean.User;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 
 /**
- * Created by user on 17-10-10.
+ * Created by zhonghao.song on 17-10-10.
  */
 
 public class GetSportDataBmob {

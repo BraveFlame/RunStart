@@ -1,6 +1,5 @@
 package com.runstart.bottom;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,21 +19,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.runstart.BmobBean.User;
+import com.runstart.bean.User;
 import com.runstart.R;
-import com.runstart.friend.BmobJdonChat;
-import com.runstart.friend.ListenMsgService;
-import com.runstart.friend.MsgChat;
-import com.runstart.friend.PhotoUtilsCircle;
+import com.runstart.friend.chat.BmobJdonChat;
+import com.runstart.friend.chat.ListenMsgService;
+import com.runstart.friend.chat.MsgChat;
+import com.runstart.friend.chat.PhotoUtilsCircle;
 import com.runstart.help.GetSharedPreferences;
 import com.runstart.help.ToastShow;
 import com.runstart.MyApplication;
-import com.runstart.mine.MineAboutSportActivity;
-import com.runstart.mine.MineExerciseDiaryActivity;
-import com.runstart.mine.MineMessageRecordActivity;
-import com.runstart.mine.MineOurMallActivity;
-import com.runstart.mine.MinePersonalInformationActivity;
-import com.runstart.mine.MineSetUpActivity;
+import com.runstart.mine.mine_activity.MineAboutSportActivity;
+import com.runstart.mine.mine_activity.MineExerciseDiaryActivity;
+import com.runstart.mine.mine_activity.MineMessageRecordActivity;
+import com.runstart.mine.mine_activity.MineOurMallActivity;
+import com.runstart.mine.mine_activity.MinePersonalInformationActivity;
+import com.runstart.mine.mine_activity.MineSetUpActivity;
 import com.runstart.mine.MyHeaderImageView;
 
 import org.json.JSONObject;

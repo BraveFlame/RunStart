@@ -7,11 +7,10 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
-import com.runstart.BmobBean.ActivityAndMember;
-import com.runstart.BmobBean.ActivityData;
-import com.runstart.BmobBean.Friend;
-import com.runstart.BmobBean.User;
-import com.runstart.R;
+import com.runstart.bean.ActivityAndMember;
+import com.runstart.bean.ActivityData;
+import com.runstart.bean.Friend;
+import com.runstart.bean.User;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;

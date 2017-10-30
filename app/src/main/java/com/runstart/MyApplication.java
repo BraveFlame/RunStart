@@ -11,15 +11,12 @@ import android.os.StrictMode;
 import android.util.Log;
 
 
-import com.runstart.history.NowDB;
-import com.runstart.sport_fragment.FragmentRideFirstPage;
-import com.runstart.sport_fragment.FragmentRunFirstPage;
-import com.runstart.sport_fragment.FragmentWalkFirstPage;
-import com.runstart.sport_fragment.FragmentWalkSecondPage;
+import com.runstart.history.mysportdb.NowDB;
+import com.runstart.sports.sport_fragment.FragmentRideFirstPage;
+import com.runstart.sports.sport_fragment.FragmentRunFirstPage;
+import com.runstart.sports.sport_fragment.FragmentWalkFirstPage;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +27,6 @@ import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobInstallationManager;
-import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.InstallationListener;
 import cn.bmob.v3.exception.BmobException;
 

@@ -7,8 +7,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.runstart.BmobBean.Friend;
-import com.runstart.BmobBean.User;
+import com.runstart.bean.Friend;
+import com.runstart.bean.User;
 import com.runstart.R;
 import com.runstart.MyApplication;
 

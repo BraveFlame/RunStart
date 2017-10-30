@@ -10,13 +10,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.runstart.R;
-import com.runstart.sport_map.PacingActivity;
-import com.runstart.sport_map.RidingActivity;
-import com.runstart.sport_map.RunningActivity;
+import com.runstart.sports.sport_activity.PacingActivity;
+import com.runstart.sports.sport_activity.RidingActivity;
+import com.runstart.sports.sport_activity.RunningActivity;
 
 
 /**
- * Created by user on 17-9-14.
+ * Created by zhonghao.song on 17-9-14.
  */
 
 public class CountDown extends Activity {

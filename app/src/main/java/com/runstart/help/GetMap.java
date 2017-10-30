@@ -24,7 +24,7 @@ import com.amap.api.services.weather.WeatherSearchQuery;
 import com.runstart.R;
 
 /**
- * Created by user on 17-9-11.
+ * Created by zhonghao.song on 17-9-11.
  */
 
 public class GetMap implements LocationSource, AMapLocationListener, WeatherSearch.OnWeatherSearchListener {

@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.runstart.BmobBean.User;
+import com.runstart.bean.User;
 
 /**
- * Created by user on 17-10-14.
+ * Created by zhonghao.song on 17-10-14.
  */
 
 public class GetSharedPreferences {

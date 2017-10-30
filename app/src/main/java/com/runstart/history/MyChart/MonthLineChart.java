@@ -16,7 +16,7 @@ import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.runstart.history.HistoryChartActivity;
+import com.runstart.history.mysportdb.HistoryChartActivity;
 
 import java.util.ArrayList;
 

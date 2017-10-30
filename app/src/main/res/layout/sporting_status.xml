@@ -39,7 +39,7 @@
 
         <fragment
             android:id="@+id/map_fragment"
-            android:name="com.runstart.sport_map.GetMapFragment"
+            android:name="com.runstart.sports.sport_fragment.GetMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </fragment>

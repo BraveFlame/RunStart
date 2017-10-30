@@ -25,13 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.runstart.BmobBean.Group;
+import com.runstart.bean.Group;
 import com.runstart.R;
 import com.runstart.friend.adapter.AdapterForShowGroup;
 import com.runstart.friend.adapter.ListViewForScrollView;
 import com.runstart.friend.adapter.MyUtils;
-import com.runstart.friend.friendactivity.GroupDetailActivity;
-import com.runstart.friend.friendactivity.MoreRecommendedGroupActivity;
+import com.runstart.friend.friend_activity.GroupDetailActivity;
+import com.runstart.friend.friend_activity.MoreRecommendedGroupActivity;
 import com.runstart.MyApplication;
 
 import java.io.File;

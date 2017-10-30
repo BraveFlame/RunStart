@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.runstart.R;
 
 /**
- * Created by user on 17-10-13.
+ * Created by zhonghao.song on 17-10-13.
  */
 
 public class GetPushFromBmob extends Activity {

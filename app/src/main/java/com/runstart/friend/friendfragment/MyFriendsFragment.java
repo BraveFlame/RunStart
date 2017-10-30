@@ -20,13 +20,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 
-import com.runstart.BmobBean.Friend;
-import com.runstart.BmobBean.User;
+import com.runstart.bean.Friend;
+import com.runstart.bean.User;
 import com.runstart.R;
 import com.runstart.friend.adapter.ListViewForScrollView;
 import com.runstart.friend.adapter.MySimpleAdapter;
 import com.runstart.friend.adapter.MyUtils;
-import com.runstart.friend.friendactivity.FriendsDetailsActivity;
+import com.runstart.friend.friend_activity.FriendsDetailsActivity;
 import com.runstart.MyApplication;
 
 import java.io.File;

@@ -16,7 +16,7 @@
         android:textSize="15sp"
         android:layout_marginLeft="10dp"
         android:layout_weight="0"/>
-    <com.runstart.friend.friendactivity.MyHeaderImageView
+    <com.runstart.friend.friend_activity.MyHeaderImageView
         android:id="@+id/headerImage"
         android:layout_width="0dp"
         android:layout_height="28dp"

@@ -17,13 +17,13 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.runstart.BmobBean.ActivityAndMember;
-import com.runstart.BmobBean.ActivityData;
-import com.runstart.BmobBean.User;
+import com.runstart.bean.ActivityAndMember;
+import com.runstart.bean.ActivityData;
+import com.runstart.bean.User;
 import com.runstart.R;
 import com.runstart.bean.ActivityTopicForCircle;
-import com.runstart.circle.CircleCreateActivity;
-import com.runstart.circle.CircleJoinActivity;
+import com.runstart.circle.circle_activity.CircleCreateActivity;
+import com.runstart.circle.circle_activity.CircleJoinActivity;
 import com.runstart.circle.GetFromBmob;
 import com.runstart.MyApplication;
 import com.runstart.middle.ListViewAdapterForCircle;

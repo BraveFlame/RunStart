@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/rootView"
-    tools:context=".friend.friendactivity.AddFriendActivity">
+    tools:context=".friend.friend_activity.AddFriendActivity">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="45dp">

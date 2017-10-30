@@ -17,16 +17,16 @@ import android.widget.TextView;
 
 
 import com.runstart.R;
-import com.runstart.sport_fragment.MFragmentPagerAdapter;
-import com.runstart.sport_fragment.RideFragment;
-import com.runstart.sport_fragment.RunFragment;
-import com.runstart.sport_fragment.WalkFragment;
+import com.runstart.sports.MFragmentPagerAdapter;
+import com.runstart.sports.sport_fragment.RideFragment;
+import com.runstart.sports.sport_fragment.RunFragment;
+import com.runstart.sports.sport_fragment.WalkFragment;
 
 import java.util.ArrayList;
 
 /**
  * 主界面显示，包括步行、跑步和骑行三个选项
- * @author weizhi
+ * @author
  * @version 1.0
  */
 

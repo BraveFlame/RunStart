@@ -19,31 +19,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.runstart.BmobBean.DaySport;
-import com.runstart.BmobBean.User;
+import com.runstart.bean.DaySport;
+import com.runstart.bean.User;
 import com.runstart.MainActivity;
 import com.runstart.R;
-import com.runstart.friend.LocalChatLog;
-import com.runstart.friend.adapter.PhotoUtils;
 import com.runstart.help.GetSharedPreferences;
 import com.runstart.help.ToastShow;
 import com.runstart.MyApplication;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.bmob.v3.BmobBatch;
-import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
 
-import cn.bmob.v3.datatype.BatchResult;
 import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.QueryListListener;
 import cn.bmob.v3.listener.SQLQueryListener;
 
 

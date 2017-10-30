@@ -5,7 +5,7 @@ import com.amap.api.maps.LocationSource;
 
 
 /**
- * Created by user on 17-9-19.
+ * Created by zhonghao.song on 17-9-19.
  */
 
 public interface GetLocationData {

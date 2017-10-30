@@ -15,7 +15,7 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 /**
- * Created by user on 17-8-29.
+ * Created by zhonghao.song on 17-8-29.
  */
 
 public class GetSHA1 {

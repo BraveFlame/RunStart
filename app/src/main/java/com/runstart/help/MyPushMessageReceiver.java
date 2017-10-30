@@ -18,7 +18,7 @@ import cn.bmob.push.PushConstants;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
- * Created by g on 2017/10/14.
+ * Created by zhonghao.song on 2017/10/14.
  */
 
 public class MyPushMessageReceiver extends BroadcastReceiver {

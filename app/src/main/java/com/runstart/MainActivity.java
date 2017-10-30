@@ -21,15 +21,15 @@ import com.runstart.bottom.CircleFragment;
 import com.runstart.bottom.FriendsFragment;
 import com.runstart.bottom.HeadPageFragment;
 import com.runstart.bottom.MineFragment;
-import com.runstart.friend.ListenMsgService;
-import com.runstart.friend.LocalChatLog;
+import com.runstart.friend.chat.ListenMsgService;
+import com.runstart.friend.chat.LocalChatLog;
 import com.runstart.help.ActivityCollector;
 import com.runstart.help.GetSHA1;
 
 
 /**
  * 主界面的总体布局的实现
- * @author weizhi
+ * @author
  * @version 1.0
  */
 public class MainActivity extends FragmentActivity {
@@ -43,6 +43,7 @@ public class MainActivity extends FragmentActivity {
     //定义选项index
     int mIndex;
     public static String activityKeep;
+    private Intent intent;
 
 
 
@@ -63,7 +64,7 @@ public class MainActivity extends FragmentActivity {
         myApplication=(MyApplication)getApplicationContext();
         ActivityCollector.addActivity(this);
         //监听消息
-        Intent intent = new Intent(this, ListenMsgService.class);
+        intent = new Intent(this, ListenMsgService.class);
         startService(intent);
         //初始化底部状态栏的fragment
         initFragment();
@@ -196,6 +197,7 @@ public class MainActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         ActivityCollector.removeActivity(this);
+        stopService(intent);
     }
 
     @Override

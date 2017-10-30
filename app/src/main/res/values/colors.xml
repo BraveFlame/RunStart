@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
     <color name="text_Primary">#727272</color>
 <!--#f2f1f1,#eae5e5-->
     <color name="colorBackground">#eae5e5</color>
-    <color name="transparent">#00000000</color>
     <color name="main_top_color">#fdfdfd</color>
     <color name="main_top_tab_color">#b4b4b4</color>
     <color name="main_top_tab_color_2">#21187f</color>
     <color name="matrix_color">#21187f</color>
     <color name="white">#ffffff</color>
-    <color name="red">#FFFF1826</color>
-    <color name="black_top_character">#030303</color>
+
 
     <!--activity_bottom.xml-->
-    <color name="bottom_text_color">#acacac</color>
     <color name="pace_show">#c562ff</color>
     <color name="top_color_purple">#a66ec2</color>
 
@@ -38,7 +33,7 @@
 
     <color name="calor_total_circle">#c4c4c4</color>
     <color name="calor_now_circle">#ac76f7</color>
-    <color name="chat_send">#3dae39</color>
+
 
     <array name="array_dot_active">
         <item>@color/dot_light_screen1</item>

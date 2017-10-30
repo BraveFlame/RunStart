@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f1f0f0"
-    tools:context=".friend.friendactivity.CreateGroupActivity">
+    tools:context=".friend.friend_activity.CreateGroupActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/createGroup"
@@ -105,7 +105,7 @@
                         android:layout_alignParentRight="true"
                         android:src="@mipmap/ic_gomsg" />
 
-                    <com.runstart.friend.friendactivity.MyHeaderImageView
+                    <com.runstart.friend.friend_activity.MyHeaderImageView
                         android:id="@+id/showHeadPortrait"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
