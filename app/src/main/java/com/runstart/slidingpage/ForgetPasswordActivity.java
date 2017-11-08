@@ -96,6 +96,7 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             /**
+             * changed by zhonghao.song
              * 获取验证码
              */
             case R.id.getConfirmationCode:
@@ -128,8 +129,10 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
                 break;
 
             /**
+             * changed by zhonghao.song
              * 确认提交
              */
+
             case R.id.determine:
                 final String phoneNumberStr = phoneNumber.getText().toString();
                 final String passwordStr = password.getText().toString();
@@ -172,19 +175,25 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
 
                 break;
 
-            //返回
+            /**
+             * 返回
+             */
             case R.id.goBack:
-
                 finish();
-
                 break;
 
             default:
                 break;
         }
     }
-    //发送验证码
-    public void getCode(String phone){
+
+    /**
+     * changed by zhonghao.song
+     * 发送验证码
+     *
+     * @param phone
+     */
+    public void getCode(String phone) {
 
         BmobSMS.requestSMSCode(phone, "注册模板", new QueryListener<Integer>() {
             @Override
@@ -211,6 +220,11 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
             }
         }, 0, 1000);
     }
+
+    /**
+     * changed by zhonghao.song
+     * 判空
+     */
     public boolean isAllInfo() {
         if (!"".equals(phoneNumber.getText().toString()) && !"".equals(password.getText().toString())
                 && !"".equals(confirmationCode.getText().toString()))

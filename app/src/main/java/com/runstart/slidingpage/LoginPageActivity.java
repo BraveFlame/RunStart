@@ -38,22 +38,25 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SQLQueryListener;
 
-
+/**
+ * Created by yiman.mei on 17-9-10.
+ */
 public class LoginPageActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView phoneImage, passwordImage;
     private ToggleButton showPassword;
     private EditText phoneNumber, password;
-    private TextView forgetPassword;
-    private Button login, goBack;
-    private TextView nullCount;
+    private TextView forgetPassword, nullCount;
+    private Button loginBtn, goBackBtn;
     private CheckBox checkBox;
+
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private GetSharedPreferences getSharedPreferences;
+
     private boolean isRemember;
     private String userPhone;
-    private String userPassword, userObjectId;
+    private String userPassword;
 
 
     @Override
@@ -61,13 +64,16 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
+        /**
+         * changed by zhonghao.song on 17-9-24
+         * add "remember password"
+         */
         getSharedPreferences = GetSharedPreferences.getPref(this);
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = pref.edit();
         isRemember = pref.getBoolean("remember_password", false);
         userPhone = pref.getString("phone", "");
         userPassword = pref.getString("password", "");
-        userObjectId = pref.getString("userObjectId", "12345");
         if (isRemember) {
             phoneNumber.setText(userPhone);
             password.setText(userPassword);
@@ -88,8 +94,8 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
 
         nullCount.setOnClickListener(this);
         forgetPassword.setOnClickListener(this);
-        login.setOnClickListener(this);
-        goBack.setOnClickListener(this);
+        loginBtn.setOnClickListener(this);
+        goBackBtn.setOnClickListener(this);
     }
 
 
@@ -103,8 +109,8 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
         password = (EditText) findViewById(R.id.password);
         forgetPassword = (TextView) findViewById(R.id.forgetPassword);
         checkBox = (CheckBox) findViewById(R.id.remember_password_chbok);
-        login = (Button) findViewById(R.id.login);
-        goBack = (Button) findViewById(R.id.goBack);
+        loginBtn = (Button) findViewById(R.id.login);
+        goBackBtn = (Button) findViewById(R.id.goBack);
         phoneNumber.requestFocus();
 
     }
@@ -122,6 +128,11 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
                 intent.putExtra("phoneNumber", phoneNumberStr);
                 startActivity(intent);
                 break;
+            /**
+             * changed by zhonghao.song
+             *增加
+             *获取bmob运动数据
+             */
             case R.id.login:
                 String passwordStr = password.getText().toString();
                 String sql = "select * from User where phoneNumber=? and password=?";
@@ -139,6 +150,7 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
                                 myApplication.stopProgressDialog();
                                 ToastShow.showToast(LoginPageActivity.this, "The phoneNumber or password is wrong");
                             } else {
+
                                 judgeUserData(users.get(0));
                                 // getData(users.get(0));
                                 // saveData();
@@ -160,6 +172,10 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    /**
+     * changed by zhonghao.song
+     * 记住密码
+     */
     public void remenberPassword() {
 
         if (checkBox.isChecked()) {
@@ -210,6 +226,10 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
     }
 
 
+    /**
+     * changed by zhonghao.song
+     * 判断是不是切换帐号，是才获取bmob数据
+     */
     public void judgeUserData(User user) {
         final MyApplication myApplication = (MyApplication) getApplication();
         if (user.getObjectId().equals(pref.getString("userObjectId", "12345"))) {
@@ -219,7 +239,7 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
             finish();
             return;
         }
-
+        //保存到本地
         myApplication.nowDB.dropSport();
         BmobQuery<DaySport> daySportBmobQuery = new BmobQuery<>();
         daySportBmobQuery.addWhereEqualTo("userID", user.getPhoneNumber());
@@ -230,7 +250,7 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
 
                 if (e == null) {
                     if (list.size() > 0)
-                    myApplication.nowDB.insertDaySport(list, phoneNumber);
+                        myApplication.nowDB.insertDaySport(list, phoneNumber);
                 }
                 myApplication.stopProgressDialog();
                 startActivity(new Intent(LoginPageActivity.this, MainActivity.class));
@@ -239,7 +259,11 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
             }
         });
     }
-//        //转移数据表之取
+// /**
+//    * changed by zhonghao.song
+//   * 转移数据表之取test
+//   */
+//
 //
 //    public void getData(User user){
 //
@@ -267,7 +291,11 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
 //            }
 //        });
 //    }
-//    //转移数据表之存
+// /**
+    //  * changed by zhonghao.song
+    //  * 转移数据表之存test
+    // */
+//
 //    public void saveData(){
 //        List<BmobObject>daySportList=new ArrayList<>();
 //        final MyApplication myApplication=(MyApplication)getApplication();

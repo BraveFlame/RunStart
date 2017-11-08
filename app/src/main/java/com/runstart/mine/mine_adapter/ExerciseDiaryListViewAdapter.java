@@ -20,26 +20,28 @@ import java.util.List;
  */
 
 
-
 public class ExerciseDiaryListViewAdapter extends ArrayAdapter<ExerciseDiary> {
- private int resourceId;
+    private int resourceId;
 
     //创建构造函数
 
-    public ExerciseDiaryListViewAdapter(Context context, int textViewResourceId,List<ExerciseDiary>
+    public ExerciseDiaryListViewAdapter(Context context, int textViewResourceId, List<ExerciseDiary>
             objects) {
         super(context, textViewResourceId, objects);
         this.resourceId = textViewResourceId;
     }
 
 
+    /**
+     * changed by zhonghao.song
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        ExerciseDiary exerciseDiary=getItem(position);
+        ExerciseDiary exerciseDiary = getItem(position);
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(getContext()).inflate(resourceId,null);
+            convertView = LayoutInflater.from(getContext()).inflate(resourceId, null);
             viewHolder.exDiaryTitle = (TextView) convertView.findViewById(R.id.mine_exercisediary_listitem_exdiarytitle);
             viewHolder.exDiaryContent = (TextView) convertView.findViewById(R.id.mine_exercisediary_listitem_exdiarycontent);
             viewHolder.exDiaryDate = (TextView) convertView.findViewById(R.id.mine_exercisediary_listitem_exdiarydate);
@@ -63,10 +65,11 @@ public class ExerciseDiaryListViewAdapter extends ArrayAdapter<ExerciseDiary> {
 
         return convertView;
     }
+
     class ViewHolder {
         public TextView exDiaryTitle;
         public TextView exDiaryContent;
         public TextView exDiaryDate;
-        public  CheckBox checkBox;
+        public CheckBox checkBox;
     }
 }

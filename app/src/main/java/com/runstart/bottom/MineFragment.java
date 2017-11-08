@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.runstart.bean.User;
 import com.runstart.R;
-import com.runstart.friend.chat.BmobJdonChat;
+import com.runstart.friend.chat.BmobJsonChat;
 import com.runstart.friend.chat.ListenMsgService;
 import com.runstart.friend.chat.MsgChat;
 import com.runstart.friend.chat.PhotoUtilsCircle;
@@ -90,7 +90,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         rtd.start(new ValueEventListener() {
             @Override
             public void onDataChange(JSONObject data) {
-                BmobJdonChat.getUser(data, user);
+                BmobJsonChat.getUser(data, user);
                 myPointGreatTV.setText("" + user.getLikeNumberForHistory());
 
 

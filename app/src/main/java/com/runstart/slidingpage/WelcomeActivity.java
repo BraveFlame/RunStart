@@ -2,7 +2,6 @@ package com.runstart.slidingpage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.runstart.MainActivity;
 import com.runstart.R;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -121,7 +119,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void launchHomeScreen(){
 
-        startActivity(new Intent(this,SelectLogin.class));
+        startActivity(new Intent(this,LeadPageActivity.class));
         finish();
     }
 

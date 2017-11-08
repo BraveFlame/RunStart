@@ -14,7 +14,7 @@ import com.runstart.help.ActivityCollector;
  * Created by zhouj on 2017-10-11.
  */
 
-public class MineRelatedUsActivity extends Activity implements View.OnClickListener{
+public class MineRelatedUsActivity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,10 +29,11 @@ public class MineRelatedUsActivity extends Activity implements View.OnClickListe
         super.onDestroy();
         ActivityCollector.removeActivity(this);
     }
+
     /**
      * 初始化组件
      */
-    public void feedbackInitView(){
+    public void feedbackInitView() {
         ImageView iv_zuojiantou = (ImageView) findViewById(R.id.mine_setup_aboutus_iv_zuojiantou);
         iv_zuojiantou.setOnClickListener(this);
 
@@ -40,6 +41,7 @@ public class MineRelatedUsActivity extends Activity implements View.OnClickListe
 
     /**
      * onClickListener事件监听的总方法
+     *
      * @param v
      */
     @Override

@@ -73,7 +73,7 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_mine_exercisediary);
         ActivityCollector.addActivity(this);
-        preferences= PreferenceManager.getDefaultSharedPreferences(this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         positionList = new ArrayList<>();
         initView();
         initPopMenu();
@@ -157,6 +157,7 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
 
 
     /**
+     * changed by zhonghao.song
      * 初始化数据
      */
     public void getExerciseDiaryData() {
@@ -164,15 +165,14 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
         exDairyListViewAdapter.notifyDataSetChanged();
 
         BmobQuery<ExerciseDiary> query = new BmobQuery<ExerciseDiary>();
-        query.addWhereEqualTo("userObjectId",preferences.getString("userObjectId","0101"));
+        query.addWhereEqualTo("userObjectId", preferences.getString("userObjectId", "0101"));
         //执行查询方法
         query.findObjects(new FindListener<ExerciseDiary>() {
             @Override
             public void done(List<ExerciseDiary> object, BmobException e) {
                 if (e == null) {
-                    if (object.size()==0)
-                    {
-                        ToastShow.showToast(MineExerciseDiaryActivity.this,"暂无日记");
+                    if (object.size() == 0) {
+                        ToastShow.showToast(MineExerciseDiaryActivity.this, "暂无日记");
                         return;
                     }
 
@@ -190,11 +190,12 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
     }
 
     /**
+     * changed by zhonghao.song
      * 使用ListViewAdapter
      */
     public void useAdapter() {
         exDairyListViewAdapter = new ExerciseDiaryListViewAdapter(MineExerciseDiaryActivity.this
-        ,R.layout.mine_exercisediary_listitem,exerciseDiaryList);
+                , R.layout.mine_exercisediary_listitem, exerciseDiaryList);
         lv_exercisedairy.setAdapter(exDairyListViewAdapter);
 
 
@@ -207,6 +208,7 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
         lv_exercisedairy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             //判断是否可以反选checkbox
             int currentNum = -1;
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //用于判断长按是否生效
@@ -214,7 +216,7 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
                     if (currentNum == -1) { //选中
                         if (exerciseDiaryList.get(position).isCheck()) {
                             exerciseDiaryList.get(position).setCheck(false);
-                        }else {
+                        } else {
                             exerciseDiaryList.get(position).setCheck(true);
                         }
                         currentNum = position;
@@ -224,7 +226,7 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
                     } else if (currentNum == position) {//同一个item选中变未选中
                         if (exerciseDiaryList.get(position).isCheck()) {
                             exerciseDiaryList.get(position).setCheck(false);
-                        }else {
+                        } else {
                             exerciseDiaryList.get(position).setCheck(true);
                         }
                         currentNum = -1;
@@ -241,7 +243,7 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
                     } else if (currentNum != position) {//不是同一个item选中
                         if (exerciseDiaryList.get(position).isCheck()) {
                             exerciseDiaryList.get(position).setCheck(false);
-                        }else {
+                        } else {
                             exerciseDiaryList.get(position).setCheck(true);
                         }
                         currentNum = position;
@@ -265,13 +267,12 @@ public class MineExerciseDiaryActivity extends Activity implements View.OnClickL
         });
 
 
-
         lv_exercisedairy.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if (!isChoose) {
                     btn_popupmenu.setVisibility(View.VISIBLE);
-                    for (int i=0;i<exerciseDiaryList.size();i++){
+                    for (int i = 0; i < exerciseDiaryList.size(); i++) {
                         exerciseDiaryList.get(i).setCheck(false);
                     }
                     exDairyListViewAdapter.notifyDataSetChanged();

@@ -15,7 +15,7 @@ import com.runstart.help.ActivityCollector;
  * Created by zhouj on 2017-10-13.
  */
 
-public class MinePInfoSetNameActivity extends Activity implements View.OnClickListener{
+public class MinePInfoSetNameActivity extends Activity implements View.OnClickListener {
     private EditText et_setname;
     private Intent setnameIntent;
 
@@ -27,7 +27,7 @@ public class MinePInfoSetNameActivity extends Activity implements View.OnClickLi
         setNameInitView();
         //获取到Activity的意图
         setnameIntent = getIntent();
-        Bundle bundle= setnameIntent.getExtras();
+        Bundle bundle = setnameIntent.getExtras();
         String newname = bundle.getString("newname");
         et_setname.setText(newname);
     }
@@ -44,11 +44,11 @@ public class MinePInfoSetNameActivity extends Activity implements View.OnClickLi
         super.onDestroy();
         ActivityCollector.removeActivity(this);
     }
+
     /**
      * 初始化fragment_mine_personalinformation_setname.xml的布局组件
-     *
      */
-    public void setNameInitView(){
+    public void setNameInitView() {
         ImageView iv_zuojiantou = (ImageView) findViewById(R.id.mine_personalinformation_setname_iv_zuojiantou);
         iv_zuojiantou.setOnClickListener(this);
         iv_zuojiantou.setOnClickListener(this);
@@ -57,6 +57,7 @@ public class MinePInfoSetNameActivity extends Activity implements View.OnClickLi
 
     /**
      * OnClickListener事件监听的总方法
+     *
      * @param v
      */
     @Override
@@ -64,7 +65,7 @@ public class MinePInfoSetNameActivity extends Activity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.mine_personalinformation_setname_iv_zuojiantou:
                 setnameIntent.putExtra("setname", et_setname.getText().toString());
-                setResult(11,setnameIntent);
+                setResult(11, setnameIntent);
                 MinePInfoSetNameActivity.this.finish();
                 break;
             default:

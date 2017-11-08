@@ -66,23 +66,18 @@ public class FragmentRideFirstPage extends Fragment implements View.OnClickListe
     public void initView(View view) {
         myListView = (ListView) view.findViewById(R.id.lv_walk_myactivity);
         linearLayout=(LinearLayout)view.findViewById(R.id.ll_main_page_no_activity);
-        allDistanceText = (TextView) view.findViewById(R.id.total_ride_distance);
-        weatherText = (TextView) view.findViewById(R.id.ride_weather_temp);
-
         linearCircles = (LinearCircles) view.findViewById(R.id.pace_compass);
 
-
-        averageSpeedText = (TextView) view.findViewById(R.id.average_riding_speed);
-
-        sportAllData=(TextView)view.findViewById(R.id.sport_all_data);
-
-        sportAllData.setText(preferences.getInt("all_distance",0)/1000+"km");
-
+        weatherText = (TextView) view.findViewById(R.id.ride_weather_temp);
         weatherText.setOnClickListener(this);
+
+        allDistanceText = (TextView) view.findViewById(R.id.total_ride_distance);
+        averageSpeedText = (TextView) view.findViewById(R.id.average_riding_speed);
+        sportAllData=(TextView)view.findViewById(R.id.sport_all_data);
+        sportAllData.setText(preferences.getInt("all_distance",0)/1000+"km");
 
         startBtn = (Button) view.findViewById(R.id.start_riding);
         startBtn.setOnClickListener(this);
-
 
         historyData = (ImageView) view.findViewById(R.id.iv_ride_data);
         historyData.setOnClickListener(this);
@@ -118,6 +113,9 @@ public class FragmentRideFirstPage extends Fragment implements View.OnClickListe
 
     }
 
+    /**
+     * 运动结束后更新显示的数据
+     */
     public void setView() {
 
 

@@ -58,6 +58,7 @@ public class MinePersonalInformationActivity extends Activity implements View.On
 
 
     private City city;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,10 +67,14 @@ public class MinePersonalInformationActivity extends Activity implements View.On
         editor = preferences.edit();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         ActivityCollector.addActivity(this);
+        /**
+         * changed by zhonghao.song
+         * 本地头像
+         */
         user = (User) getIntent().getSerializableExtra("userInfo");
         USER_IMG_PATH = Environment.getExternalStorageDirectory() + File.separator
                 + getPackageName() + File.separator + "myimages/" + user.getObjectId() + "userHeadImg.png";
-        city=new City();
+        city = new City();
         pInformationInitView();
 
 
@@ -97,6 +102,10 @@ public class MinePersonalInformationActivity extends Activity implements View.On
         RelativeLayout rl_mailbox = (RelativeLayout) findViewById(R.id.mine_personalinformation_content_rl_five);
         rl_mailbox.setOnClickListener(this);
 
+        /**
+         * changed by zhonghao.song
+         *
+         */
         myHeadImg = (ImageView) findViewById(R.id.mine_myhearimg);
         myNameTv = (TextView) findViewById(R.id.mine_set_name);
         myLocationTv = (TextView) findViewById(R.id.mine_set_location);
@@ -106,7 +115,7 @@ public class MinePersonalInformationActivity extends Activity implements View.On
             PhotoUtilsCircle.showImage(myHeadImg, USER_IMG_PATH);
             Log.e("bmob", "之前头像地址" + USER_IMG_PATH);
         }
-        if(!userImgFile.exists()&&user.getHeaderImageUri()!=null){
+        if (!userImgFile.exists() && user.getHeaderImageUri() != null) {
             pullHeadImg();
         }
 
@@ -133,6 +142,10 @@ public class MinePersonalInformationActivity extends Activity implements View.On
                 MinePersonalInformationActivity.this.finish();
                 break;
 
+            /**
+             * changed by zhonghao.song
+             * 修改头像
+             */
             case R.id.mine_personalinformation_content_rl_second:
                 AlertDialog.Builder builder = new AlertDialog.Builder(MinePersonalInformationActivity.this);
                 builder.setTitle("Head Img")
@@ -155,18 +168,22 @@ public class MinePersonalInformationActivity extends Activity implements View.On
             case R.id.mine_personalinformation_content_rl_three:
                 Intent pInfoSetNameIntent = new Intent(MinePersonalInformationActivity.this, MinePInfoSetNameActivity.class);
                 pInfoSetNameIntent.putExtra("newname", myNameTv.getText().toString());
-                startActivityForResult(pInfoSetNameIntent,11);
+                startActivityForResult(pInfoSetNameIntent, 11);
                 break;
             case R.id.mine_personalinformation_content_rl_four:
                 Intent locationIntent = new Intent(MinePersonalInformationActivity.this, PInfoLocationActivity.class);
                 locationIntent.putExtra("city", city);
-                startActivityForResult(locationIntent,12);
+                startActivityForResult(locationIntent, 12);
                 break;
             case R.id.mine_personalinformation_content_rl_five:
                 Intent pInfoMailBoxIntent = new Intent(MinePersonalInformationActivity.this, MinePInfoMailBoxActivity.class);
                 pInfoMailBoxIntent.putExtra("newmailbox", myMailBoxTv.getText().toString());
-                startActivityForResult(pInfoMailBoxIntent,13);
+                startActivityForResult(pInfoMailBoxIntent, 13);
                 break;
+            /**
+             * changed by zhonghao.song
+             * 提交修改
+             */
             case R.id.mine_set_info:
 
                 dialog = new ProgressDialog(this);
@@ -176,7 +193,7 @@ public class MinePersonalInformationActivity extends Activity implements View.On
                 if (setMyInfo()) {
                     //选中才需要换头像
                     if (isChangeImg)
-                    pushHeadImg();
+                        pushHeadImg();
                     else updateUser();
                 }
 
@@ -187,6 +204,10 @@ public class MinePersonalInformationActivity extends Activity implements View.On
         }
     }
 
+    /**
+     * changed by zhonghao.song
+     * 判空
+     */
     public boolean setMyInfo() {
 
         myName = myNameTv.getText().toString();
@@ -203,6 +224,11 @@ public class MinePersonalInformationActivity extends Activity implements View.On
 
     }
 
+    /**
+     * changed by zhonghao.song
+     * 异步上传头像
+     * 更新用户信息
+     */
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -220,6 +246,10 @@ public class MinePersonalInformationActivity extends Activity implements View.On
         }
     };
 
+    /**
+     * changed by zhonghao.song
+     * 上传头像
+     */
     public void pushHeadImg() {
         new Thread(new Runnable() {
             @Override
@@ -261,6 +291,10 @@ public class MinePersonalInformationActivity extends Activity implements View.On
         }).start();
     }
 
+    /**
+     * changed by zhonghao.song
+     * 下载头像
+     */
     public void pullHeadImg() {
         new Thread(new Runnable() {
             @Override
@@ -287,6 +321,10 @@ public class MinePersonalInformationActivity extends Activity implements View.On
         }).start();
     }
 
+    /**
+     * changed by zhonghao.song
+     * 更新用户信息
+     */
     public void updateUser() {
         user.update(user.getObjectId(), new UpdateListener() {
             @Override
@@ -295,15 +333,15 @@ public class MinePersonalInformationActivity extends Activity implements View.On
                 if (e == null) {
                     ToastShow.showToast(MinePersonalInformationActivity.this, "change successfully！");
 
-                    if(isChangeImg){
+                    if (isChangeImg) {
                         editor.putString("lastImg", user.getHeaderImageUri());
 
                         PhotoUtilsCircle.changeImgName(user.getObjectId() + "userHeadImg",
                                 MinePersonalInformationActivity.this);
                     }
-                    editor.putString("name",user.getNickName());
-                    editor.putString("location",user.getLocation());
-                    editor.putString("mail",user.getMailBox());
+                    editor.putString("name", user.getNickName());
+                    editor.putString("location", user.getLocation());
+                    editor.putString("mail", user.getMailBox());
                     editor.commit();
                     finish();
                 } else {
@@ -313,6 +351,10 @@ public class MinePersonalInformationActivity extends Activity implements View.On
         });
     }
 
+    /**
+     * changed by zhonghao.song
+     * 删除原来头像
+     */
     public void deleteLastHeadImg(String url) {
         BmobFile bmobFile = new BmobFile(user.getObjectId() + "userHeadImg", "", url);
         Log.e("bmob", "之前头像地址" + user.getHeaderImageUri());
@@ -320,9 +362,9 @@ public class MinePersonalInformationActivity extends Activity implements View.On
             @Override
             public void done(BmobException e) {
                 if (e == null) {
-                    editor.putString("name",user.getNickName());
-                    editor.putString("location",user.getLocation());
-                    editor.putString("mail",user.getMailBox());
+                    editor.putString("name", user.getNickName());
+                    editor.putString("location", user.getLocation());
+                    editor.putString("mail", user.getMailBox());
                     editor.commit();
                     Log.e("bmob", "bmobFileurl删除成功");
                 } else {
@@ -333,6 +375,7 @@ public class MinePersonalInformationActivity extends Activity implements View.On
     }
 
     /**
+     * changed by zhonghao.song
      * 调用拍照或者照片，裁剪后
      *
      * @param requestCode
@@ -343,30 +386,30 @@ public class MinePersonalInformationActivity extends Activity implements View.On
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case 11:
-                if (data==null)
+                if (data == null)
                     return;
-                if(requestCode==11){
+                if (requestCode == 11) {
                     String newname = data.getStringExtra("setname");
                     myNameTv.setText(newname);
                 }
                 return;
             case 12:
-                if (data==null)
+                if (data == null)
                     return;
-                    city = data.getParcelableExtra("city");
-                    if (city.getDistrict() != null) {
-                        myLocationTv.setText(city.getProvince() + city.getDistrict());
-                    } else {
-                        myLocationTv.setText(city.getProvince() + city.getCity());
-                    }
+                city = data.getParcelableExtra("city");
+                if (city.getDistrict() != null) {
+                    myLocationTv.setText(city.getProvince() + city.getDistrict());
+                } else {
+                    myLocationTv.setText(city.getProvince() + city.getCity());
+                }
 
                 return;
             case 13:
-                if (data==null)
+                if (data == null)
                     return;
-                if(requestCode==13){
+                if (requestCode == 13) {
                     String newmailbox = data.getStringExtra("setmailbox");
                     myMailBoxTv.setText(newmailbox);
                 }
@@ -381,7 +424,7 @@ public class MinePersonalInformationActivity extends Activity implements View.On
                 bxfPath = str.substring(3);
         } else if (str.equals("3")) {
 
-            isChangeImg=true;
+            isChangeImg = true;
             PhotoUtilsCircle.showImage(myHeadImg, bxfPath);
         }
         Log.e("database", "str:" + str);

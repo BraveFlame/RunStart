@@ -327,16 +327,16 @@ public class LinearCircles extends View {
 
         setTextSize(pace);
         vTextPaint.setTextSize(numberTextSize);
-        vTextPaint.setColor(getContext().getColor(R.color.calor_now_circle));
+        vTextPaint.setColor(getResources().getColor(R.color.calor_now_circle));
         if (type.equals("pace")) {
             canvas.drawText("" + (int) pace, 0, 40.0f * systemX, vTextPaint);
             vTextPaint.setTextSize(dipToPx(16));
-            vTextPaint.setColor(getContext().getColor(R.color.calor_total_circle));
+            vTextPaint.setColor(getResources().getColor(R.color.calor_total_circle));
             canvas.drawText(unitTx.toString(), 0, -75 * systemX, vTextPaint);
         } else {
             canvas.drawText("" + pace, 0, 40.0f * systemX, vTextPaint);
             vTextPaint.setTextSize(dipToPx(16));
-            vTextPaint.setColor(getContext().getColor(R.color.calor_total_circle));
+            vTextPaint.setColor(getResources().getColor(R.color.calor_total_circle));
             canvas.drawText(unitTx.toString(), 0, -75 * systemX, vTextPaint);
 
         }
@@ -434,7 +434,7 @@ public class LinearCircles extends View {
             linePaint.setStyle(Paint.Style.STROKE);
             linePaint.setStrokeWidth(3 * systemX);
             // linePaint.setColor(0xff1d8ffe);
-            linePaint.setColor(getContext().getColor(R.color.calor_total_circle));
+            linePaint.setColor(getResources().getColor(R.color.calor_total_circle));
         }
         if (nowPaint == null) {
             nowPaint = new Paint();
@@ -442,7 +442,7 @@ public class LinearCircles extends View {
             nowPaint.setAntiAlias(true);//抗锯齿功能
             nowPaint.setStrokeWidth(3);
             nowPaint.setTextSize(27);
-            nowPaint.setColor(getContext().getColor(R.color.calor_now_circle));
+            nowPaint.setColor(getResources().getColor(R.color.calor_now_circle));
         }
         if (vTextPaint == null) {
             vTextPaint = new Paint();
@@ -451,7 +451,7 @@ public class LinearCircles extends View {
             vTextPaint.setTextSize(numberTextSize);
             Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
             vTextPaint.setTypeface(font);//字体风格
-            vTextPaint.setColor(getContext().getColor(R.color.pace_show));
+            vTextPaint.setColor(getResources().getColor(R.color.pace_show));
         }
 
 

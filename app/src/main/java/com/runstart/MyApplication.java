@@ -55,7 +55,10 @@ public class MyApplication extends Application {
 
         Bmob.initialize(this, applicationID);
 
-        //bmob推送
+        /**
+         * changed by zhonghao.song
+         * bmob推送
+         */
         BmobInstallationManager.getInstance().initialize(new InstallationListener<BmobInstallation>() {
             @Override
             public void done(BmobInstallation bmobInstallation, BmobException e) {
@@ -84,18 +87,7 @@ public class MyApplication extends Application {
                 new String[]{"userID"}, new String[]{"month", "week", "day", "distance", "time", "cal", "type"});
     }
 
-//    public static String getMyProcessName() {
-//        try {
-//            File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
-//            BufferedReader mBufferedReader = new BufferedReader(new FileReader(file));
-//            String processName = mBufferedReader.readLine().trim();
-//            mBufferedReader.close();
-//            return processName;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+
 
 
     //////////////////////毕小福//////////////////////////////////

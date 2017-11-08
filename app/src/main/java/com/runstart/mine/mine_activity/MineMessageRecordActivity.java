@@ -48,7 +48,7 @@ import cn.bmob.v3.listener.SQLQueryListener;
  * Created by zhouj on 2017-09-21.
  */
 
-public class MineMessageRecordActivity extends Activity implements View.OnClickListener{
+public class MineMessageRecordActivity extends Activity implements View.OnClickListener {
     //定义fragment_mine_messagerecord_title.xml的布局组件
     private ImageView iv_zuojiantou;
     //定义fragment_mine_messagerecord_content.xml的布局组件
@@ -56,7 +56,7 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
     //定义ListView的适配器meRecordAdapter
     private MeRecordAdapter meRecordAdapter;
     //定义List列表来保存MessageRecord的相应数据信息
-    private List<MessageRecord> messageRecordList=null;
+    private List<MessageRecord> messageRecordList = null;
     private MsgCountReceiver msgCountReceiver;
 
     @Override
@@ -68,7 +68,7 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
         initMeRecordView();
         initListView();
         localChatLog = LocalChatLog.getLocalChatLog(MineMessageRecordActivity.this);
-        msgCountReceiver=new MsgCountReceiver();
+        msgCountReceiver = new MsgCountReceiver();
         IntentFilter filter = new IntentFilter(ListenMsgService.FILTER_STR);
         registerReceiver(msgCountReceiver, filter);
     }
@@ -80,6 +80,10 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
 
     }
 
+    /**
+     * changed by zhonghao.song
+     * 注销广播
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -90,19 +94,19 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
     /**
      * 初始化组件
      */
-    public void initMeRecordView(){
+    public void initMeRecordView() {
         iv_zuojiantou = (ImageView) findViewById(R.id.mine_messagerecord_iv_zuojiantou);
         iv_zuojiantou.setOnClickListener(this);
         meRecordListView = (ListView) findViewById(R.id.mine_messagerecord_listview);
     }
 
-    public void initListView(){
+    public void initListView() {
         meRecordListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (((TextView)view.findViewById(R.id.friendObjectId)).getText() != null){
-                    String friendObjectId = ((TextView)view.findViewById(R.id.friendObjectId)).getText().toString();
-                    if (friendObjectId.length() != 0){
+                if (((TextView) view.findViewById(R.id.friendObjectId)).getText() != null) {
+                    String friendObjectId = ((TextView) view.findViewById(R.id.friendObjectId)).getText().toString();
+                    if (friendObjectId.length() != 0) {
                         goChat(friendObjectId);
                         view.findViewById(R.id.mine_messagerecord_listitem_tv_msgCount).setVisibility(View.GONE);
                     }
@@ -119,21 +123,24 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
     public void getMessageRecordData() {
         queryToMeMsgChat();
     }
+
     /**
      * 提供给listView适配器
      */
-    public void useListViewAdapter(){
+    public void useListViewAdapter() {
         meRecordAdapter = new MeRecordAdapter(MineMessageRecordActivity.this);
         meRecordAdapter.setMeRecordList(messageRecordList);
         meRecordListView.setAdapter(meRecordAdapter);
     }
+
     /**
      * onClickListener事件监听的总方法
+     *
      * @param v
      */
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.mine_messagerecord_iv_zuojiantou:
                 MineMessageRecordActivity.this.finish();
                 break;
@@ -144,9 +151,10 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
 
     //消息相关
     public class MsgCountReceiver extends BroadcastReceiver {
-        public MsgCountReceiver(){
+        public MsgCountReceiver() {
             super();
         }
+
         @Override
         public void onReceive(Context context, Intent intent) {
             queryToMeMsgChat();
@@ -155,6 +163,7 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
 
     private Map<String, MsgChat> toMeMsgChatMap = new HashMap<>();
     private Map<String, MsgChat> toFriendMsgChatMap = new HashMap<>();
+
     private void queryToMeMsgChat() {
         new BmobQuery<MsgChat>().setSQL("select * from MsgChat where friendObjectId=?")
                 .setPreparedParams(new String[]{MyApplication.applicationMap.get(MyApplication.userObjectIdKey)})
@@ -162,7 +171,7 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
                     @Override
                     public void done(BmobQueryResult<MsgChat> bmobQueryResult, BmobException e) {
                         if (e == null) {
-                            for (MsgChat msgChat: bmobQueryResult.getResults()){
+                            for (MsgChat msgChat : bmobQueryResult.getResults()) {
                                 toMeMsgChatMap.put(msgChat.getUserObjectId(), msgChat);
 
                                 String data = msgChat.getLeaveMsg();
@@ -182,11 +191,12 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
                     }
                 });
     }
-    private void queryToFriendMsgChat(String friendObjectId){
-        if (Thread.activeCount() >= 10){
+
+    private void queryToFriendMsgChat(String friendObjectId) {
+        if (Thread.activeCount() >= 10) {
             try {
                 Thread.sleep(200);
-            } catch (Exception e1){
+            } catch (Exception e1) {
                 e1.printStackTrace();
             }
         }
@@ -196,7 +206,7 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
                     @Override
                     public void done(BmobQueryResult<MsgChat> bmobQueryResult, BmobException e) {
                         if (e == null) {
-                            synchronized (MsgChat.class){
+                            synchronized (MsgChat.class) {
                                 MsgChat msgChat = bmobQueryResult.getResults().get(0);
                                 toFriendMsgChatMap.put(msgChat.getFriendObjectId(), bmobQueryResult.getResults().get(0));
                             }
@@ -211,35 +221,37 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
     private Map<String, User> userMap = new HashMap<>();
     private Map<String, Bitmap> imageMap = new HashMap<>();
     private LocalChatLog localChatLog;
-    private void queryUser(final String objectId){
+
+    private void queryUser(final String objectId) {
         final BmobQuery<User> query = new BmobQuery();
         query.setLimit(2);
         query.getObject(objectId, new QueryListener<User>() {
             @Override
             public void done(User user, BmobException e) {
-                if(e==null){
-                    synchronized (User.class){
+                if (e == null) {
+                    synchronized (User.class) {
                         userMap.put(objectId, user);
-                        if ((toFriendMsgChatMap.size() == toMeMsgChatMap.size()) && (userMap.size() == toMeMsgChatMap.size())){
+                        if ((toFriendMsgChatMap.size() == toMeMsgChatMap.size()) && (userMap.size() == toMeMsgChatMap.size())) {
                             showResult();
                         }
                     }
                     queryBitMap(user);
-                }else{
+                } else {
                     e.printStackTrace();
                 }
             }
         });
     }
-    private void queryBitMap(User user){
+
+    private void queryBitMap(User user) {
         final int objectIdLength = user.getObjectId().length();
         String saveName = user.getObjectId() + ".png";
         String imageUri = user.getHeaderImageUri();
         File saveFile = new File(Environment.getExternalStorageDirectory() + File.separator + "lovesportimage", saveName);
-        if (imageUri == null || imageUri.length() == 0){
-            synchronized (Bitmap.class){
+        if (imageUri == null || imageUri.length() == 0) {
+            synchronized (Bitmap.class) {
                 imageMap.put(user.getObjectId(), null);
-                if ((toFriendMsgChatMap.size() == toMeMsgChatMap.size()) && (userMap.size() == toMeMsgChatMap.size())){
+                if ((toFriendMsgChatMap.size() == toMeMsgChatMap.size()) && (userMap.size() == toMeMsgChatMap.size())) {
                     showResult();
                 }
                 return;
@@ -248,40 +260,42 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
         new BmobFile(saveName, "", imageUri).download(saveFile, new DownloadFileListener() {
             @Override
             public void done(String s, BmobException e) {
-                if (e == null){
-                    synchronized (Bitmap.class){
+                if (e == null) {
+                    synchronized (Bitmap.class) {
                         imageMap.put(s.substring(s.length() - objectIdLength - 4, s.length() - 4), BitmapFactory.decodeFile(s));
-                        if ((toFriendMsgChatMap.size() == toMeMsgChatMap.size()) && (userMap.size() == toMeMsgChatMap.size())){
+                        if ((toFriendMsgChatMap.size() == toMeMsgChatMap.size()) && (userMap.size() == toMeMsgChatMap.size())) {
                             showResult();
                         }
                     }
-                }else {
+                } else {
                     e.printStackTrace();
                 }
             }
+
             @Override
-            public void onProgress(Integer integer, long l) {}
+            public void onProgress(Integer integer, long l) {
+            }
         });
     }
 
-    private void showResult(){
+    private void showResult() {
         messageRecordList = new ArrayList<>();
-        for (Map.Entry<String, User> entry: userMap.entrySet()){
-            MessageRecord messageRecord=new MessageRecord();
+        for (Map.Entry<String, User> entry : userMap.entrySet()) {
+            MessageRecord messageRecord = new MessageRecord();
             String key = entry.getKey();
 
             messageRecord.setUserImage(imageMap.get(key));
 
             messageRecord.setFriendObjectId(key);
 
-            if (userMap.get(key) == null){
+            if (userMap.get(key) == null) {
                 messageRecord.setUserName("");
-            }else {
+            } else {
                 messageRecord.setUserName(userMap.get(key).getNickName());
             }
 
             messageRecord.setMsgcount(msgCountMap.get(key) + "");
-            if (msgCountMap.get(key) > 99){
+            if (msgCountMap.get(key) > 99) {
                 messageRecord.setMsgcount("99+");
             }
 
@@ -289,34 +303,34 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
             MsgChat toFriendMsgChat = toFriendMsgChatMap.get(key);
             String toMeData = toMeMsgChat.getLeaveMsg();
             String toFriendData = toFriendMsgChat.getLeaveMsg();
-            if (toMeData != null && ! toMeData.equals("0")){
+            if (toMeData != null && !toMeData.equals("0")) {
                 String[] leaveMsgs = toMeData.split("\\.\\*\\.\\|\\*\\|");
                 String lastLeaveMsg = leaveMsgs[leaveMsgs.length - 1];
-                if (lastLeaveMsg.contains("http://bmob-cdn-14232.b0.upaiyun.com")){
+                if (lastLeaveMsg.contains("http://bmob-cdn-14232.b0.upaiyun.com")) {
                     messageRecord.setUserMessage("[image]");
                 } else {
                     messageRecord.setUserMessage(lastLeaveMsg.substring(0, lastLeaveMsg.length() - 19));
                 }
                 messageRecord.setUserTime(lastLeaveMsg.substring(lastLeaveMsg.length() - 19));
-            } else if(toFriendData != null && ! toFriendData.equals("0")){
+            } else if (toFriendData != null && !toFriendData.equals("0")) {
                 String[] leaveMsgs = toFriendData.split("\\.\\*\\.\\|\\*\\|");
                 String lastLeaveMsg = leaveMsgs[leaveMsgs.length - 1];
-                if (lastLeaveMsg.contains("http://bmob-cdn-14232.b0.upaiyun.com")){
+                if (lastLeaveMsg.contains("http://bmob-cdn-14232.b0.upaiyun.com")) {
                     messageRecord.setUserMessage("[image]");
                 } else {
                     messageRecord.setUserMessage(lastLeaveMsg.substring(0, lastLeaveMsg.length() - 19));
                 }
                 messageRecord.setUserTime(lastLeaveMsg.substring(lastLeaveMsg.length() - 19));
             } else {
-                String localMsgChat = localChatLog.getLastMsgChat(toFriendMsgChat.getObjectId(),toMeMsgChat.getObjectId() );
-                Log.e("chatDbb",toFriendMsgChat.getObjectId()+"  "+toMeMsgChat.getObjectId() );
-                if ("".equals(localMsgChat)){
+                String localMsgChat = localChatLog.getLastMsgChat(toFriendMsgChat.getObjectId(), toMeMsgChat.getObjectId());
+                Log.e("chatDbb", toFriendMsgChat.getObjectId() + "  " + toMeMsgChat.getObjectId());
+                if ("".equals(localMsgChat)) {
                     messageRecord.setUserMessage("no messages to show");
                     messageRecord.setUserTime("");
                 } else {
-                    if (localMsgChat.contains("http://bmob-cdn-14232.b0.upaiyun.com")){
+                    if (localMsgChat.contains("http://bmob-cdn-14232.b0.upaiyun.com")) {
                         messageRecord.setUserMessage("[image]");
-                    } else if (localMsgChat.contains("com.runstart/myimages")){
+                    } else if (localMsgChat.contains("com.runstart/myimages")) {
                         messageRecord.setUserMessage("[image]");
                     } else {
                         messageRecord.setUserMessage(localMsgChat.substring(0, localMsgChat.length() - 19));
@@ -330,7 +344,7 @@ public class MineMessageRecordActivity extends Activity implements View.OnClickL
     }
 
     private void goChat(String key) {
-        if (userMap.get(key) != null && toFriendMsgChatMap.get(key) != null){
+        if (userMap.get(key) != null && toFriendMsgChatMap.get(key) != null) {
             MsgChat toMeMsgChat = toMeMsgChatMap.get(key);
             MsgChat toFriendMsgChat = toFriendMsgChatMap.get(key);
             Bundle data = new Bundle();

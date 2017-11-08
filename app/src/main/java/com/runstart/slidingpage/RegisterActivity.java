@@ -95,6 +95,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            /**
+             * changed by zhonghao.song
+             * 发送验证码
+             */
             case R.id.getConfirmationCode:
                 if (!JudgePhoneMail.isMobileNO(phoneNumber.getText().toString())) {
                     ToastShow.showToast(RegisterActivity.this, "手机号码格式错误！");
@@ -125,6 +129,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
 
+            /**
+             * changed by zhonghao.song
+             * 注册点击
+             */
             case R.id.register:
                 final String phoneNumberStr = phoneNumber.getText().toString();
                 final String passwordStr = password.getText().toString();
@@ -180,7 +188,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    //发送验证码
+    /**
+     * changed by zhonghao.song
+     * 获取验证码
+     */
     public void getCode(String phone) {
 
         BmobSMS.requestSMSCode(phone, "注册模板", new QueryListener<Integer>() {
@@ -209,6 +220,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }, 0, 1000);
     }
 
+    /**
+     * changed by zhonghao.song
+     * 判空
+     */
     public boolean isAllInfo() {
         if (!"".equals(phoneNumber.getText().toString()) && !"".equals(password.getText().toString())
                 && !"".equals(confirmationCode.getText().toString()))

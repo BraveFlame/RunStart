@@ -75,7 +75,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".slidingpage.SelectLogin" />
+        <activity android:name=".slidingpage.LeadPageActivity" />
         <activity
             android:name=".slidingpage.LoginPageActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -113,15 +113,15 @@
             android:name=".sports.sport_activity.RidingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".help.LockScreenActivity"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:launchMode="singleInstance"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:taskAffinity="com.package.name.lockscreen"> <!--android:theme="@style/LockScreenBase"-->
-        </activity>
+        <!--<activity-->
+            <!--android:name=".help.LockScreenActivity"-->
+            <!--android:excludeFromRecents="true"-->
+            <!--android:exported="false"-->
+            <!--android:launchMode="singleInstance"-->
+            <!--android:noHistory="true"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:taskAffinity="com.package.name.lockscreen"> &lt;!&ndash;android:theme="@style/LockScreenBase"&ndash;&gt;-->
+        <!--</activity>-->
         <!-- 历史记录chart-->
         <activity
             android:name=".history.mysportdb.HistoryChartActivity"

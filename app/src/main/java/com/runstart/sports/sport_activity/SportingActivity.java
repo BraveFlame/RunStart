@@ -26,7 +26,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.LocationSource;
 import com.runstart.MainActivity;
 import com.runstart.R;
-import com.runstart.help.GetLocationData;
+import com.runstart.sports.GetLocationData;
 import com.runstart.sports.sport_fragment.GetMapFragment;
 import com.runstart.sports.sport_service.ServiceLocation;
 
@@ -93,7 +93,7 @@ public class SportingActivity extends Activity implements View.OnClickListener {
     }
 
     /**
-     * 开启ride服务
+     * 开启服务，根据不同的类型获取不同intent
      */
     private void setupService() {
 
@@ -129,14 +129,7 @@ public class SportingActivity extends Activity implements View.OnClickListener {
 
                 @Override
                 public void updateLL(AMapLocation location, LocationSource.OnLocationChangedListener mListener) {
-//                    if (!isReCreate) {
-//                        getMapFragment.RestartSetMap(locationService.latLngList);
-//                        Log.e("Map","重绘地图！！！！！"+locationService.latLngList.size());
-//                    }else {
-//                        getMapFragment.getLocation(location, mListener);
-//                        Log.e("Map","保持绘制地图！！！！！");
-//                    }
-//
+
                     if (isReCreate) {
                         if (!isReMap) {
                             getMapFragment.RestartSetMap(locationService.latLngList);
@@ -261,6 +254,9 @@ public class SportingActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    /**
+     * 设置是否地图全屏
+     */
     public void setAllScreen() {
         if (!isScreen) {
             mapParams.height = RelativeLayout.LayoutParams.MATCH_PARENT;

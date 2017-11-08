@@ -28,6 +28,10 @@ public class MineFeedbackActivity extends Activity implements View.OnClickListen
     private EditText et_feedback;
     BmobPushManager bmobPushManager = new BmobPushManager();
     SharedPreferences preferences;
+    /**
+     * changed by zhonghao.song
+     * 用于管理员推送
+     */
     private String[] phone = new String[]{"18814126594"};
     private String inputContent;
 
@@ -70,6 +74,10 @@ public class MineFeedbackActivity extends Activity implements View.OnClickListen
             case R.id.mine_setup_feedback_iv_zuojiantou:
                 MineFeedbackActivity.this.finish();
                 break;
+            /**
+             * changed by zhonghao.song
+             * 管理员推送Apk新版本
+             */
             case R.id.mine_setup_feedback_btn_submit:
                 inputContent = et_feedback.getText().toString();
                 if (phone[0].equals(preferences.getString("phone", "12345")))
@@ -90,6 +98,10 @@ public class MineFeedbackActivity extends Activity implements View.OnClickListen
         }
     }
 
+    /**
+     * changed by zhonghao.song
+     * 推送
+     */
     private void pushtoBmob() {
         bmobPushManager.pushMessageAll(inputContent, new PushListener() {
             @Override

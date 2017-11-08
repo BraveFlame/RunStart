@@ -13,7 +13,7 @@ import com.runstart.R;
 public class PrefManager {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-   // Context _context;
+    // Context _context;
 
     int PRIVATE_MODE = 0;
 
@@ -22,19 +22,23 @@ public class PrefManager {
 
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
 
-    public PrefManager(Context context){
-       // this._context = context;
+    public PrefManager(Context context) {
+        // this._context = context;
         //pref = _context.getSharedPreferences(PREF_NAME,PRIVATE_MODE);
-        pref= PreferenceManager.getDefaultSharedPreferences(context);
+        pref = PreferenceManager.getDefaultSharedPreferences(context);
         editor = pref.edit();
     }
 
-    public void setFirstTimeLaunch(boolean isFirstTime){
+    public void setFirstTimeLaunch(boolean isFirstTime) {
         editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);
         editor.commit();
     }
 
-    public void setWeatherIcon(){
+    /**
+     * changed by zhonghao.song
+     * 根据天气匹配图片
+     */
+    public void setWeatherIcon() {
 
         editor.putInt("晴", R.mipmap.taiyan);
         editor.putInt("多云", R.mipmap.duoyun);
@@ -49,7 +53,7 @@ public class PrefManager {
         editor.commit();
     }
 
-    public boolean isFirstTimeLaunch(){
+    public boolean isFirstTimeLaunch() {
         return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
     }
 

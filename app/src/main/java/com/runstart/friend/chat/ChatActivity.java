@@ -356,7 +356,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                     ToastShow.showToast(ChatActivity.this, "huoqu-chgong");
                     //查看对方给我的离线信息，并清0
                     if (!friendLeaveMsg.equals("0") && !friendLeaveMsg.equals("") && friendLeaveMsg != null) {
-                        BmobJdonChat.getLeaveMsg(adapter, msgListView, msgList, friendLeaveMsg,
+                        BmobJsonChat.getLeaveMsg(adapter, msgListView, msgList, friendLeaveMsg,
                                 ChatActivity.this, chatUserObjectId, chatFriendObjectId);
                         msgChat.setLeaveMsg("0");
                         msgChat.setContent(".*.|*|");
@@ -406,8 +406,8 @@ public class ChatActivity extends Activity implements View.OnClickListener {
      */
     public void recContent(JSONObject data) {
 
-        lastRecContent = BmobJdonChat.jsonToString(data, "content");
-        String time = BmobJdonChat.jsonToString(data, "updatedAt");
+        lastRecContent = BmobJsonChat.jsonToString(data, "content");
+        String time = BmobJsonChat.jsonToString(data, "updatedAt");
         if (lastRecContent.equals(".*.|*|"))
             return;
         if (lastRecContent.equals("")) {

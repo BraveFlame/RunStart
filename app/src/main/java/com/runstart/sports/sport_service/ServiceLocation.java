@@ -30,7 +30,7 @@ import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
 import com.runstart.R;
-import com.runstart.help.GetLocationData;
+import com.runstart.sports.GetLocationData;
 import com.runstart.sports.sport_activity.RidingActivity;
 import com.runstart.sports.sport_activity.SportingActivity;
 
@@ -52,6 +52,7 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
     private LatLng oldLatLng,newLatLng;
     private boolean isFirstLatLng=true;
     public List<LatLng>latLngList=new ArrayList<>();
+    private int count=0;
 
     private NotificationManager mNotificationManager;
     private Notification notification;
@@ -249,7 +250,9 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
                 }
                 //位置有变化
                 if (oldLatLng != newLatLng) {
+                    if(count%10==0)
                     latLngList.add(newLatLng);
+                    count++;
                    // Log.e("AmapLocation", amapLocation.getLatitude() + "," + amapLocation.getLongitude());
                     if (getLocationData != null) {
 
@@ -372,6 +375,7 @@ public class ServiceLocation extends Service implements LocationSource, AMapLoca
     public void onDestroy() {
         super.onDestroy();
         saveDate();
+        count=0;
         mapView.onPause();
         deactivate();
         mapView.onDestroy();

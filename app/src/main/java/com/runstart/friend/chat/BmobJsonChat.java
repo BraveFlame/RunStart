@@ -21,7 +21,7 @@ import cn.bmob.v3.listener.UpdateListener;
  * Created by zhonghao.song on 2017/10/2.
  */
 
-public class BmobJdonChat {
+public class BmobJsonChat {
 
     /*
     {"appKey":"6bbf7fb6372e29f54eead6a98a204621","tableName":"MsgChat","objectId":"","action":"updateTable",

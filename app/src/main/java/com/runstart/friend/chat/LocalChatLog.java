@@ -49,6 +49,8 @@ public class LocalChatLog {
                 list.add(msgChat);
             } while (cursor.moveToNext());
         }
+        if(cursor!=null)
+            cursor.close();
 
     }
 
@@ -88,6 +90,8 @@ public class LocalChatLog {
                         +cursor.getString(cursor.getColumnIndex("time"));
             } while (cursor.moveToNext());
         }
+        if(cursor!=null)
+            cursor.close();
         return content;
 
     }

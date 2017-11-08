@@ -33,16 +33,15 @@ import com.runstart.help.GetSHA1;
  * @version 1.0
  */
 public class MainActivity extends FragmentActivity {
-    MyApplication myApplication;
-    //定义FragmentLayout布局
-    private FrameLayout frameLayout;
+    private MyApplication myApplication;
+
     //定义存放fragment的数组
     private Fragment[] mFragments;
     //定义RadioGroup组件
     private RadioGroup radioGroup;
     //定义选项index
-    int mIndex;
-    public static String activityKeep;
+    private int mIndex;
+
     private Intent intent;
 
 
@@ -71,7 +70,7 @@ public class MainActivity extends FragmentActivity {
         //底部状态栏切换fragment
         setRadioGroup();
         getPermission(PERMISSION);
-        LocalChatLog localChatLog=LocalChatLog.getLocalChatLog(this);
+
 
 
     }
@@ -112,14 +111,14 @@ public class MainActivity extends FragmentActivity {
             myApplication.isFragmentWalkShouldRefresh=false;
         }
         super.onResume();
-        GetSHA1.getCertificateSHA1Fingerprint(this);
+       // GetSHA1.getCertificateSHA1Fingerprint(this);
     }
 
     /**
      * 初始化Fragment框架
      */
     public void initFragment(){
-        frameLayout = (FrameLayout) findViewById(R.id.fl_content);
+        //frameLayout = (FrameLayout) findViewById(R.id.fl_content);
         radioGroup = (RadioGroup) findViewById(R.id.rg_radioGroup);
         HeadPageFragment headPageFragment = new HeadPageFragment();
         FriendsFragment friendsFragment = new FriendsFragment();

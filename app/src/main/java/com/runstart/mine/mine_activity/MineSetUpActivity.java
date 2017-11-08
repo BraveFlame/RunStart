@@ -20,7 +20,7 @@ import com.runstart.slidingpage.LoginPageActivity;
  * Created by zhouj on 2017-09-21.
  */
 
-public class MineSetUpActivity extends Activity implements View.OnClickListener{
+public class MineSetUpActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +36,7 @@ public class MineSetUpActivity extends Activity implements View.OnClickListener{
     }
 
     /**
-     *初始化fragment_mine_setup_content.xml的布局组件
+     * 初始化fragment_mine_setup_content.xml的布局组件
      */
     private void initSetUpView() {
         //初始化fragment_mine_setup_title.xml的布局组件
@@ -56,6 +56,7 @@ public class MineSetUpActivity extends Activity implements View.OnClickListener{
 
     /**
      * 使用OnClickListener事件监听的总方法
+     *
      * @param v
      */
     @Override
@@ -65,7 +66,7 @@ public class MineSetUpActivity extends Activity implements View.OnClickListener{
                 MineSetUpActivity.this.finish();
                 break;
             case R.id.mine_setup_content_rl_first:
-                Intent relatedIntent = new Intent(MineSetUpActivity.this,MineRelatedUsActivity.class);
+                Intent relatedIntent = new Intent(MineSetUpActivity.this, MineRelatedUsActivity.class);
                 startActivity(relatedIntent);
                 break;
             case R.id.mine_setup_content_rl_second:

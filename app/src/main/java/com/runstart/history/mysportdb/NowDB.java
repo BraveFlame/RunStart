@@ -106,7 +106,7 @@ public class NowDB {
     }
 
     /**
-     * zhonghao
+     * zhonghao.song
      *
      * @param
      */
@@ -125,7 +125,7 @@ public class NowDB {
     }
 
     /**
-     * zhonghao
+     * zhonghao.song
      * insert
      * //"userID","month","week","day","distance","time","cal","type"
      */
@@ -153,7 +153,7 @@ public class NowDB {
     }
 
     /**
-     * zhonghao
+     * zhonghao.song
      *
      * @param daySportList
      */
@@ -181,7 +181,7 @@ public class NowDB {
     }
 
     /**
-     * zhonghao
+     * zhonghao.song
      *
      * @param
      */
@@ -210,27 +210,28 @@ public class NowDB {
 
             } while (cursor.moveToNext());
         }
-        editor.putInt("all_walk_distance",walk);
-        editor.putInt("all_run_distance",run);
-        editor.putInt("all_ride_distance",ride);
-        editor.putInt("all_distance", walk+ride+run);
+        editor.putInt("all_walk_distance", walk);
+        editor.putInt("all_run_distance", run);
+        editor.putInt("all_ride_distance", ride);
+        editor.putInt("all_distance", walk + ride + run);
         editor.commit();
         return new int[]{walk, run, ride};
     }
 
 
     /**
-     * zhonghao
+     * zhonghao.song
+     *
      * @param
      * @return
      */
-    public int getAllSportData(){
-        int k=0;
+    public int getAllSportData() {
+        int k = 0;
         Cursor cursor = db.query(tablename, new String[]{"distance"}, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
 
-                 k+= (int) cursor.getDouble(cursor.getColumnIndex("distance"));
+                k += (int) cursor.getDouble(cursor.getColumnIndex("distance"));
 
 
             } while (cursor.moveToNext());

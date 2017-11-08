@@ -32,10 +32,7 @@ import cn.bmob.v3.listener.SaveListener;
 
 public class WalkService extends ServiceLocation implements SensorEventListener {
     private String TAG = "StepService";
-    /**
-     * 当前的日期
-     */
-    private static String CURRENT_DATE = "";
+
     /**
      * 传感器管理对象
      */
@@ -74,7 +71,6 @@ public class WalkService extends ServiceLocation implements SensorEventListener 
     @Override
     public void onCreate() {
         super.onCreate();
-   //     initTodayData();
         new Thread(new Runnable() {
             public void run() {
                 startStepDetector();
@@ -84,65 +80,7 @@ public class WalkService extends ServiceLocation implements SensorEventListener 
 
     }
 
-    /**
-     * 获取当天日期
-     *
-     * @return
-     */
-    private String getTodayDate() {
-        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(date);
-    }
-//
-//
 
-//    /**
-//     * 初始化当天的步数
-//     */
-//    private void initTodayData() {
-//        CURRENT_DATE = getTodayDate();
-//        DbUtils.createDb(this, "DylanStepCount");
-//        DbUtils.getLiteOrm().setDebugged(false);
-//        //获取当天的数据，用于展示
-//        List<StepData> list = DbUtils.getQueryByWhere(StepData.class, "today", new String[]{CURRENT_DATE});
-//        if (list.size() == 0 || list.isEmpty()) {
-//            CURRENT_STEP = 0;
-//        } else if (list.size() == 1) {
-//            Log.v(TAG, "StepData=" + list.get(0).toString());
-//            CURRENT_STEP = Integer.parseInt(list.get(0).getStep());
-//        } else {
-//            Log.v(TAG, "出错了！");
-//        }
-//        if (mStepCount != null) {
-//            mStepCount.setSteps(CURRENT_STEP);
-//        }
-//        //updateNotification();
-//    }
-//
-
-    /**
-     * 监听晚上0点变化初始化数据
-     */
-//    private void isNewDay() {
-//        String time = "00:00";
-//        if (time.equals(new SimpleDateFormat("HH:mm").format(new Date())) || !CURRENT_DATE.equals(getTodayDate())) {
-//            //initTodayData();
-//        }
-//    }
-
-
-    //
-//    /**
-//     * 获取当前步数
-//     *
-//     * @return
-//     */
-    public int getStepCount() {
-        return CURRENT_STEP;
-    }
-
-//
 
     /**
      * 获取传感器实例

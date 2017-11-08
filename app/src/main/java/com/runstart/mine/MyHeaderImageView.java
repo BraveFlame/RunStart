@@ -177,6 +177,7 @@ public class MyHeaderImageView extends AppCompatImageView {
     public int getFillColor() {
         return mFillColor;
     }
+
     @Deprecated
     public void setFillColor(int fillColor) {
         if (fillColor == mFillColor) {
@@ -187,6 +188,7 @@ public class MyHeaderImageView extends AppCompatImageView {
         mFillPaint.setColor(fillColor);
         invalidate();
     }
+
     public void setFillColorResource(int fillColorRes) {
         setFillColor(getContext().getResources().getColor(fillColorRes));
     }
@@ -360,7 +362,7 @@ public class MyHeaderImageView extends AppCompatImageView {
     }
 
     private RectF calculateBounds() {
-        int availableWidth  = getWidth() - getPaddingLeft() - getPaddingRight();
+        int availableWidth = getWidth() - getPaddingLeft() - getPaddingRight();
         int availableHeight = getHeight() - getPaddingTop() - getPaddingBottom();
 
         int sideLength = Math.min(availableWidth, availableHeight);

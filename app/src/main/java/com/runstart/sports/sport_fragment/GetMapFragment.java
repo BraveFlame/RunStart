@@ -115,6 +115,9 @@ public class GetMapFragment extends PreferenceFragment{
 
     /**
      * 绘制两个坐标点之间的线段,从以前位置到现在位置
+     * 暂停时仍在走路，变换绘制地图轨迹的颜色
+     * @param oldData
+     * @param newData
      */
     public void setUpMap(LatLng oldData, LatLng newData) {
 
@@ -133,6 +136,10 @@ public class GetMapFragment extends PreferenceFragment{
 
     }
 
+    /**
+     * 活动被回收时，根据存储重新绘制
+     * @param latLngList
+     */
     public void RestartSetMap(List<LatLng> latLngList) {
         for (int i = 0; i < latLngList.size(); i++) {
             aMap.addPolyline((new PolylineOptions())
