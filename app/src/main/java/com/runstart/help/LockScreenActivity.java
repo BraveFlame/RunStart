@@ -8,6 +8,7 @@ import com.runstart.R;
 
 /**
  * Created by zhonghao.song on 17-9-27.
+ * 锁屏打开运动的activity
  */
 
 public class LockScreenActivity extends Activity{
